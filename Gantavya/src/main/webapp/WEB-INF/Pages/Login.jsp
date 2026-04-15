@@ -10,7 +10,18 @@
 </head>
 <body>
 
-
+<%
+    String cookieEmail = "";
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie c : cookies) {
+            if (c.getName().equals("savedEmail")) {
+                cookieEmail = c.getValue();
+                break;
+            }
+        }
+    }
+%>
 <nav class="navbar">
     <div class="navbar-brand">
         <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
@@ -59,16 +70,33 @@
             <form action="${pageContext.request.contextPath}/login" method="post" >
 
                 <!-- Email Field -->
+                	<%
+				    // logic to determine what to show in the email field
+				    String displayEmail = (String) request.getAttribute("emailValue");
+				
+				    if (displayEmail == null || displayEmail.trim().isEmpty()) {
+				        Cookie[] allCookies = request.getCookies();
+				        if (allCookies != null) {
+				            for (Cookie c : allCookies) {
+				                if ("savedEmail".equals(c.getName())) {
+				                    displayEmail = c.getValue();
+				                    break;
+				                }
+				            }
+				        }
+				    }
+				    if (displayEmail == null) displayEmail = "";
+				%>
                 <div class="form-group">
 		        <label for="email" class="form-label">Email</label>
 		        <input
-		            type="text"
-		            id="email"
-		            name="email"
-		            class="form-input"
-		            placeholder="Enter email address"
-		            value="${emailValue}"
-		            required>
+				    type="text"
+				    id="email"
+				    name="email"
+				    class="form-input"
+				    placeholder="Enter email address"
+				    value="<%= displayEmail %>" 
+				    required>
 		            <c:if test="${not empty emailError}">
 			            <span style="color: red; font-size: 0.85rem; margin-top: 5px; display: block;">
 			                ${emailError}
@@ -139,7 +167,7 @@
             <!-- ── Register Link ──────────────────────────────── -->
             <p class="register-prompt">
                 Don't have an account?
-                <a href="${pageContext.request.contextPath}/register" class="register-link">Sign Up</a>
+                <a href="${pageContext.request.contextPath}/Register" class="register-link">Sign Up</a>
             </p>
 
         </div><!-- /form-container -->

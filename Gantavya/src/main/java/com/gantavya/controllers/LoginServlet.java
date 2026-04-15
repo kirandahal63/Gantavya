@@ -2,11 +2,14 @@ package com.gantavya.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import jakarta.servlet.http.HttpSession;
 
+import java.io.IOException;
+import com.gantavya.dao.PassengerDao;
 import com.gantavya.util.Validation;
 
 /**
@@ -36,14 +39,16 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String email    = request.getParameter("email");
+	    // 1. Get Parameters (Ensure 'rememberMe' matches your JSP name attribute)
+	    String email = request.getParameter("email");
 	    String password = request.getParameter("password");
+	    String remember = request.getParameter("rememberMe");
 
 	    String emailError = null;
-	    String passError  = null;
-	    boolean hasError  = false;
+	    String passError = null;
+	    boolean hasError = false;
 
-	    // 1. Validate Email
+	    // 2. Initial Validation
 	    if (email == null || email.trim().isEmpty()) {
 	        emailError = "Email is required.";
 	        hasError = true;
@@ -52,28 +57,54 @@ public class LoginServlet extends HttpServlet {
 	        hasError = true;
 	    }
 
-	    // 2. Validate Password
 	    if (password == null || password.trim().isEmpty()) {
 	        passError = "Password cannot be empty.";
 	        hasError = true;
 	    }
 
-	    // 3. Authenticate (only if basic validation passed)
+	    // 3. Attempt Authentication
 	    if (!hasError) {
-	        if ("admin@test.com".equals(email) && "password123".equals(password)) {
-	            response.sendRedirect(request.getContextPath() + "/home");
-	            return;
+	        PassengerDao dao = new PassengerDao();
+	        boolean isAuthenticated = dao.authenticatePassenger(email, password);
+
+	        if (isAuthenticated) {
+	            // --- LOGIN SUCCESS ---
+	            
+	            // A. Handle Session Fixation (Security best practice)
+	            HttpSession oldSession = request.getSession(false);
+	            if (oldSession != null) {
+	                oldSession.invalidate();
+	            }
+	            HttpSession session = request.getSession(true);
+	            session.setAttribute("userEmail", email);
+	            session.setAttribute("isLoggedIn", true);
+
+	            // B. "Remember Me" Cookie Logic (Correctly Placed Here)
+	            Cookie emailCookie = new Cookie("savedEmail", email);
+	            if ("on".equals(remember)) {
+	                emailCookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
+	            } else {
+	                emailCookie.setMaxAge(0); // Delete cookie if unchecked
+	            }
+	            emailCookie.setHttpOnly(true);
+	            emailCookie.setPath("/"); 
+	            response.addCookie(emailCookie);
+
+	            // C. Redirect to Dashboard
+	            response.sendRedirect(request.getContextPath() + "/dashboard");
+	            return; // EXIT - Do not proceed to forwarding logic below
+
 	        } else {
-	            // General login failure - usually shown above or under password
 	            passError = "Invalid email or password.";
 	            hasError = true;
 	        }
 	    }
 
-	    // 4. Forward back with specific errors
+	    // 4. LOGIN FAILED or VALIDATION FAILED
+	    // Forward back to the login page with error messages
 	    request.setAttribute("emailError", emailError);
 	    request.setAttribute("passError", passError);
-	    request.setAttribute("emailValue", email); // Keep text in box
+	    request.setAttribute("emailValue", email); 
 	    request.getRequestDispatcher("/WEB-INF/Pages/Login.jsp").forward(request, response);
 	}
 

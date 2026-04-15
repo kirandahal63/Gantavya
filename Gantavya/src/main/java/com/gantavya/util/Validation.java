@@ -1,4 +1,5 @@
 package com.gantavya.util;
+import java.time.LocalDate;
 
 public class Validation {
 	
@@ -32,55 +33,49 @@ public class Validation {
         return true;
     }
 	
+	//contact number validation
+	public static boolean isValidPhone(String phone) {
+	    if (phone == null) return false;
+
+	    phone = phone.trim();
+	    if (phone.length() != 10) return false;
+	    if (!phone.startsWith("98") && !phone.startsWith("97")) return false;
+	    for (int i = 0; i < phone.length(); i++) {
+	        if (!Character.isDigit(phone.charAt(i))) {
+	            return false;
+	        }
+	    }
+
+	    return true;
+	}
+	
+	public static boolean isValidDOB(String dobString) {
+	    if (dobString == null || dobString.isEmpty()) return false;
+
+	    try {
+	        // dobString comes as "2000-12-31"
+	        String[] parts = dobString.split("-");
+	        int birthYear = Integer.parseInt(parts[0]);
+	        int birthMonth = Integer.parseInt(parts[1]);
+	        int birthDay = Integer.parseInt(parts[2]);
+
+	        LocalDate today = LocalDate.now();
+	        int currentYear = today.getYear();
+	        int currentMonth = today.getMonthValue();
+	        int currentDay = today.getDayOfMonth();
+
+	        int age = currentYear - birthYear;
+	        if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) {
+	            age--;
+	        }
+
+	        return age >= 18;
+
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
 	
 	
 	
-	/*
-	 * 
-	 // ── Password Validation ──────────────────────────────────────
-    public static boolean isStrongPassword(String password) {
-        if (password == null) return false;
-
-        if (password.length() < 8) return false;
-
-        boolean hasLetter = false;
-        boolean hasDigit = false;
-
-        for (int i = 0; i < password.length(); i++) {
-            char ch = password.charAt(i);
-
-            if (Character.isLetter(ch)) hasLetter = true;
-            if (Character.isDigit(ch)) hasDigit = true;
-        }
-
-        return hasLetter && hasDigit;
-    }
-
-    // ── Password Match ───────────────────────────────────────────
-    public static boolean passwordsMatch(String password, String confirmPassword) {
-        if (password == null) return false;
-        return password.equals(confirmPassword);
-    }
-
-    // ── Empty Check ──────────────────────────────────────────────
-    public static boolean isBlank(String value) {
-        return value == null || value.trim().isEmpty();
-    }
-
-    // ── Simple Sanitize (basic) ──────────────────────────────────
-    public static String sanitize(String input) {
-        if (input == null) return "";
-
-        String output = input;
-
-        output = output.replace("<", "");
-        output = output.replace(">", "");
-
-        return output;
-    }
-	 * 
-	 */
-	
-	
-
 }
