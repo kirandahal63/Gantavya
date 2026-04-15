@@ -1,86 +1,304 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-<%-- Import your Trip model class here --%>
-<%-- <%@ page import="com.gantavya.models.Trip" %> --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Admin Dashboard — Gantavya</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <style>
-        /* CSS remains exactly the same as your previous version */
-        :root { --navy: #1a2744; --accent: #2563eb; --white: #ffffff; --font: 'Plus Jakarta Sans', sans-serif; }
-        body { font-family: var(--font); background: #f8faff; margin: 0; display: flex; }
-        .sidebar { width: 256px; background: #111c35; min-height: 100vh; color: white; position: fixed; }
-        .main { margin-left: 256px; flex: 1; padding: 20px; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantavya - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+    <div class="app-shell">
 
-<aside class="sidebar">
-    <div style="padding: 22px; font-weight: 800; font-size: 1.18rem; color: white;">Gan<span style="color:#60a5fa">tavya</span></div>
-    
-    <div style="position: absolute; bottom: 20px; width: 100%; padding: 0 16px;">
-        <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.06); padding: 10px; border-radius: 8px;">
-            <div style="width: 34px; height: 34px; border-radius: 50%; background: #2563eb; display: flex; align-items: center; justify-content: center; font-weight: 700;">
-                <% 
-                    String name = (String) session.getAttribute("adminName");
-                    if (name != null && name.length() >= 2) {
-                        out.print(name.substring(0, 2).toUpperCase());
-                    } else {
-                        out.print("AD");
-                    }
-                %>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon"><i class="fa-solid fa-bus"></i></div>
+                <span class="brand-name">Gantavya</span>
             </div>
-            <div style="flex: 1; min-width: 0;">
-                <div style="font-size: .8rem; font-weight: 600; color: white;">
-                    <%= (name != null) ? name : "Administrator" %>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard" class="nav-item active">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="bookings" class="nav-item">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="buses" class="nav-item">
+                    <i class="fa-solid fa-bus-simple"></i>
+                    <span>Buses &amp; Routes</span>
+                </a>
+                <a href="passengers" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Passengers</span>
+                </a>
+                <a href="reports" class="nav-item">
+                    <i class="fa-solid fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="payments" class="nav-item">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+                <a href="settings" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="images/admin-avatar.png" alt="Admin" onerror="this.style.display='none';this.parentElement.classList.add('avatar-fallback')">
+                    <i class="fa-solid fa-user avatar-icon"></i>
                 </div>
-                <div style="font-size: .68rem; color: rgba(255,255,255,.35);">Super Admin</div>
             </div>
-        </div>
-    </div>
-</aside>
+        </aside>
 
-<main class="main">
-    <div style="background: linear-gradient(120deg, #111c35 0%, #223058 100%); padding: 24px; border-radius: 12px; color: white;">
-        <h2>Good day, <%= (name != null) ? name : "Admin" %> 👋</h2>
-        <p style="opacity: 0.6; font-size: 0.85rem;">Here's what's happening on Gantavya today.</p>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="topbar-actions">
+                    <div class="dot dot-gray"></div>
+                    <div class="dot dot-gray"></div>
+                    <div class="dot dot-light"></div>
+                </div>
+            </header>
+
+            <div class="content-area">
+
+                <!-- Hero Banner -->
+                <div class="hero-banner">
+                    <div class="hero-text">
+                        <h2>Hello Admin!</h2>
+                        <p>Today you have <strong>${totalNewBookings != null ? totalNewBookings : '150'}</strong> new ticket bookings. Please review the 'Routes and Fleet' section for pending bus maintenance schedules.</p>
+                    </div>
+                    <div class="hero-graphic">
+                        <div class="hero-bus-icon">
+                            <i class="fa-solid fa-bus-simple"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-bus"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Buses</span>
+                            <span class="stat-value">${totalBuses != null ? totalBuses : '45'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Trips</span>
+                            <span class="stat-value">${totalTrips != null ? totalTrips : '1,230'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Routes</span>
+                            <span class="stat-value">${totalRoutes != null ? totalRoutes : '18'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-road"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Active Routes</span>
+                            <span class="stat-value">${activeRoutes != null ? activeRoutes : '18'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Passengers</span>
+                            <span class="stat-value">${totalPassengers != null ? totalPassengers : '78,450'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-ticket"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Bookings</span>
+                            <span class="stat-value">${totalBookings != null ? totalBookings : '5,600'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value">${totalRevenue != null ? totalRevenue : '$345,000'}</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-map-pin"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Stops</span>
+                            <span class="stat-value">${totalStops != null ? totalStops : '18'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Panels -->
+                <div class="panels-row">
+
+                    <!-- Upcoming Trips -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <span class="status-dot active"></span>
+                                <h3>Upcoming Trips</h3>
+                            </div>
+                            <span class="alert-dot"></span>
+                        </div>
+                        <div class="panel-body">
+                            <c:choose>
+                                <c:when test="${not empty upcomingTrips}">
+                                    <c:forEach var="trip" items="${upcomingTrips}">
+                                        <div class="trip-item">
+                                            <div class="trip-info">
+                                                <span class="trip-bus-id">${trip.busId}</span>
+                                                <span class="trip-time">${trip.departureTime}</span>
+                                                <span class="trip-status ${trip.status == 'completed' ? 'status-completed' : 'status-pending'}">${trip.status}</span>
+                                            </div>
+                                            <div class="trip-note">${trip.note}</div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- Static fallback data -->
+                                    <div class="trip-item">
+                                        <div class="trip-left">
+                                            <span class="trip-dot dot-green"></span>
+                                            <div>
+                                                <div class="trip-bus-id">BUSID 3368GA</div>
+                                                <div class="trip-time">Departing in: 30 minutes</div>
+                                                <div class="trip-status status-completed">Inspection: completed</div>
+                                            </div>
+                                        </div>
+                                        <div class="trip-note">Review Q4 Marketing Plan</div>
+                                    </div>
+                                    <div class="trip-item">
+                                        <div class="trip-left">
+                                            <span class="trip-dot dot-green"></span>
+                                            <div>
+                                                <div class="trip-bus-id">BUSID 3268GA</div>
+                                                <div class="trip-time">2 minutes ago</div>
+                                                <div class="trip-status status-completed">completed</div>
+                                            </div>
+                                        </div>
+                                        <div class="trip-note">Design new landing page</div>
+                                    </div>
+                                    <div class="trip-item">
+                                        <div class="trip-left">
+                                            <span class="trip-dot dot-purple"></span>
+                                            <div>
+                                                <div class="trip-bus-id">Sarah Johnson</div>
+                                                <div class="trip-time">2 minutes ago</div>
+                                                <div class="trip-status status-completed">completed</div>
+                                            </div>
+                                        </div>
+                                        <div class="trip-note">Team standup meeting</div>
+                                    </div>
+                                    <div class="trip-item">
+                                        <div class="trip-left">
+                                            <span class="trip-dot dot-purple"></span>
+                                            <div>
+                                                <div class="trip-bus-id">Sarah Johnson</div>
+                                                <div class="trip-time">2 minutes ago</div>
+                                                <div class="trip-status status-completed">completed</div>
+                                            </div>
+                                        </div>
+                                        <div class="trip-note">Product roadmap Q1 2025</div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <!-- Route Condition -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <span class="status-dot active"></span>
+                                <h3>Route Condition</h3>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <c:choose>
+                                <c:when test="${not empty routeConditions}">
+                                    <c:forEach var="route" items="${routeConditions}">
+                                        <div class="route-item">
+                                            <div class="route-avatar"></div>
+                                            <div class="route-info">
+                                                <div class="route-name">${route.name}</div>
+                                                <div class="route-path">${route.path}</div>
+                                                <div class="route-progress">
+                                                    <div class="progress-bar" style="width: ${route.progress}%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="route-right">
+                                                <span class="route-status ${route.status == 'Open' ? 'status-open' : 'status-closed'}">${route.status}</span>
+                                                <span class="route-count">${route.count}</span>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="route-item">
+                                        <div class="route-avatar route-avatar-blue"></div>
+                                        <div class="route-info">
+                                            <div class="route-name">Route 2</div>
+                                            <div class="route-path">KTM-PKR</div>
+                                            <div class="route-progress">
+                                                <div class="progress-bar" style="width: 65%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="route-right">
+                                            <span class="route-status status-open">● Open</span>
+                                            <span class="route-count">4</span>
+                                        </div>
+                                    </div>
+                                    <div class="route-item">
+                                        <div class="route-avatar route-avatar-gray"></div>
+                                        <div class="route-info">
+                                            <div class="route-name">James Wilson</div>
+                                            <div class="route-sub">2h 15m</div>
+                                            <div class="route-sub">Tasks completed</div>
+                                        </div>
+                                        <div class="route-right">
+                                            <span class="route-status status-closed">● Closed</span>
+                                            <span class="route-count">3</span>
+                                        </div>
+                                    </div>
+                                    <div class="route-item">
+                                        <div class="route-avatar route-avatar-gray"></div>
+                                        <div class="route-info">
+                                            <div class="route-name">James Wilson</div>
+                                            <div class="route-sub">2h 15m</div>
+                                            <div class="route-sub">Tasks completed</div>
+                                        </div>
+                                        <div class="route-right">
+                                            <span class="route-status status-closed">● Closed</span>
+                                            <span class="route-count">3</span>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div style="margin-top: 24px; background: white; border: 1px solid #e2e8f8; border-radius: 12px; overflow: hidden;">
-        <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f8; font-weight: 700;">Recent Trips</div>
-        <table style="width: 100%; border-collapse: collapse;">
-            <tr style="background: #f8faff; text-align: left; font-size: 0.7rem; color: #8492b4;">
-                <th style="padding: 10px 16px;">ROUTE</th>
-                <th style="padding: 10px 16px;">STATUS</th>
-            </tr>
-            <% 
-                List trips = (List) request.getAttribute("recentTrips");
-                if (trips != null && !trips.isEmpty()) {
-                    for (Object obj : trips) { 
-                        // You can cast obj to Trip here
-            %>
-                <tr style="border-bottom: 1px solid #e2e8f8; font-size: 0.8rem;">
-                    <td style="padding: 13px 16px;">Trip Details Available</td>
-                    <td style="padding: 13px 16px;"><span style="color: #16a34a;">Active</span></td>
-                </tr>
-            <% 
-                    } 
-                } else { 
-            %>
-                <tr>
-                    <td colspan="2" style="padding: 40px; text-align: center; color: #8492b4; font-size: 0.8rem;">
-                        No recent trips found.
-                    </td>
-                </tr>
-            <% } %>
-        </table>
-    </div>
-</main>
-
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
