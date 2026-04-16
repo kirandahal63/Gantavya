@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gantavya - Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -52,10 +51,7 @@
             </nav>
 
             <div class="sidebar-user">
-                <div class="user-avatar">
-                    <img src="images/admin-avatar.png" alt="Admin" onerror="this.style.display='none';this.parentElement.classList.add('avatar-fallback')">
-                    <i class="fa-solid fa-user avatar-icon"></i>
-                </div>
+                
             </div>
         </aside>
 
@@ -71,234 +67,207 @@
             </header>
 
             <div class="content-area">
-
-                <!-- Hero Banner -->
-                <div class="hero-banner">
-                    <div class="hero-text">
-                        <h2>Hello Admin!</h2>
-                        <p>Today you have <strong>${totalNewBookings != null ? totalNewBookings : '150'}</strong> new ticket bookings. Please review the 'Routes and Fleet' section for pending bus maintenance schedules.</p>
-                    </div>
-                    <div class="hero-graphic">
-                        <div class="hero-bus-icon">
-                            <i class="fa-solid fa-bus-simple"></i>
-                        </div>
-                    </div>
+    <div class="dashboard-layout">
+        
+        <div class="main-column">
+            
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <h2>Hello Admin!</h2>
+                    <p>Today you have <strong>${totalNewBookings != null ? totalNewBookings : '150'}</strong> new ticket bookings. Review the latest fleet maintenance schedules.</p>
+                    <a href="#" class="read-more">Read more</a>
                 </div>
+                <div class="hero-visuals">
+			        <img src="${pageContext.request.contextPath}/images/backgroundbus.png" alt="" class="hero-wave">			        
+			        <img src="${pageContext.request.contextPath}/images/busimage.png" alt="Bus" class="parallax-bus" id="heroBus">
+			    </div>
+            </div>
 
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-bus"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Buses</span>
-                            <span class="stat-value">${totalBuses != null ? totalBuses : '45'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Trips</span>
-                            <span class="stat-value">${totalTrips != null ? totalTrips : '1,230'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Routes</span>
-                            <span class="stat-value">${totalRoutes != null ? totalRoutes : '18'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-road"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Active Routes</span>
-                            <span class="stat-value">${activeRoutes != null ? activeRoutes : '18'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Passengers</span>
-                            <span class="stat-value">${totalPassengers != null ? totalPassengers : '78,450'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-ticket"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Bookings</span>
-                            <span class="stat-value">${totalBookings != null ? totalBookings : '5,600'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Revenue</span>
-                            <span class="stat-value">${totalRevenue != null ? totalRevenue : '$345,000'}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-map-pin"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total Stops</span>
-                            <span class="stat-value">${totalStops != null ? totalStops : '18'}</span>
-                        </div>
-                    </div>
+            <div class="stats-grid">
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-bus"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Buses</span>
+			            <span class="stat-value">45</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Trips</span>
+			            <span class="stat-value">1,230</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Routes</span>
+			            <span class="stat-value">18</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-road"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Active Routes</span>
+			            <span class="stat-value">18</span>
+			        </div>
+			    </div>
+			
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Passengers</span>
+			            <span class="stat-value">78,450</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-ticket"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Bookings</span>
+			            <span class="stat-value">5,600</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Revenue</span>
+			            <span class="stat-value">$345,000</span>
+			        </div>
+			    </div>
+			    <div class="stat-card">
+			        <div class="stat-icon"><i class="fa-solid fa-map-pin"></i></div>
+			        <div class="stat-info">
+			            <span class="stat-label">Total Stops</span>
+			            <span class="stat-value">18</span>
+			        </div>
+			    </div>
+			</div>
+
+            <div class="card-container">
+                <div class="card-header">
+                    <h3>Route Condition</h3>
+                    <button class="view-all-btn">View All</button>
                 </div>
+                <table class="progress-table">
+                    <thead>
+                        <tr>
+                            <th>Route Name</th>
+                            <th>Designation</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="route-cell">
+                                <div class="avatar-initial" style="background: #4299e1;">K</div>
+                                <div>KTM-PKR (Route 2)</div>
+                            </td>
+                            <td>Intercity Express</td>
+                            <td><span class="status-pill open">Open</span></td>
+                        </tr>
+                        <tr>
+                            <td class="route-cell">
+                                <div class="avatar-initial" style="background: #a0aec0;">B</div>
+                                <div>BTP-KTM</div>
+                            </td>
+                            <td>Local Route</td>
+                            <td><span class="status-pill closed">Closed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                <!-- Bottom Panels -->
-                <div class="panels-row">
+        <div class="right-sidebar-box">
+            
+            <div class="side-card">
+			    <div class="calendar-header">
+			        <h4>Calendar</h4>
+			        <span id="monthYear" class="calendar-month-year"></span>
+			    </div>
+			    <div class="calendar-container">
+			        <div class="calendar-days-grid">
+					    <div class="day-name">Sun</div>
+					    <div class="day-name">Mon</div>
+					    <div class="day-name">Tue</div>
+					    <div class="day-name">Wed</div>
+					    <div class="day-name">Thu</div>
+					    <div class="day-name">Fri</div>
+					    <div class="day-name">Sat</div>
+					    
+					    <div id="calendarDays" class="calendar-days-grid-content" style="display: contents;"></div>
+					</div>
+			    </div>
+			</div>
 
-                    <!-- Upcoming Trips -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">
-                                <span class="status-dot active"></span>
-                                <h3>Upcoming Trips</h3>
-                            </div>
-                            <span class="alert-dot"></span>
-                        </div>
-                        <div class="panel-body">
-                            <c:choose>
-                                <c:when test="${not empty upcomingTrips}">
-                                    <c:forEach var="trip" items="${upcomingTrips}">
-                                        <div class="trip-item">
-                                            <div class="trip-info">
-                                                <span class="trip-bus-id">${trip.busId}</span>
-                                                <span class="trip-time">${trip.departureTime}</span>
-                                                <span class="trip-status ${trip.status == 'completed' ? 'status-completed' : 'status-pending'}">${trip.status}</span>
-                                            </div>
-                                            <div class="trip-note">${trip.note}</div>
-                                        </div>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Static fallback data -->
-                                    <div class="trip-item">
-                                        <div class="trip-left">
-                                            <span class="trip-dot dot-green"></span>
-                                            <div>
-                                                <div class="trip-bus-id">BUSID 3368GA</div>
-                                                <div class="trip-time">Departing in: 30 minutes</div>
-                                                <div class="trip-status status-completed">Inspection: completed</div>
-                                            </div>
-                                        </div>
-                                        <div class="trip-note">Review Q4 Marketing Plan</div>
-                                    </div>
-                                    <div class="trip-item">
-                                        <div class="trip-left">
-                                            <span class="trip-dot dot-green"></span>
-                                            <div>
-                                                <div class="trip-bus-id">BUSID 3268GA</div>
-                                                <div class="trip-time">2 minutes ago</div>
-                                                <div class="trip-status status-completed">completed</div>
-                                            </div>
-                                        </div>
-                                        <div class="trip-note">Design new landing page</div>
-                                    </div>
-                                    <div class="trip-item">
-                                        <div class="trip-left">
-                                            <span class="trip-dot dot-purple"></span>
-                                            <div>
-                                                <div class="trip-bus-id">Sarah Johnson</div>
-                                                <div class="trip-time">2 minutes ago</div>
-                                                <div class="trip-status status-completed">completed</div>
-                                            </div>
-                                        </div>
-                                        <div class="trip-note">Team standup meeting</div>
-                                    </div>
-                                    <div class="trip-item">
-                                        <div class="trip-left">
-                                            <span class="trip-dot dot-purple"></span>
-                                            <div>
-                                                <div class="trip-bus-id">Sarah Johnson</div>
-                                                <div class="trip-time">2 minutes ago</div>
-                                                <div class="trip-status status-completed">completed</div>
-                                            </div>
-                                        </div>
-                                        <div class="trip-note">Product roadmap Q1 2025</div>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
+            <div class="side-card">
+                <h4>Upcoming Trips</h4>
+                <div class="mini-list">
+                    <div class="mini-item">
+                        <div class="icon-box"><i class="fa-solid fa-clock"></i></div>
+                        <div class="item-info">
+                            <strong>BUSID 3368GA</strong>
+                            <span>Departing in 30 mins</span>
                         </div>
                     </div>
-
-                    <!-- Route Condition -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">
-                                <span class="status-dot active"></span>
-                                <h3>Route Condition</h3>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <c:choose>
-                                <c:when test="${not empty routeConditions}">
-                                    <c:forEach var="route" items="${routeConditions}">
-                                        <div class="route-item">
-                                            <div class="route-avatar"></div>
-                                            <div class="route-info">
-                                                <div class="route-name">${route.name}</div>
-                                                <div class="route-path">${route.path}</div>
-                                                <div class="route-progress">
-                                                    <div class="progress-bar" style="width: ${route.progress}%"></div>
-                                                </div>
-                                            </div>
-                                            <div class="route-right">
-                                                <span class="route-status ${route.status == 'Open' ? 'status-open' : 'status-closed'}">${route.status}</span>
-                                                <span class="route-count">${route.count}</span>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="route-item">
-                                        <div class="route-avatar route-avatar-blue"></div>
-                                        <div class="route-info">
-                                            <div class="route-name">Route 2</div>
-                                            <div class="route-path">KTM-PKR</div>
-                                            <div class="route-progress">
-                                                <div class="progress-bar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="route-right">
-                                            <span class="route-status status-open">● Open</span>
-                                            <span class="route-count">4</span>
-                                        </div>
-                                    </div>
-                                    <div class="route-item">
-                                        <div class="route-avatar route-avatar-gray"></div>
-                                        <div class="route-info">
-                                            <div class="route-name">James Wilson</div>
-                                            <div class="route-sub">2h 15m</div>
-                                            <div class="route-sub">Tasks completed</div>
-                                        </div>
-                                        <div class="route-right">
-                                            <span class="route-status status-closed">● Closed</span>
-                                            <span class="route-count">3</span>
-                                        </div>
-                                    </div>
-                                    <div class="route-item">
-                                        <div class="route-avatar route-avatar-gray"></div>
-                                        <div class="route-info">
-                                            <div class="route-name">James Wilson</div>
-                                            <div class="route-sub">2h 15m</div>
-                                            <div class="route-sub">Tasks completed</div>
-                                        </div>
-                                        <div class="route-right">
-                                            <span class="route-status status-closed">● Closed</span>
-                                            <span class="route-count">3</span>
-                                        </div>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </div>
-
                 </div>
             </div>
+
+        </div> </div> </div>
         </main>
     </div>
 
-    <script src="js/dashboard.js"></script>
+    <script>
+	    function generateCalendar() {
+	        const calendarDays = document.getElementById('calendarDays');
+	        const monthYearText = document.getElementById('monthYear');
+	        
+	        if (!calendarDays || !monthYearText) return;
+	
+	        const now = new Date();
+	        const today = now.getDate();
+	        const month = now.getMonth();
+	        const year = now.getFullYear();
+	
+	        const monthNames = ["January", "February", "March", "April", "May", "June",
+	            "July", "August", "September", "October", "November", "December"];
+	
+	        monthYearText.innerText = monthNames[month] + " " + year;
+	
+	        // Get first day of month (0=Sun, 1=Mon, etc.)
+	        const firstDay = new Date(year, month, 1).getDay();
+	        const daysInMonth = new Date(year, month + 1, 0).getDate();
+	
+	        let html = "";
+	
+	        // 1. Fill empty slots for previous month (Starts from 0 for Sunday)
+	        for (let i = 0; i < firstDay; i++) {
+	            html += '<div class="empty-day"></div>';
+	        }
+	
+	        // 2. Fill actual days and highlight today
+	        for (let day = 1; day <= daysInMonth; day++) {
+	            const isToday = (day === today) ? "today" : "";
+	            html += '<div class="day-number ' + isToday + '">' + day + '</div>';
+	        }
+	
+	        calendarDays.innerHTML = html;
+	    }
+	
+	    document.addEventListener('DOMContentLoaded', () => {
+	        // 1. Initialize the calendar
+	        generateCalendar();
+
+	        // 2. Trigger the Bus Animation only
+	        const bus = document.getElementById('heroBus');
+
+	        if (bus) {
+	            setTimeout(() => {
+	                // Only the bus drives in
+	                bus.classList.add('slide-in');
+	            }, 300);
+	        }
+	    });
+	</script>
 </body>
 </html>

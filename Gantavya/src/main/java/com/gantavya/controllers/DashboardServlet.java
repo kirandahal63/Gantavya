@@ -25,7 +25,7 @@ public class DashboardServlet extends HttpServlet {
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/Pages/Login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/Pages/Dashboard.jsp").forward(request, response);
         // -----------------------------------------------------------
         // 1. AGGREGATE STATS
         //    Replace these with real DB/DAO calls in production.
