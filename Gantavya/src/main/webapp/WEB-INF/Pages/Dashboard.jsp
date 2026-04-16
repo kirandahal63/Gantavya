@@ -14,10 +14,13 @@
 
         <!-- Sidebar -->
         <aside class="sidebar">
+        
             <div class="sidebar-brand">
-                <div class="brand-icon"><i class="fa-solid fa-bus"></i></div>
-                <span class="brand-name">Gantavya</span>
-            </div>
+			    <div class="brand-icon">
+			        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="brand-logo-img">
+			    </div>
+			    <span class="brand-name">Gantavya</span>
+			</div>
 
             <nav class="sidebar-nav">
                 <a href="dashboard" class="nav-item active">
@@ -50,9 +53,9 @@
                 </a>
             </nav>
 
-            <div class="sidebar-user">
-                
-            </div>
+            <div class="sidebarImage">
+		        <img src="${pageContext.request.contextPath}/images/footers.png"  alt="Gantavya Hub Scene" class="vector-stop-img">
+		    </div>
         </aside>
 
         <!-- Main Content -->

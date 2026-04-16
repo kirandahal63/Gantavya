@@ -50,32 +50,52 @@ body {
     width: var(--sidebar-w);
     background: var(--bg-sidebar);
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
     color: white;
     z-index: 100;
+    position: relative; 
+    overflow: hidden; 
+    height: 100vh;
 }
 
 .sidebar-brand {
-    padding: 30px 24px;
+    padding: 5px 0; /* Remove side padding to allow centering */
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center; /* This centers the Logo + Text group */
+    gap: 10px; /* Space between logo and text */
+    width: 100%;
 }
 
 .brand-icon {
-    width: 32px;
-    height: 32px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
+    width: 60px; /* Adjust size to look good beside text */
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    
+}
+
+.brand-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin-right: -2px;
 }
 
 .brand-name {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 20px;
+    color: white;
     letter-spacing: 0.5px;
+}
+
+/* Ensure Nav Items remain left-aligned */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Forces items to fill width, keeping icons left */
+    padding: 10px 16px;
 }
 
 .sidebar-nav {
@@ -102,22 +122,28 @@ body {
     color: white;
 }
 
-.sidebar-user {
-    padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    justify-content: center;
+.sidebarImage {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    padding: 0 ;
+    pointer-events: none;
+    opacity: 0.9; 
+    line-height: 0;
+    
 }
 
-.user-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.2);
-    overflow: hidden;
+.vector-stop-img {
+    width: 145%; 
+    margin-left: -25%;     
+    height: auto;
+    display: block;
+    margin-bottom: -35px;
+    object-fit: cover; 
 }
 
-.user-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
 /* =============================================
    MAIN CONTENT & TOPBAR
@@ -187,7 +213,7 @@ body {
     position: relative;
     overflow: hidden; /* Clips the wave to the corners */
     min-height: 240px;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 
 .hero-text {
