@@ -25,11 +25,7 @@ public class DashboardServlet extends HttpServlet {
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/Pages/Dashboard.jsp").forward(request, response);
-        // -----------------------------------------------------------
-        // 1. AGGREGATE STATS
-        //    Replace these with real DB/DAO calls in production.
-        // -----------------------------------------------------------
+		
         request.setAttribute("totalNewBookings", 150);
         request.setAttribute("totalBuses",       45);
         request.setAttribute("totalTrips",       "1,230");
@@ -39,9 +35,7 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("totalBookings",    "5,600");
         request.setAttribute("totalRevenue",     "$345,000");
         request.setAttribute("totalStops",       18);
-     // -----------------------------------------------------------
-     // 3. ROUTE CONDITIONS (Using Map instead of a Class)
-     // -----------------------------------------------------------
+        request.getRequestDispatcher("/WEB-INF/Pages/Dashboard.jsp").forward(request, response);
      List<Map<String, Object>> routeConditions = new ArrayList<>();
 
      // Add Route 1

@@ -5,6 +5,15 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * AuthFilter intercepts ALL requests and enforces role-based access control.
+ *
+ * Roles:
+ *   "ADMIN"     → staff/admin, can access /admin and /dashboard
+ *   "PASSENGER" → registered user, can access /home
+ *
+ * Public paths (no session needed): /login, /Register, /CSS/*, /images/*
+ */
 @WebFilter("/*")
 public class AuthFilter implements Filter {
 
@@ -15,50 +24,56 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest  req  = (HttpServletRequest)  request;
+        HttpServletResponse res  = (HttpServletResponse) response;
 
         String path = req.getServletPath();
 
-        // Allow public paths through without checking session
+        // ── 1. Allow public paths through without any session check ──────────
         boolean isPublic = path.equals("/login")
-                        || path.equals("/register")
+                        || path.equals("/Register")
                         || path.startsWith("/CSS/")
-                        || path.startsWith("/images/");
+                        || path.startsWith("/images/")
+                        || path.equals("/");          // root / index page
 
         if (isPublic) {
             chain.doFilter(request, response);
             return;
         }
 
+        // ── 2. All other paths require a valid session ────────────────────────
         HttpSession session = req.getSession(false);
-        if (session == null) {
+
+        if (session == null || session.getAttribute("role") == null) {
             res.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        String role = (String) session.getAttribute("role");
+        String role = (String) session.getAttribute("role"); // "ADMIN" or "PASSENGER"
 
-        // Admin-only path
+        // ── 3. Admin-only paths: /admin, /dashboard ───────────────────────────
         if (path.startsWith("/admin") || path.startsWith("/dashboard")) {
             if ("ADMIN".equals(role)) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect(req.getContextPath() + "/home"); // passengers go to /home
+                // Passenger tried to access admin area → send to their home
+                res.sendRedirect(req.getContextPath() + "/home");
             }
             return;
         }
 
-        // Passenger-only path
+        // ── 4. Passenger-only paths: /home ────────────────────────────────────
         if (path.startsWith("/home")) {
             if ("PASSENGER".equals(role)) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect(req.getContextPath() + "/admin"); // admins go to /admin
+                // Admin tried to access passenger area → send to admin dashboard
+                res.sendRedirect(req.getContextPath() + "/admin");
             }
             return;
         }
 
+        // ── 5. Any other authenticated path → allow through ───────────────────
         chain.doFilter(request, response);
     }
 
