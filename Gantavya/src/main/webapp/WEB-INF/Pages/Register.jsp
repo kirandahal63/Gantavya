@@ -25,15 +25,13 @@
     </ul>
 </nav>
 
-<main class="login-page">
-    <section class="hero-panel">
-        <img src="${pageContext.request.contextPath}/images/duplicate.png" alt="Register hero image" class="hero-image">
-    </section>
+<main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
+    <section class="hero-panel"></section>
 
     <section class="form-panel">
         <div class="form-container">
             <h2 class="form-title">SIGN UP</h2>
-            <p class="form-subtitle">Create your Gantavya account.</p>
+            <p class="form-subtitle">Create your account.</p>
 
             <%-- General Database/Server Error --%>
             <% if (request.getAttribute("error") != null) { %>

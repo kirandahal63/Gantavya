@@ -458,7 +458,7 @@ body {
 
 /* The Light Green Highlight for Today */
 .day-number.today {
-    background-color: #48bb78; /* FoxHR Light Green */
+    background-color: #1a2e4a;
     color: white;
     font-weight: 700;
 }

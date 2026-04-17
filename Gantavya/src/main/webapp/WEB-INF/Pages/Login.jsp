@@ -35,19 +35,9 @@
     </ul>
 </nav>
 
-<main class="login-page">
-
-    <section class="hero-panel">
-        
-        <img
-            src="${pageContext.request.contextPath}/images/duplicate.png"
-            alt="login hero image"
-            class="hero-image"
-        >
-
-       
-        
-    </section>
+<main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
+ 
+    <section class="hero-panel"></section>
 
     <!-- ── Right Panel: Login Form ──────────────────────────────── -->
     <section class="form-panel">

@@ -54,7 +54,7 @@
             </nav>
 
             <div class="sidebarImage">
-		        <img src="${pageContext.request.contextPath}/images/footers.png"  alt="Gantavya Hub Scene" class="vector-stop-img">
+		        <img src="${pageContext.request.contextPath}/images/footer.png"  alt="Gantavya Hub Scene" class="vector-stop-img">
 		    </div>
         </aside>
 

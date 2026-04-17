@@ -87,48 +87,35 @@ html, body {
     color: var(--white);
 }
 
-/* ── MAIN SPLIT LAYOUT ─────────────────────────────────────── */
 .login-page {
     display: flex;
     min-height: 100vh;
-    padding-top: 60px;   /* offset for fixed navbar */
+    padding-top: 60px;
+    background-size: 100% auto; 
+    background-position: left bottom; /* Keeps the bus on the road/bottom */
+    background-repeat: no-repeat;
+    background-attachment: fixed;/* This keeps the image still while you scroll */
 }
-
-/* ── LEFT: HERO PANEL ──────────────────────────────────────── */
-
 .hero-panel {
-    position: relative;
-    flex: 1.5; 
-    overflow: hidden; /* Change 'visible' to 'hidden' */
-    height: calc(100vh - 60px); 
-    background-color: var(--white);
+    flex: 1.5;
+    background: transparent !important;  
+    border: none;
+    outline: none;
 }
 
-/* 2. Make the image independent of the container's width */
-.hero-image {
-    position: absolute; /* Take it out of the normal flow */
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: auto; /* Let the width be determined by the image aspect ratio */
-    min-width: 100%; /* Ensure it at least covers the panel */
-    object-fit: contain; 
-    object-position: left center;
-    z-index: 1; /* Keep it behind the text overlay */
-}
-
-
-
-/* ── RIGHT: FORM PANEL ─────────────────────────────────────── */
 .form-panel {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--grey);
+    background: none;
     padding: 2rem;
     min-width: 380px;
+    z-index: 5;
 }
+
+/* ── RIGHT: FORM PANEL ─────────────────────────────────────── */
+
 
 .form-container {
     width: 100%;
