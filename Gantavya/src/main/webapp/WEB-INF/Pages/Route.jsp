@@ -72,7 +72,7 @@
         <div class="glass-card modal-content" style="max-width: 650px;"> 
             <div class="card-header">
                 <h3>Update Route Details</h3>
-                <p>Modifying Route ID: #${editableRoute.routeId}</p>
+                <p>Modifying Route ID: ${editableRoute.routeId}</p>
             </div>
             <form action="route" method="POST">
                 <input type="hidden" name="action" value="update">

@@ -28,10 +28,16 @@ public class AuthFilter implements Filter {
         HttpServletResponse res  = (HttpServletResponse) response;
 
         String path = req.getServletPath();
+        
+        if (path == null || path.equals("/") || path.isEmpty()) {
+            res.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
 
         boolean isPublic = path.equals("/login")
                         || path.equals("/Register")
                         //remove it later
+                        || path.equals("/home")
                         || path.equals("/admin")
                         || path.equals("/bus")
                         || path.equals("/route")

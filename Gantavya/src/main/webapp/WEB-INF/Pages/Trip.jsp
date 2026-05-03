@@ -111,7 +111,7 @@
                                             style="max-height: 90vh; overflow-y: auto;">
                                             <div class="card-header">
                                                 <h3>Update Trip Details</h3>
-                                                <p>Modifying details for Trip ID: #${editableTrip.tripId}</p>
+                                                <p>Modifying details for Trip ID: ${editableTrip.tripId}</p>
                                             </div>
                                             <form action="trip" method="POST">
                                                 <input type="hidden" name="action" value="update">

@@ -110,4 +110,32 @@ public class TripDao {
             ps.executeUpdate();
         }
     }
+    
+    public List<TripModel> getUpcomingTrips() {
+        List<TripModel> trips = new ArrayList<>();
+        // JOINing with route table to get Source/Destination names
+        String query = "SELECT t.*, r.Source, r.Destination FROM trip t " +
+                       "JOIN route r ON t.RouteID = r.RouteID " +
+                       "WHERE t.TripStatus = 'ACTIVE' LIMIT 6";
+                       
+        try (Connection conn = getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                TripModel trip = new TripModel();
+                trip.setTripId(rs.getString("TripID"));
+                trip.setDepartureDate(rs.getString("DepartureDate"));
+                trip.setArrivalDate(rs.getString("Arrival Date"));
+                trip.setFare(rs.getLong("Fare"));
+                // Assuming you add these temporary fields to TripModel or use RouteID
+                trip.setRouteId(rs.getString("Source") + " to " + rs.getString("Destination")); 
+                trip.setBusId(rs.getString("BusID"));
+                trips.add(trip);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return trips;
+    }
 }

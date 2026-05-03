@@ -73,7 +73,7 @@
             <div class="glass-card modal-content">
                 <div class="card-header">
                     <h3>Update Vehicle Details</h3>
-                    <p>Modifying details for Bus ID: #${editableBus.busId}</p>
+                    <p>Modifying details for Bus ID: ${editableBus.busId}</p>
                 </div>
                 <form action="bus" method="POST">
                     <input type="hidden" name="action" value="update">

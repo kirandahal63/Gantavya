@@ -41,7 +41,7 @@
                             </div>
                             <div class="input-group">
                                 <label>Email</label>
-                                <input type="text" name="staffId" required>
+                                <input type="text" name="staffEmail" required>
                             </div>                            
                             <div class="input-group">
                                 <label>DOB</label>
@@ -79,21 +79,21 @@
                     <div class="glass-card modal-content" style="max-width: 650px;">
                         <div class="card-header">
                             <h3>Update Staff Details</h3>
-                            <p>Modifying: ${editableStaff.staffName}</p>
+                            <p>Modifying: ${editableStaff.staffId}</p>
                         </div>
                         <form action="staff" method="POST">
                             <input type="hidden" name="action" value="update">
                             <input type="hidden" name="staffId" value="${editableStaff.staffId}">
                             
-                            <div class="input-grid-modal">
-                                <div class="input-group">
-                                    <label>Staff ID</label>
-                                    <input type="text" value="${editableStaff.staffId}" disabled style="background-color: #f8fafc; cursor: not-allowed; color: #64748b;">
-                                </div>
+                            <div class="input-grid-modal">                                
                                 <div class="input-group">
                                     <label>Full Name</label>
                                     <input type="text" name="staffName" value="${editableStaff.staffName}" required>
                                 </div>
+                                <div class="input-group">
+								    <label>Email</label>
+								    <input type="email" name="staffEmail" value="${editableStaff.staffEmail}" required>
+								</div>
                                 <div class="input-group">
                                     <label>Role</label>
                                     <select name="memberType">
@@ -114,6 +114,14 @@
                                     <label>Salary</label>
                                     <input type="number" name="salary" value="${editableStaff.salary}" required>
                                 </div>
+                                <div class="input-group">
+								    <label>Account Status</label>
+								    <select name="staffStatus">
+								        <option value="ACTIVE" ${editableStaff.staffStatus == 'ACTIVE' ? 'selected' : ''}>Active</option>
+								        <option value="INACTIVE" ${editableStaff.staffStatus == 'INACTIVE' ? 'selected' : ''}>Inactive</option>
+								        <option value="ON LEAVE" ${editableStaff.staffStatus == 'ON_LEAVE' ? 'selected' : ''}>On Leave</option>
+								    </select>
+								</div>
                             </div>
 
                             <div class="btn-group-row" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px;">
@@ -152,12 +160,9 @@
                         <c:forEach var="s" items="${staffList}">
                             <tr>
                                 <td><span class="id-badge">${s.staffId}</span></td>
-                                <td><strong>${s.staffName}</strong></td>
+                                <td>${s.staffName}</td>
                                 <td>${s.staffDob}</td>
-                                <td>
-                                    <span class="status-dot ${s.memberType == 'ADMIN' ? 'dot-green' : 'dot-orange'}">
-                                        ${s.memberType}
-                                    </span>
+                                <td>${s.memberType}</span>
                                 </td>
 								<td>${s.staffStatus}</td>
                                 <td>${s.joiningDate}</td>

@@ -2,7 +2,6 @@ package com.gantavya.controllers;
 
 import com.gantavya.dao.StaffDao;
 import com.gantavya.model.StaffModel;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,7 +55,9 @@ public class StaffServlet extends HttpServlet {
         StaffModel s = new StaffModel();
         s.setStaffId(request.getParameter("staffId"));
         s.setStaffName(request.getParameter("staffName"));
+        s.setStaffEmail(request.getParameter("staffEmail"));
         s.setMemberType(request.getParameter("memberType"));
+        s.setStaffStatus(request.getParameter("staffStatus"));
         
         String dobStr = request.getParameter("dob");
         if (dobStr != null && !dobStr.trim().isEmpty()) {
