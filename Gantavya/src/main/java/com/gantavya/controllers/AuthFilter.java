@@ -29,9 +29,12 @@ public class AuthFilter implements Filter {
 
         String path = req.getServletPath();
 
-        // ── 1. Allow public paths through without any session check ──────────
         boolean isPublic = path.equals("/login")
                         || path.equals("/Register")
+                        //remove it later
+                        || path.equals("/admin")
+                        || path.equals("/bus")
+                        || path.equals("/route")
                         || path.startsWith("/CSS/")
                         || path.startsWith("/images/")
                         || path.equals("/");          // root / index page
@@ -52,7 +55,7 @@ public class AuthFilter implements Filter {
         String role = (String) session.getAttribute("role"); // "ADMIN" or "PASSENGER"
 
         // ── 3. Admin-only paths: /admin, /dashboard ───────────────────────────
-        if (path.startsWith("/admin") || path.startsWith("/dashboard")) {
+        if (path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/bus") || path.startsWith("/route") || path.startsWith("/trip") ) {
             if ("ADMIN".equals(role)) {
                 chain.doFilter(request, response);
             } else {
@@ -72,8 +75,6 @@ public class AuthFilter implements Filter {
             }
             return;
         }
-
-        // ── 5. Any other authenticated path → allow through ───────────────────
         chain.doFilter(request, response);
     }
 

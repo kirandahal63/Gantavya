@@ -11,52 +11,7 @@
 </head>
 <body>
     <div class="app-shell">
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-        
-            <div class="sidebar-brand">
-			    <div class="brand-icon">
-			        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="brand-logo-img">
-			    </div>
-			    <span class="brand-name">Gantavya</span>
-			</div>
-
-            <nav class="sidebar-nav">
-                <a href="dashboard" class="nav-item active">
-                    <i class="fa-solid fa-gauge-high"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="bookings" class="nav-item">
-                    <i class="fa-solid fa-ticket"></i>
-                    <span>Bookings</span>
-                </a>
-                <a href="buses" class="nav-item">
-                    <i class="fa-solid fa-bus-simple"></i>
-                    <span>Buses &amp; Routes</span>
-                </a>
-                <a href="passengers" class="nav-item">
-                    <i class="fa-solid fa-users"></i>
-                    <span>Passengers</span>
-                </a>
-                <a href="reports" class="nav-item">
-                    <i class="fa-solid fa-chart-bar"></i>
-                    <span>Reports</span>
-                </a>
-                <a href="payments" class="nav-item">
-                    <i class="fa-solid fa-credit-card"></i>
-                    <span>Payments</span>
-                </a>
-                <a href="settings" class="nav-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </nav>
-
-            <div class="sidebarImage">
-		        <img src="${pageContext.request.contextPath}/images/footer.png"  alt="Gantavya Hub Scene" class="vector-stop-img">
-		    </div>
-        </aside>
+        <jsp:include page="/WEB-INF/Pages/SideNav.jsp" />        
 
         <!-- Main Content -->
         <main class="main-content">

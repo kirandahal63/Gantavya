@@ -1,0 +1,289 @@
+:root {
+    /* 1. Define the variables Sidenav.css is looking for */
+    --bg-sidebar: #1a2e4a; 
+    --sidebar-w: 240px;
+    --radius-md: 12px;
+    
+    /* 2. Your existing variables */
+    --primary:#1a2e4a; 
+    --navy-dark: #1a2e4a;
+    --bg-light: #f4f7fe;
+    --white: #ffffff;
+    --text-main: #2b3674;
+    --text-muted: #a3aed0;
+    --radius-lg: 20px;
+    --shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+}
+
+/* 3. Force the sidebar background in this specific file */
+aside.sidebar {
+    background: #1a2e4a !important;
+    display: flex !important;
+    visibility: visible !important;
+}
+/* Ensure the links inside are visible */
+.nav-item {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.nav-item.active, .nav-item:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    /*background-color: var(--bg-light);*/
+    color: var(--text-main);
+    overflow: hidden; /* Keeps the whole page from scrolling */
+}
+
+/* THE APP SHELL - Only use this one wrapper */
+.app-shell {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+
+
+/* THE MAIN PANEL */
+.main-panel {
+    flex: 1;
+    min-width: 0; 
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* This allows the content to scroll */
+}
+
+/* --- Navigation Header --- */
+.header-nav {
+    padding: 30px 40px 10px 40px;
+    background: transparent;
+}
+
+.page-title { font-size: 28px; font-weight: 800; color: var(--navy-dark); }
+.breadcrumb { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
+.active-crumb { color: var(--primary); font-weight: 600; }
+
+.content-wrapper { padding: 20px 80px 100px 80px; }
+
+/* --- Aesthetic Cards --- */
+.glass-card, .table-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card-header h3 { font-size: 22px; font-weight: 800; color: var(--navy-dark); margin-bottom: 12px; }
+.card-header p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
+
+/* --- Form Grid --- */
+.input-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+    margin-top: 25px;
+}
+
+.input-group {
+    flex: 1 1 21%; /* Guarantees max 4 columns (21% * 5 = 105% -> wraps) */
+    min-width: 180px;
+}
+
+.btn-group-row {
+    flex: 1 1 300px;
+    min-width: 300px;
+    justify-content: flex-end !important;
+}
+
+.input-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 107, 173, 0.1); }
+
+.btn-primary, .btn-secondary {
+    border: none;
+    padding:12px 20px; 
+    border-radius: 8px;     
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: inherit;
+    font-size: 13px; 
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    min-width: 140px;      /* Consistent minimum width for all buttons */
+    height: 42px;          /* Uniform height */
+    white-space: nowrap;   /* Prevent text wrapping */
+    box-sizing: border-box; /* Prevents padding from breaking the width */
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background: #1a2e4a;
+}
+
+.btn-primary:hover {
+    background: #111f33; /* A little more dark on hover */
+}
+
+.btn-cancel {
+    text-decoration: none;
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+/* Cancel Button Style */
+.btn-secondary {
+    background: #ef4444; /* Red color for cancel */
+}
+
+.btn-secondary:hover {
+    background: #dc2626;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 600px;
+    animation: slideUp 0.3s ease-out;
+}
+
+.input-grid-modal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.search-input {
+    padding: 8px 15px; 
+    border-radius: 10px; 
+    border: 1px solid #ddd; 
+    outline: none;
+    font-family: inherit;
+}
+
+/* --- Table Styling --- */
+.gantavya-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+
+.gantavya-table th {
+    text-align: center; 
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.gantavya-table td { 
+    padding: 20px 0; 
+    border-bottom: 1px solid #f8fafc; 
+    font-size: 14px; 
+    text-align: center; 
+}
+
+.action-icons { 
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
+}
+
+/* Update these in your Buses.css */
+.status-dot {
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+.dot-green { background: #e6faf5; color: #05cd99; } /* For 'OPERATIONAL' */
+.dot-orange { background: #fff3e0; color: #ffb547; } /* For 'MAINTENANCE' */
+
+/* Search bar styling */
+.table-header input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(30, 107, 173, 0.1);
+}
+
+/* --- Action Icon Colors --- */
+
+
+.edit-link {
+    color: #1a2e4a; 
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+/* Danger Red for the Delete Dustbin */
+.delete-link {
+    color: #ef4444; 
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+/* Hover effects to make them interactive */
+.edit-link:hover {
+    color: #1a2e4a;
+    transform: scale(1.1);
+}
+
+.delete-link:hover {
+    color: #dc2626;
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
