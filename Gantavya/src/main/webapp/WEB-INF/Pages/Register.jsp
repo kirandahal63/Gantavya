@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label for="passengerName" class="form-label">Full Name</label>
                     <input type="text" id="passengerName" name="passengerName" class="form-input" 
-                        value="<%= request.getAttribute("passengerNameValue") != null ? request.getAttribute("passengerNameValue") : "" %>" required>
+                        value="<%= request.getAttribute("passengerNameValue") != null ? request.getAttribute("passengerNameValue") : (request.getParameter("name") != null ? request.getParameter("name") : "") %>" required>
                     <% if (request.getAttribute("nameError") != null) { %>
                         <span class="error-text"><%= request.getAttribute("nameError") %></span>
                     <% } %>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" id="email" name="email" class="form-input" 
-                        value="<%= request.getAttribute("emailValue") != null ? request.getAttribute("emailValue") : "" %>" required>
+                        value="<%= request.getAttribute("emailValue") != null ? request.getAttribute("emailValue") : (request.getParameter("email") != null ? request.getParameter("email") : "") %>" required>
                     <% if (request.getAttribute("emailError") != null) { %>
                         <span class="error-text"><%= request.getAttribute("emailError") %></span>
                     <% } %>

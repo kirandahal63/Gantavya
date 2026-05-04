@@ -37,6 +37,7 @@ public class AuthFilter implements Filter {
         boolean isPublic = path.equals("/login")
                         || path.equals("/Register")
                         //remove it later
+                        || path.equals("/auth/google")
                         || path.equals("/home")
                         || path.equals("/password-reset")
                         || path.equals("/admin")
