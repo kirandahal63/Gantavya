@@ -19,16 +19,13 @@
             <a href="#">Service <i class="fa fa-chevron-down"></i></a>
             <a href="#">Manage My Booking</a>
             <a href="#">Trip Tracker</a>
-            <a href="#">Help</a>
+            <a href="${pageContext.request.contextPath}/login">Login</a>
         </div>
         <div class="lang"><i class="fa fa-globe"></i> English</div>
     </div>
 </nav>
 
 <header class="hero">
-    <div class="hero-content">
-        <h1>Low cost bus and train travel</h1>
-    </div>
     
     <div class="search-overlay container">
         <div class="search-card">
@@ -41,7 +38,7 @@
                     <label>From</label>
                     <div class="inner-input">
                         <i class="fa-solid fa-location-dot"></i>
-                        <input type="text" placeholder="Berlin">
+                        <input type="text" placeholder="Kathmandu">
                         <i class="fa-solid fa-arrows-left-right-to-line swap"></i>
                     </div>
                 </div>
@@ -49,7 +46,7 @@
                     <label>To</label>
                     <div class="inner-input">
                         <i class="fa-solid fa-location-dot"></i>
-                        <input type="text" placeholder="Hamburg">
+                        <input type="text" placeholder="Pokhara">
                     </div>
                 </div>
                 <div class="box">

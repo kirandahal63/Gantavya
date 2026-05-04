@@ -24,8 +24,10 @@
 %>
 <nav class="navbar">
     <div class="navbar-brand">
-        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
-    </div>
+	    <a href="${pageContext.request.contextPath}/home">
+	        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
+	    </a>
+	</div>
     <ul class="nav-links">
         <li><a href="${pageContext.request.contextPath}/">Plan Your Journey ▾</a></li>
         <li><a href="${pageContext.request.contextPath}/services">Service ▾</a></li>
@@ -123,7 +125,7 @@
                         <input type="checkbox" name="rememberMe" id="rememberMe">
                         <span>Remember me</span>
                     </label>
-                    <a href="${pageContext.request.contextPath}/forgot-password" class="forgot-link">
+                    <a href="javascript:void(0)" onclick="handleForgotPassword()" class="forgot-link">
                         Forgot Password?
                     </a>
                 </div>
@@ -176,6 +178,61 @@
         const isHidden = input.type === 'password';
         input.type = isHidden ? 'text' : 'password';
         icon.textContent = isHidden ? '🙈' : '👁';
+    }
+
+    function handleForgotPassword() {
+        const email = document.getElementById('email').value.trim();
+        if (!email) {
+            alert('Please enter your email address in the Email field first.');
+            return;
+        }
+
+        // Send AJAX request to /password-reset
+        fetch('${pageContext.request.contextPath}/password-reset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=generate&email=' + encodeURIComponent(email)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to the reset password page
+                window.location.href = '${pageContext.request.contextPath}/password-reset';
+            } else {
+                alert(data.message || 'Error occurred while processing request.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+        });
+    }
+    
+    
+    function handleForgotPassword() {
+        const email = document.getElementById('email').value;
+        if (!email) {
+            alert("Please enter your email first.");
+            return;
+        }
+
+        // Trigger the 'generate' action via fetch
+        fetch('${pageContext.request.contextPath}/password-reset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=generate&email=' + encodeURIComponent(email)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to the reset page once OTP is generated in session
+                window.location.href = '${pageContext.request.contextPath}/password-reset';
+            } else {
+                alert(data.message);
+            }
+        });
     }
 </script>
 

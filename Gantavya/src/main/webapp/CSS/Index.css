@@ -30,13 +30,6 @@ body { background-color: #f8f9fa; color: var(--text-dark); line-height: 1.6; }
     display: flex;
     align-items: center;
 }
-.hero-content h1 {
-    color: white;
-    font-size: 48px;
-    font-weight: 700;
-    margin-left: 10%;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
 
 /* SEARCH OVERLAY */
 .search-overlay { position: absolute; bottom: -80px; left: 0; right: 0; z-index: 10; }

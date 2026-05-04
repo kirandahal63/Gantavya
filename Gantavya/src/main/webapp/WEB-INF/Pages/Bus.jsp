@@ -53,8 +53,8 @@
                     <div class="input-group">
                         <label>Status</label>
                         <select name="status">
-                            <option value="OPERATIONAL">Operating</option>
-                            <option value="MAINTENANCE">In Maintenance</option>
+                            <option value="OPERATING">Operating</option>
+                            <option value="IN MAINTENANCE">In Maintenance</option>
                         </select>
                     </div>
                     <div class="btn-group-row" style="display: flex; gap: 15px; align-items: flex-end;">
@@ -98,7 +98,7 @@
                         <div class="input-group">
                             <label>Status</label>
                             <select name="status">
-                                <option value="OPERATIONAL" ${editableBus.status == 'OPERATIONAL' ? 'selected' : ''}>Operating</option>
+                                <option value="OPERATING" ${editableBus.status == 'OPERATING' ? 'selected' : ''}>Operating</option>
                                 <option value="MAINTENANCE" ${editableBus.status == 'MAINTENANCE' ? 'selected' : ''}>In Maintenance</option>
                             </select>
                         </div>
@@ -142,7 +142,7 @@
                         <td>${bus.busType}</td>
                         <td>${bus.capacity} Seats</td>
                         <td>
-                            <span class="status-dot ${bus.status == 'OPERATIONAL' ? 'dot-green' : 'dot-orange'}">
+                            <span class="status-dot ${bus.status == 'OPERATING' ? 'dot-green' : 'dot-orange'}">
                                 ${bus.status}
                             </span>
                         </td>

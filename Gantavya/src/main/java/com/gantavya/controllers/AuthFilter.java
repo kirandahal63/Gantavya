@@ -38,6 +38,7 @@ public class AuthFilter implements Filter {
                         || path.equals("/Register")
                         //remove it later
                         || path.equals("/home")
+                        || path.equals("/password-reset")
                         || path.equals("/admin")
                         || path.equals("/bus")
                         || path.equals("/route")

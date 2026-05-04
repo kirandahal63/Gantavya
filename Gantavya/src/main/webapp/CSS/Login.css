@@ -5,7 +5,6 @@
 :root {
     --navy:        #1a2e4a;      /* Dark navy – nav bar, login button */
     --navy-light:  #1f3a5f;
-    --teal:        #0a9396;      /* Accent teal – logo, link hover */
     --white:       #ffffff;
     --off-white:   #f8f9fb;
     --input-bg:    #f1f4f8;
@@ -334,7 +333,7 @@ html, body {
 }
 
 .register-link {
-    color: var(--teal);
+    color: var(--navy);
     font-weight: 600;
     text-decoration: none;
     margin-left: 0.25rem;
@@ -342,7 +341,7 @@ html, body {
 }
 
 .register-link:hover {
-    color: var(--navy);
+    color: var(navy-light);
     text-decoration: underline;
 }
 

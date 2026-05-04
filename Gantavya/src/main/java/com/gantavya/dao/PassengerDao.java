@@ -107,11 +107,30 @@ public class PassengerDao {
 
 	        if (rs.next()) {
 	            String hashedPassword = rs.getString("Password");
-	            return BCrypt.checkpw(plainPassword, hashedPassword);
+	            try {
+	                return BCrypt.checkpw(plainPassword, hashedPassword);
+	            } catch (IllegalArgumentException e) {
+	                // Fallback for plain-text passwords in the database
+	                return plainPassword.equals(hashedPassword);
+	            }
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	    return false;
+	}
+
+	public boolean updatePassword(String email, String plainPassword) {
+	    String query = "UPDATE passenger SET Password = ? WHERE Email = ?";
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(query)) {
+	        String hashedPassword = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+	        pstmt.setString(1, hashedPassword);
+	        pstmt.setString(2, email);
+	        return pstmt.executeUpdate() > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 }
