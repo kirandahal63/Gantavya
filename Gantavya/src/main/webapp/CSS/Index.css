@@ -48,6 +48,9 @@ body { background-color: #f8f9fa; color: var(--text-dark); line-height: 1.6; }
 .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 140px; gap: 10px; align-items: flex-end; }
 .box label { display: block; font-size: 12px; color: var(--text-grey); margin-bottom: 5px; font-weight: bold; }
 .inner-input { 
+	position: relative; /* Essential for the date picker overlay */
+    display: flex;
+    align-items: center;
     border: 1px solid var(--border-light); 
     border-radius: 4px; 
     padding: 12px; 
@@ -227,3 +230,197 @@ main { margin-top: 220px; }
     .route-grid { grid-template-columns: 1fr; }
 }
 
+/* HORIZONTAL DATE SELECTOR */
+.date-selector-container {
+    margin-top: 15px;
+    display: none; /* Hidden by default */
+}
+
+.date-bar {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+}
+
+.date-item {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #999;
+    transition: all 0.3s ease;
+    border-right: 1px solid #eee;
+}
+
+.date-item:last-child { border-right: none; }
+
+.date-item.active {
+    background: white;
+    color: var(--text-dark);
+    font-weight: bold;
+    border-top: 3.5px solid var(--primary-blue); /* Blue line underline from image */
+}
+
+.date-item:not(.active):hover {
+    background: #f0f0f0;
+}
+
+/* BOOKING RESULTS CARDS */
+.booking-results {
+    margin-top: 10px;
+}
+
+.results-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0; /* Ensure no extra padding is adding space */
+    border: none; /* Remove any lines */
+}
+
+.filter-btn {
+    border: 1px solid var(--border-light);
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.search-result-card {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Left side takes space, right side fits content */
+    align-items: center;            /* This centers the right column vertically */
+    gap: 15px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.search-result-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.result-main {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.brand-badge {
+    background: #e6f4ea;
+    color: #1e7e34;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.trip-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.time {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.duration-line {
+    flex-grow: 0.2;
+    height: 1px;
+    background: #eee;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.duration-text {
+    position: absolute;
+    top: -10px;
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    color: var(--text-grey);
+}
+
+.station-names {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.amenities {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.amenity-pill {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: var(--text-grey);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.amenities i { color: #888; font-size: 14px; }
+
+.status-tag { color: #666; font-size: 12px; display: flex; align-items: center; gap: 5px; }
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertical center */
+    align-items: center;     /* Horizontal center */
+    text-align: center;
+    min-width: 120px;        /* Ensures a consistent width for the right side */
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 10px;     /* Space between price and button */
+    display: block;
+}
+
+.price span { font-size: 14px; vertical-align: top; margin-right: 2px; }
+
+.continue-btn {
+    background: #1E6BAD;/* Green color from image */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+
+.continue-btn:hover { background: var(--primary-blue); }

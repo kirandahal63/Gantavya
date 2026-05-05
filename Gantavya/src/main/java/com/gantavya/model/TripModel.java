@@ -12,6 +12,7 @@ public class TripModel {
     private String source;
     private String destination;
     private int availableSeats;
+    private String busType;
 
     public TripModel() {}
 
@@ -111,5 +112,12 @@ public class TripModel {
 
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
+    }
+    public String getBusType() {
+        return busType;
+    }
+
+    public void setBusType(String busType) {
+        this.busType = busType;
     }
 }

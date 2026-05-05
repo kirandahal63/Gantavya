@@ -39,13 +39,17 @@ public class AuthFilter implements Filter {
                         //remove it later
                         || path.equals("/auth/google")
                         || path.equals("/home")
+                        || path.equals("/booking")
+                        || path.equals("/404error.jsp")
+                        || path.equals("/500error.jsp")
+                        || path.equals("/error")
                         || path.equals("/password-reset")
                         || path.equals("/admin")
                         || path.equals("/bus")
                         || path.equals("/route")
                         || path.startsWith("/CSS/")
                         || path.startsWith("/images/")
-                        || path.equals("/");          // root / index page
+                        || path.equals("/");          
 
         if (isPublic) {
             chain.doFilter(request, response);

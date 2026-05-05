@@ -147,4 +147,40 @@ public class TripDao {
         }
         return trips;
     }
+    
+    public List<TripModel> searchTrips(String from, String to, String date) {
+        List<TripModel> trips = new ArrayList<>();
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity, " +
+                "(b.Capacity - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
+                "FROM trip t " +
+                "JOIN route r ON t.RouteID = r.RouteID " +
+                "JOIN bus b ON t.BusID = b.BusID " +
+                "WHERE r.RouteOrigin LIKE ? AND r.RouteDestination LIKE ? AND t.DepartureDate LIKE ? AND t.TripStatus IN ('ACTIVE', 'SCHEDULED')";
+
+        try (Connection conn = getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, from == null ? "%" : "%" + from + "%");
+            ps.setString(2, to == null ? "%" : "%" + to + "%");
+            ps.setString(3, (date == null || date.isEmpty()) ? "%" : date + "%");
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                TripModel trip = new TripModel();
+                trip.setTripId(rs.getString("TripID"));
+                trip.setDepartureDate(rs.getString("DepartureDate"));
+                trip.setArrivalDate(rs.getString("Arrival Date"));
+                trip.setFare(rs.getLong("Fare"));
+                trip.setSource(rs.getString("RouteOrigin"));
+                trip.setDestination(rs.getString("RouteDestination"));
+                trip.setBusType(rs.getString("BusType"));
+                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
+                trips.add(trip);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return trips;
+    }
 }

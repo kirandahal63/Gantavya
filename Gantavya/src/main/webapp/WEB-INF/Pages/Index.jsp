@@ -40,7 +40,7 @@
                                 <label>From</label>
                                 <div class="inner-input">
                                     <i class="fa-solid fa-location-dot"></i>
-                                    <input type="text" placeholder="Kathmandu">
+                                    <input type="text" id="from-location" placeholder="Kathmandu">
                                     <i class="fa-solid fa-arrows-left-right-to-line swap"></i>
                                 </div>
                             </div>
@@ -48,26 +48,35 @@
                                 <label>To</label>
                                 <div class="inner-input">
                                     <i class="fa-solid fa-location-dot"></i>
-                                    <input type="text" placeholder="Pokhara">
+                                    <input type="text" id="to-location" placeholder="Pokhara">
                                 </div>
                             </div>
                             <div class="box">
                                 <label>Departure</label>
-                                <div class="inner-input">
+                                <div class="inner-input" onclick="document.getElementById('real-date').showPicker()"
+                                    style="cursor: pointer;">
                                     <i class="fa-regular fa-calendar"></i>
-                                    <input type="text" placeholder="Today, 10 Apr">
+                                    <input type="text" id="departure-date" placeholder="Today, 5 May" readonly
+                                        style="cursor: pointer;">
+                                    <input type="date" id="real-date"
+                                        style="position: absolute; opacity: 0; width: 0; height: 0;"
+                                        onchange="handleDateSelection(this.value)">
                                 </div>
                             </div>
                             <div class="box">
                                 <label>Passengers / Bikes</label>
                                 <div class="inner-input">
                                     <i class="fa-solid fa-user-group"></i>
-                                    <select>
-                                        <option>1 Adult</option>
+                                    <select id="passengers">
+                                        <option value="1">1 Adult</option>
+                                        <option value="2">2 Adults</option>
+                                        <option value="3">3 Adults</option>
+                                        <option value="4">4 Adults</option>
+                                        <option value="5">5 Adults</option>
                                     </select>
                                 </div>
                             </div>
-                            <button class="search-btn">Search</button>
+                            <button class="search-btn" onclick="performSearch()">Search</button>
                         </div>
                         <div class="accommodation">
                             <input type="checkbox" checked id="acc">
@@ -80,7 +89,7 @@
             <main class="container">
                 <!-- Header updated to "UPCOMING TRIPS" -->
                 <!-- BOTTOM PROMO CARDS MOVED UP -->
-                
+
                 <!-- Header updated to "UPCOMING TRIPS" -->
                 <div class="section-head">
                     <h2>UPCOMING TRIPS</h2>
@@ -124,7 +133,7 @@
                         </div>
                     </c:forEach>
                 </div>
-                
+
                 <div class="promo-flex" style="margin-bottom: 40px;">
                     <div class="promo-blue">
                         <h2>THE NEW STANDARD OF BUS TRAVEL.</h2>
@@ -140,6 +149,54 @@
 
             </main>
 
+            <script>
+                function swapLocations() {
+                    const from = document.getElementById('from-location');
+                    const to = document.getElementById('to-location');
+                    const temp = from.value || from.placeholder;
+                    from.value = to.value || to.placeholder;
+                    to.value = temp;
+                }
+
+                function performSearch() {
+                    const from = document.getElementById('from-location').value || 'Kathmandu';
+                    const to = document.getElementById('to-location').value || 'Pokhara';
+                    const date = document.getElementById('real-date').value || document.getElementById('real-date').min;
+                    const passengers = document.getElementById('passengers').value;
+
+                    window.location.href = `${pageContext.request.contextPath}/booking?from=${from}&to=${to}&date=${date}&passengers=${passengers}`;
+                }
+
+                function handleDateSelection(val) {
+                    if (!val) return;
+                    
+                    // Safe parsing of YYYY-MM-DD to local date
+                    const [y, m, d] = val.split('-').map(Number);
+                    const selected = new Date(y, m - 1, d);
+                    
+                    const today = new Date();
+                    today.setHours(0,0,0,0);
+                    selected.setHours(0,0,0,0);
+
+                    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+                    if (selected.getTime() === today.getTime()) {
+                        document.getElementById('departure-date').value = "Today, " + selected.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+                    } else {
+                        document.getElementById('departure-date').value = selected.toLocaleDateString('en-US', options);
+                    }
+                }
+
+                // Initialize date dynamically
+                const today = new Date();
+                const formattedToday = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+                document.getElementById('departure-date').value = "Today, " + formattedToday;
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                const todayStr = `${yyyy}-${mm}-${dd}`;
+                document.getElementById('real-date').value = todayStr;
+                document.getElementById('real-date').min = todayStr;
+            </script>
         </body>
 
         </html>
