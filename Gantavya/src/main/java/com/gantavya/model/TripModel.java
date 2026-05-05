@@ -9,6 +9,9 @@ public class TripModel {
     private String routeId;
     private String busId;
     private String staffId;
+    private String source;
+    private String destination;
+    private int availableSeats;
 
     public TripModel() {}
 
@@ -85,5 +88,28 @@ public class TripModel {
 
     public void setStaffId(String staffId) {
         this.staffId = staffId;
+    }
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
     }
 }

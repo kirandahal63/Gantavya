@@ -155,8 +155,7 @@
                  data-theme="outline"
                  data-text="signin_with"
                  data-size="large"
-                 data-logo_alignment="left"
-                 style="display: flex; justify-content: center; width: 100%; margin-bottom: 20px;">
+                 data-logo_alignment="left">
             </div>
 
             <!-- ── Register Link ──────────────────────────────── -->

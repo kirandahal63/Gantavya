@@ -327,6 +327,7 @@ html, body {
 
 /* ── Register Prompt ───────────────────────────────────────── */
 .register-prompt {
+	margin:20px;
     text-align: center;
     font-size: 0.875rem;
     color: var(--text-light);

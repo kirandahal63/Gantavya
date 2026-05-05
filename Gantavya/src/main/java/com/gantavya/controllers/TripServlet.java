@@ -55,9 +55,9 @@ public class TripServlet extends HttpServlet {
 
         // Fetch Dropdown Data
         List<BusModel> allBuses = busDao.getAllBuses("");
-        // Filter only OPERATIONAL buses
+        // Filter only OPERATING buses
         List<BusModel> operatingBuses = allBuses.stream()
-            .filter(b -> "OPERATIONAL".equalsIgnoreCase(b.getStatus()))
+            .filter(b -> "OPERATING".equalsIgnoreCase(b.getStatus()))
             .collect(Collectors.toList());
         request.setAttribute("busList", operatingBuses);
 

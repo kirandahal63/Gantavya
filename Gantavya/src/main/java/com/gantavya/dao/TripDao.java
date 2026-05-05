@@ -113,10 +113,13 @@ public class TripDao {
     
     public List<TripModel> getUpcomingTrips() {
         List<TripModel> trips = new ArrayList<>();
-        // JOINing with route table to get Source/Destination names
-        String query = "SELECT t.*, r.Source, r.Destination FROM trip t " +
-                       "JOIN route r ON t.RouteID = r.RouteID " +
-                       "WHERE t.TripStatus = 'ACTIVE' LIMIT 6";
+        // Change r.Source to r.RouteOrigin and r.Destination to r.RouteDestination
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity, " +
+                "(b.Capacity - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
+                "FROM trip t " +
+                "JOIN route r ON t.RouteID = r.RouteID " +
+                "JOIN bus b ON t.BusID = b.BusID " +
+                "WHERE t.TripStatus IN ('ACTIVE', 'SCHEDULED') LIMIT 6";
                        
         try (Connection conn = getConnection(); 
              PreparedStatement ps = conn.prepareStatement(query);
@@ -128,9 +131,15 @@ public class TripDao {
                 trip.setDepartureDate(rs.getString("DepartureDate"));
                 trip.setArrivalDate(rs.getString("Arrival Date"));
                 trip.setFare(rs.getLong("Fare"));
-                // Assuming you add these temporary fields to TripModel or use RouteID
-                trip.setRouteId(rs.getString("Source") + " to " + rs.getString("Destination")); 
-                trip.setBusId(rs.getString("BusID"));
+                
+                // IMPORTANT: Match these to the new names in the query above
+                String origin = rs.getString("RouteOrigin");
+                String destination = rs.getString("RouteDestination");
+                
+                trip.setSource(origin); 
+                trip.setDestination(destination);
+                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
+                
                 trips.add(trip);
             }
         } catch (Exception e) {
