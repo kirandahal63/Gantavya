@@ -1,6 +1,6 @@
 @charset "UTF-8";
 :root {
-    --primary-blue: #1a2a4e;
+    --primary-blue: #1a2e4a;
     --accent-blue: #3a5a92;
     --bg-light: #f4f7ff;
     --white: #ffffff;
@@ -18,38 +18,67 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
-
-/* Hero Section with Blobs */
+/* Hero Section Refined */
 .hero {
     background-color: var(--bg-light);
-    padding: 80px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -100px; right: -100px;
-    width: 500px; height: 500px;
-    background: var(--accent-blue);
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    opacity: 0.1;
-    z-index: 0;
-}
-
-.hero-flex {
+    background-image: url("../images/about.png");
+    background-repeat: no-repeat;
+    
+    /* This anchors the bus to the right side so it doesn't collide with your text */
+    background-position: right center; 
+    
+    /* 'contain' keeps the full bus visible; change to 'cover' if you want it to bleed off-edge */
+    background-size: cover; 
+    
+    padding: 100px 0; 
+    min-height: 70vh; 
     display: flex;
     align-items: center;
-    gap: 40px;
     position: relative;
-    z-index: 1;
+    justify-content: flex-start; 
 }
 
-.hero-text h1 {
-    font-size: 3rem;
-    color: var(--primary-blue);
-    margin-bottom: 10px;
+.hero .container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; /* Aligns the text box to the far left of the container */
+}
+
+.hero-text {
+    /* Limit width so it stays within the white space on the left */
+    max-width: 480px; 
+    z-index: 2;
+    background: transparent; 
+    padding: 0;
+    margin-top: -130px;
+    /* Adding a slight left margin to breathe away from the screen edge */
+    margin-left: 20px; 
+    text-align:justify;
+}
+
+/* Responsive Fix for all screens */
+@media (max-width: 1200px) {
+    .hero {
+        /* On smaller screens, we shrink the background size so the bus stays right */
+        background-size: 50%; 
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        /* On mobile, stack them vertically */
+        background-position: bottom center;
+        background-size: 80%;
+        padding-bottom: 300px; /* Space for the bus at the bottom */
+    }
+    .hero-text {
+        max-width: 100%;
+        text-align: center;
+        margin-left: 0;
+    }
+    .title-line {
+        margin: 0 auto 25px auto; /* Centers the line on mobile */
+    }
 }
 
 .title-line {
@@ -57,29 +86,14 @@ body {
     height: 4px;
     background: var(--primary-blue);
     border: none;
-    margin: 0 0 20px 0;
+    margin: 0 0 25px 0;
 }
 
-.btn-learn {
-    background: var(--primary-blue);
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.hero-image img {
-    width: 100%;
-    max-width: 600px;
-}
-
-/* Stats Bar */
+/* Ensure Stats bar stays visible on the same screen */
 .stats-bar {
     padding: 40px 0;
     background: white;
-    text-align: center;
+    /*border-top: 1px solid rgba(0,0,0,0.05);*/
 }
 
 .stats-flex {
@@ -95,7 +109,7 @@ body {
 
 /* Team Section */
 .team-section {
-    background: #2b0066; /* Deep Purple from Image */
+    background: var(--primary-blue); 
     color: white;
     padding: 80px 0;
     text-align: center;
@@ -127,6 +141,7 @@ body {
 .mission-section {
     padding: 80px 0;
     background: var(--white);
+    text-align: center;
 }
 
 .mission-grid {
@@ -139,7 +154,8 @@ body {
 .mission-card {
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: justify;
+    box-shadow: 0 10px 30px rgba(26, 46, 74, 0.05);
     border: 1px solid #eee;
 }
 

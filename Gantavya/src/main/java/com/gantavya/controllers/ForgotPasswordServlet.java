@@ -130,12 +130,12 @@ public class ForgotPasswordServlet extends HttpServlet {
             session.setAttribute("resetOtp", otp);
             session.setAttribute("otpTime", System.currentTimeMillis());
 
-            String subject = "Gantavya - New Verification Code";
+            String subject = "Gantavya: Verification Code";
             String body = "Hello,\n\n"
                         + "Your new verification code is: " + otp + "\n"
                         + "This code will expire in 1 minute.\n\n"
-                        + "Regards,\n"
-                        + "Gantavya Team";
+                        + "Best Regards,\n"
+                        + "Operations, Gantavya";
 
             boolean emailSent = EmailUtil.sendEmail(email, subject, body);
             if (emailSent) {

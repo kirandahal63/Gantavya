@@ -11,82 +11,90 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container hero-flex">
-            <div class="hero-text">
-                <h1>ABOUT US</h1>
-                <hr class="title-line">
-                <p>At Gantavya, we believe that every journey should be as remarkable as the destination itself. As a modern intercity bus travel company based in Nepal, we are dedicated to bridging the gap between comfort, reliability, and our rich cultural heritage.</p>
-                <button class="btn-learn">Learn More</button>
-            </div>
-            <div class="hero-image">
-                <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Bus">
-            </div>
-        </div>
-    </section>
+	    <div class="container">
+	        <div class="hero-text">
+	            <h1>ABOUT US</h1>
+	            <hr class="title-line">
+	            <p>At Gantavya, we believe that every journey should be as remarkable as the destination itself. As a modern intercity bus travel company based in Nepal, we are dedicated to bridging the gap between comfort, reliability, and our rich cultural heritage.</p>
 
-    <!-- Stats Bar -->
+	        </div>
+	    </div>
+	</section>
+   <!-- Stats Bar -->
     <section class="stats-bar">
         <div class="container stats-flex">
             <div class="stat-item"><h2>10+</h2><p>Years Experience</p></div>
-            <div class="stat-item"><h2>99%</h2><p>Accuracy Rate</p></div>
+            <div class="stat-item"><h2>4.7+</h2><p>Ratings</p></div>
             <div class="stat-item"><h2>500+</h2><p>Positive Reviews</p></div>
             <div class="stat-item"><h2>600+</h2><p>Trusted Partners</p></div>
         </div>
-    </section>
-
+    </section> 
     <!-- Team Section -->
     <section class="team-section">
         <div class="container">
             <div class="team-header">
                 <h2>Let's Meet Our Team</h2>
-                <p>Get the proper travel consultation from our experts. We are here to consult you as per your needs.</p>
+                <p>Behind every successful journey is a dedicated team of<br> logistics experts and hospitality professionals committed to your comfort.</p>
             </div>
             <div class="team-grid">
                 <div class="team-card">
-                    <div class="img-circle"><img src="images/wade.jpg" alt="Wade"></div>
-                    <h3>Wade Warren</h3>
-                    <p>Executive</p>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/founder.jpg" alt="Founder"></div>
+                    <h3>Ray Dahal</h3>
+                    <p>Founder</p>
                 </div>
                 <div class="team-card">
-                    <div class="img-circle"><img src="images/jerome.jpg" alt="Jerome"></div>
-                    <h3>Jerome Bell</h3>
-                    <p>Manager</p>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/coo.jpg" alt="COO"></div>
+                    <h3>Anil Shrestha</h3>
+                    <p>Chief Operating Officer</p>
                 </div>
                 <div class="team-card">
-                    <div class="img-circle"><img src="images/arlene.jpg" alt="Arlene"></div>
-                    <h3>Arlene McCoy</h3>
-                    <p>Operations</p>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cordinator.jpg" alt="Cordinator"></div>
+                    <h3>Suman Thapa</h3>
+                    <p>Regional Coordinator</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/ce.png" alt="CE"></div>
+                    <h3>Prerana Joshi</h3>
+                    <p>Experience Manager</p>
+                </div>
+                <div class="team-card">
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cto.jpg" alt="cto"></div>
+                    <h3>Aditya Joshi</h3>
+                    <p>Chief Technology Officer</p>
                 </div>
             </div>
         </div>
     </section>
+    
+  	 
 
     <!-- Mission Section -->
     <section class="mission-section">
         <div class="container">
             <h2>A Mission Rooted in Community</h2>
-            <p class="mission-subtext">We started with a simple goal: to make transit feel less like a chore and more like a service that respects your time and your journey.</p>
+            <p class="mission-subtext">We started with a simple goal: to make transit feel less like a chore and more like a service <br>that respects your time and your journey.</p>
             
             <div class="mission-grid">
                 <div class="mission-card">
                     <div class="icon">🌐</div>
                     <h3>Connected Routes</h3>
-                    <p>Smarter mapping that links communities together without the friction of traditional travel.</p>
+                    <p>Strategically mapping the veins of Nepal from the vibrant streets of Kathmandu to the serene lakes of Pokhara and beyond.</p>
                 </div>
                 <div class="mission-card">
                     <div class="icon">🛡️</div>
                     <h3>Safety Standards</h3>
-                    <p>Exceeding industry benchmarks with a fleet maintained to meticulous perfection.</p>
+                    <p>Exceeding industry benchmarks with a rigorously maintained bus and staffs trained for the demands of intercity travel.</p>
                 </div>
                 <div class="mission-card">
                     <div class="icon">👥</div>
                     <h3>People First</h3>
-                    <p>Training our team to provide a travel experience that is as warm as it is efficient.</p>
+                    <p>Every interaction is an opportunity to provide a travel experience that feels as warm as it is efficient.</p>
                 </div>
                 <div class="mission-card">
                     <div class="icon">🍃</div>
                     <h3>Sustainability</h3>
-                    <p>Investing in low-emission technology to keep our world moving without harming it.</p>
+                    <p>Investing in low-emission technology to ensure that as we explore the beauty of Nepal, we also protect it for the next generation.</p>
                 </div>
             </div>
         </div>
