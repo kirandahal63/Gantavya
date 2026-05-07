@@ -24,7 +24,7 @@
         </div>
     </nav>
 
-    <div class="booking-header" style="background: #f8f9fa; padding: 40px 0; border-bottom: 1px solid #eee;">
+    <div class="booking-header" style="background: #f8f9fa; padding: 40px 0;">
         <div class="container">
             <div class="search-card">
                 <div class="trip-type">
@@ -123,7 +123,7 @@
             font-weight: 600;
         }
         .time-column .time {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
             color: #1a1a1a;
         }
@@ -170,8 +170,8 @@
             padding-left: 20px;
         }
         .price {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 600;
             color: #1a1a1a;
             margin-bottom: 15px;
         }
@@ -195,7 +195,7 @@
         .book-btn:hover { background: #154d82; }
 
         .brand-badge {
-            background: #1a2e4aeb; 
+            background: #274d8291; 
             color: white;
             padding: 4px 12px;
             border-radius: 20px;

@@ -47,6 +47,7 @@ public class AuthFilter implements Filter {
                         || path.equals("/admin")
                         || path.equals("/bus")
                         || path.equals("/route")
+                        || path.startsWith("/about")
                         || path.startsWith("/CSS/")
                         || path.startsWith("/images/")
                         || path.equals("/");          

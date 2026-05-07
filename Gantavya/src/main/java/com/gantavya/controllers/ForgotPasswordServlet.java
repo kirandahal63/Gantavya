@@ -1,6 +1,7 @@
 package com.gantavya.controllers;
 
 import com.gantavya.dao.PassengerDao;
+import com.gantavya.util.EmailUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -51,20 +52,45 @@ public class ForgotPasswordServlet extends HttpServlet {
             String otp = String.format("%06d", new Random().nextInt(999999));
             session.setAttribute("resetOtp", otp);
             session.setAttribute("resetEmail", email);
+            session.setAttribute("otpTime", System.currentTimeMillis());
 
-            // Print OTP to console instead of sending email (since JavaMail is not set up)
-            System.out.println("==================================================");
-            System.out.println("Password Reset Request for: " + email);
-            System.out.println("Your Verification Code is: " + otp);
-            System.out.println("==================================================");
+            // Send Email
+            String subject = "Gantavya - Password Reset Verification Code";
+            String body = "Hello,\n\n"
+                        + "You requested a password reset. Your verification code is: " + otp + "\n"
+                        + "This code will expire in 1 minute.\n\n"
+                        + "If you did not request this, please ignore this email.\n\n"
+                        + "Regards,\n"
+                        + "Gantavya Team";
+            
+            boolean emailSent = EmailUtil.sendEmail(email, subject, body);
 
-            out.print("{\"success\": true, \"message\": \"Verification code sent to email\"}");
+            if (emailSent) {
+                out.print("{\"success\": true, \"message\": \"Verification code sent to email\"}");
+            } else {
+                // Fallback: still print to console if email fails
+                System.out.println("FAILED TO SEND EMAIL TO: " + email);
+                System.out.println("Verification Code: " + otp);
+                out.print("{\"success\": false, \"message\": \"Failed to send email. Please check server logs.\"}");
+            }
 
         } else if ("verify".equals(action)) {
             String code = request.getParameter("code");
             String storedOtp = (String) session.getAttribute("resetOtp");
+            Long otpTime = (Long) session.getAttribute("otpTime");
 
-            if (storedOtp != null && storedOtp.equals(code)) {
+            if (storedOtp == null || otpTime == null) {
+                out.print("{\"success\": false, \"message\": \"No OTP requested or session expired.\"}");
+                return;
+            }
+
+            // Check expiration (1 minute = 60,000 ms)
+            if (System.currentTimeMillis() - otpTime > 60000) {
+                out.print("{\"success\": false, \"message\": \"Verification code has expired. Please resend.\"}");
+                return;
+            }
+
+            if (storedOtp.equals(code)) {
                 out.print("{\"success\": true}");
             } else {
                 out.print("{\"success\": false, \"message\": \"Invalid verification code\"}");
@@ -93,6 +119,31 @@ public class ForgotPasswordServlet extends HttpServlet {
             } else {
                 out.print("{\"success\": false, \"message\": \"Failed to update password\"}");
             }
+        } else if ("resend".equals(action)) {
+            String email = (String) session.getAttribute("resetEmail");
+            if (email == null) {
+                out.print("{\"success\": false, \"message\": \"Session expired. Please start over.\"}");
+                return;
+            }
+
+            String otp = String.format("%06d", new Random().nextInt(999999));
+            session.setAttribute("resetOtp", otp);
+            session.setAttribute("otpTime", System.currentTimeMillis());
+
+            String subject = "Gantavya - New Verification Code";
+            String body = "Hello,\n\n"
+                        + "Your new verification code is: " + otp + "\n"
+                        + "This code will expire in 1 minute.\n\n"
+                        + "Regards,\n"
+                        + "Gantavya Team";
+
+            boolean emailSent = EmailUtil.sendEmail(email, subject, body);
+            if (emailSent) {
+                out.print("{\"success\": true, \"message\": \"New verification code sent\"}");
+            } else {
+                out.print("{\"success\": false, \"message\": \"Failed to resend code.\"}");
+            }
+
         } else {
             out.print("{\"success\": false, \"message\": \"Invalid action\"}");
         }

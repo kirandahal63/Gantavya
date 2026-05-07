@@ -41,7 +41,13 @@
                     <label for="code" class="form-label">Verification Code</label>
                     <input type="text" id="code" name="code" class="form-input" placeholder="Enter 6-digit code" required>
                 </div>
-                <button type="button" class="btn-login" onclick="verifyCode()">Verify</button>
+                <div id="timer-container" style="margin-bottom: 15px; font-size: 0.9rem; color: #666;">
+                    Code expires in: <span id="timer">60</span>s
+                </div>
+                <button type="button" class="btn-login" id="verify-btn" onclick="verifyCode()">Verify</button>
+                <div id="resend-container" style="margin-top: 15px; display: none;">
+                    Didn't receive code? <a href="javascript:void(0)" onclick="resendCode()" class="register-link">Resend Code</a>
+                </div>
             </div>
 
             <!-- Reset Password Section -->
@@ -72,6 +78,63 @@
 </main>
 
 <script>
+    let timeLeft = 60;
+    let timerId;
+
+    function startTimer() {
+        timeLeft = 60;
+        document.getElementById('timer').innerText = timeLeft;
+        document.getElementById('timer-container').style.display = 'block';
+        document.getElementById('resend-container').style.display = 'none';
+        document.getElementById('verify-btn').disabled = false;
+        
+        if (timerId) clearInterval(timerId);
+        
+        timerId = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer').innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                document.getElementById('timer-container').style.display = 'none';
+                document.getElementById('resend-container').style.display = 'block';
+                // document.getElementById('verify-btn').disabled = true; // Optional: disable verify button
+            }
+        }, 1000);
+    }
+
+    // Start timer on page load
+    window.onload = startTimer;
+
+    function resendCode() {
+        const errorMsg = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+
+        fetch('${pageContext.request.contextPath}/password-reset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=resend'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                successMsg.innerText = 'New verification code sent.';
+                successMsg.style.display = 'block';
+                errorMsg.style.display = 'none';
+                startTimer();
+            } else {
+                errorMsg.innerText = data.message || 'Failed to resend code.';
+                errorMsg.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            errorMsg.innerText = 'Something went wrong. Please try again.';
+            errorMsg.style.display = 'block';
+        });
+    }
+
     function verifyCode() {
         const code = document.getElementById('code').value.trim();
         const errorMsg = document.getElementById('error-msg');
