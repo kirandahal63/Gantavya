@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+}
+
+.main-wrapper {
+    padding: 80px 10% 0 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.contact-header {
+    margin-bottom: 40px;
+}
+
+
+
+.contact-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Form Styles */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-row {
+    display: flex;
+    gap: 20px;
+}
+
+.contact-form input, 
+.contact-form textarea {
+    width: 100%;
+    padding: 18px 25px;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.send-btn {
+    width: fit-content;
+    background-color: #1a2e4a;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.send-btn span {
+    background: #FFFFFF;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Info Box Styles */
+.info-box {
+    background-color: #1a2e4a;
+    padding: 30px 70px;
+    border-radius: 25px;
+}
+
+.info-section {
+    margin-bottom: 20px;
+}
+
+.info-box h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.info-box p {
+    font-size: 15px;
+    color: #cbcbcb;
+    line-height: 1.6;
+    margin: 5px 0;
+}
+
+.contact-footer-image {
+    width: 100vw;           /* Force width to be 100% of the Viewport Width */
+    position: relative;     /* Allow positioning relative to its normal spot */
+    left: 50%;             /* Move to the center of the screen */
+    right: 50%;            /* Balance the move */
+    margin-left: -50vw;    /* Pull it back to the absolute left edge */
+    margin-right: -50vw;   /* Pull it to the absolute right edge */
+    
+    margin-top: -60px;     /* Keep your overlap */
+    line-height: 0;        /* Removes bottom gap */
+    display: block;
+}
+
+.contact-footer-image img {
+    width: 100%;           /* Ensure image fills the now full-width container */
+    height: auto;
+    display: block;
+}
+/* Responsive */
+@media (max-width: 992px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+    .input-row {
+        flex-direction: column;
+    }
+}

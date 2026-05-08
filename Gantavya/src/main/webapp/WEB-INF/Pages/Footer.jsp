@@ -40,7 +40,7 @@
 	            <h3>Contact Us</h3>
 	            <p>01-5970012, 9801000400</p>
 	            <p>info@gantavya.com.np</p>
-	            <button class="enquire-btn">ENQUIRE NOW</button>
+	            <button class="enquire-btn" onclick="window.location.href='${pageContext.request.contextPath}/contact'"> ENQUIRE NOW </button>
 	        </div>
 	    </div>
 	
