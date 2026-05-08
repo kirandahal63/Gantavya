@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>About Us - Gantavya</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/About.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -99,6 +100,8 @@
             </div>
         </div>
     </section>
+    
+    <jsp:include page="Footer.jsp" />
 
 </body>
 </html>

@@ -148,7 +148,9 @@
                 </div>
 
             </main>
-
+            
+			<jsp:include page="Footer.jsp" />
+			
             <script>
                 function swapLocations() {
                     const from = document.getElementById('from-location');
@@ -159,12 +161,12 @@
                 }
 
                 function performSearch() {
-                    const from = document.getElementById('from-location').value || 'Kathmandu';
-                    const to = document.getElementById('to-location').value || 'Pokhara';
-                    const date = document.getElementById('real-date').value || document.getElementById('real-date').min;
+                    const from = document.getElementById('from-location').value || document.getElementById('from-location').placeholder;
+                    const to = document.getElementById('to-location').value || document.getElementById('to-location').placeholder;
+                    const date = document.getElementById('real-date').value;
                     const passengers = document.getElementById('passengers').value;
 
-                    window.location.href = `${pageContext.request.contextPath}/booking?from=${from}&to=${to}&date=${date}&passengers=${passengers}`;
+                    window.location.href = '<%= request.getContextPath() %>/booking?from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + encodeURIComponent(date) + '&passengers=' + encodeURIComponent(passengers);
                 }
 
                 function handleDateSelection(val) {
@@ -193,7 +195,7 @@
                 const yyyy = today.getFullYear();
                 const mm = String(today.getMonth() + 1).padStart(2, '0');
                 const dd = String(today.getDate()).padStart(2, '0');
-                const todayStr = `${yyyy}-${mm}-${dd}`;
+                const todayStr = yyyy + '-' + mm + '-' + dd;
                 document.getElementById('real-date').value = todayStr;
                 document.getElementById('real-date').min = todayStr;
             </script>

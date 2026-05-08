@@ -148,28 +148,70 @@ public class TripDao {
         return trips;
     }
     
+    private String expandLocationOnly(String loc) {
+        if (loc == null || loc.trim().isEmpty()) return "";
+        String l = loc.toLowerCase().trim();
+        if (l.equals("ktm")) return "Kathmandu";
+        if (l.equals("pkr")) return "Pokhara";
+        if (l.equals("bwt")) return "Butwal";
+        if (l.equals("brt")) return "Biratnagar";
+        if (l.equals("chitwan")) return "Chitwan";
+        return loc;
+    }
+
     public List<TripModel> searchTrips(String from, String to, String date) {
+        return searchTrips(from, to, date, 1);
+    }
+
+    public List<TripModel> searchTrips(String from, String to, String date, int passengers) {
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity, " +
-                "(b.Capacity - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, COALESCE(b.Capacity, 0) as Capacity, " +
+                "(COALESCE(b.Capacity, 0) - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
                 "FROM trip t " +
                 "JOIN route r ON t.RouteID = r.RouteID " +
                 "JOIN bus b ON t.BusID = b.BusID " +
-                "WHERE r.RouteOrigin LIKE ? AND r.RouteDestination LIKE ? AND t.DepartureDate LIKE ? AND t.TripStatus IN ('ACTIVE', 'SCHEDULED')";
+                "WHERE (r.RouteOrigin LIKE ? OR r.RouteOrigin LIKE ?) " +
+                "AND (r.RouteDestination LIKE ? OR r.RouteDestination LIKE ?) " +
+                "HAVING AvailableSeats >= ?";
 
         try (Connection conn = getConnection(); 
              PreparedStatement ps = conn.prepareStatement(query)) {
             
-            ps.setString(1, from == null ? "%" : "%" + from + "%");
-            ps.setString(2, to == null ? "%" : "%" + to + "%");
-            ps.setString(3, (date == null || date.isEmpty()) ? "%" : date + "%");
+            String fromExpanded = expandLocationOnly(from);
+            String toExpanded = expandLocationOnly(to);
+            int pCount = (passengers < 1) ? 1 : passengers;
+            
+            ps.setString(1, "%" + from + "%");
+            ps.setString(2, "%" + fromExpanded + "%");
+            ps.setString(3, "%" + to + "%");
+            ps.setString(4, "%" + toExpanded + "%");
+            ps.setInt(5, pCount);
+            
+            System.out.println("Executing SQL Search for Route: From=" + from + ", To=" + to + ", Seeking Date=" + date);
             
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
+                String dbDate = rs.getString("DepartureDate");
+                System.out.println("DEBUG: DB has trip on: " + dbDate);
+                
+                // If date is provided, filter in Java
+                if (date != null && !date.isEmpty()) {
+                    if (!dbDate.contains(date)) {
+                        String altDate = date; // fallback to DD-MM-YYYY check
+                        String[] p = date.split("-");
+                        if (p.length == 3) altDate = p[2] + "-" + p[1] + "-" + p[0];
+                        
+                        if (!dbDate.contains(altDate)) {
+                            System.out.println("DEBUG: Date mismatch (DB:" + dbDate + " vs Search:" + date + ")");
+                            continue; 
+                        }
+                    }
+                }
+                
                 TripModel trip = new TripModel();
                 trip.setTripId(rs.getString("TripID"));
-                trip.setDepartureDate(rs.getString("DepartureDate"));
+                trip.setDepartureDate(dbDate);
                 trip.setArrivalDate(rs.getString("Arrival Date"));
                 trip.setFare(rs.getLong("Fare"));
                 trip.setSource(rs.getString("RouteOrigin"));
