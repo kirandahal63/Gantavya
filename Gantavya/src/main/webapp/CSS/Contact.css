@@ -7,11 +7,13 @@ body {
 }
 
 .main-wrapper {
-    padding: 80px 10% 0 10%;
+    padding: 80px 0 0 0; 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden; /*Prevent horizontal scroll */
 }
-
 .contact-container {
     max-width: 1200px;
     width: 100%;
@@ -110,23 +112,45 @@ body {
 }
 
 .contact-footer-image {
-    width: 100vw;           /* Force width to be 100% of the Viewport Width */
-    position: relative;     /* Allow positioning relative to its normal spot */
-    left: 50%;             /* Move to the center of the screen */
-    right: 50%;            /* Balance the move */
-    margin-left: -50vw;    /* Pull it back to the absolute left edge */
-    margin-right: -50vw;   /* Pull it to the absolute right edge */
-    
-    margin-top: -60px;     /* Keep your overlap */
-    line-height: 0;        /* Removes bottom gap */
+    width: 100%;           /* Use 100% instead of 100vw to avoid scrollbars */
+    line-height: 0;        /* Removes the tiny gap below the image */
+    margin-top: 20px;      /* Gives some space instead of overlapping */
     display: block;
 }
 
 .contact-footer-image img {
-    width: 100%;           /* Ensure image fills the now full-width container */
+    width: 100%;
     height: auto;
     display: block;
 }
+/* Alert Styles */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    grid-column: span 2;
+}
+
+.success-alert {
+    background-color: #e6f7ef;
+    color: #1d8b5a;
+    border: 1px solid #c3eadd;
+}
+
+.error-alert {
+    background-color: #fdeaea;
+    color: #d32f2f;
+    border: 1px solid #f9cdcd;
+}
+
+.alert i {
+    font-size: 18px;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .contact-content {

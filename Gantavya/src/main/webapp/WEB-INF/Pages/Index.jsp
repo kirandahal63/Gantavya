@@ -11,22 +11,7 @@
         </head>
 
         <body>
-
-            <!-- Navbar precisely like image_ff7fbf.jpg -->
-            <nav class="navbar">
-                <div class="container nav-flex">
-                    <div class="logo">gantavya</div>
-                    <div class="menu">
-                        <a href="#">Plan Your Journey <i class="fa fa-chevron-down"></i></a>
-                        <a href="#">Service <i class="fa fa-chevron-down"></i></a>
-                        <a href="#">Manage My Booking</a>
-                        <a href="#">Trip Tracker</a>
-                        <a href="${pageContext.request.contextPath}/login">Login</a>
-                    </div>
-                    <div class="lang"><i class="fa fa-globe"></i> English</div>
-                </div>
-            </nav>
-
+			<jsp:include page="Navbar.jsp" />
             <header class="hero">
 
                 <div class="search-overlay container">

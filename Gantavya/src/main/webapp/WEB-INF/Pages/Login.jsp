@@ -23,20 +23,7 @@
         }
     }
 %>
-<nav class="navbar">
-    <div class="navbar-brand">
-	    <a href="${pageContext.request.contextPath}/home">
-	        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
-	    </a>
-	</div>
-    <ul class="nav-links">
-        <li><a href="${pageContext.request.contextPath}/">Plan Your Journey ▾</a></li>
-        <li><a href="${pageContext.request.contextPath}/services">Service ▾</a></li>
-        <li><a href="${pageContext.request.contextPath}/manage-booking">Manage My Booking</a></li>
-        <li><a href="${pageContext.request.contextPath}/trip-tracker">Trip Tracker</a></li>
-        <li><a href="${pageContext.request.contextPath}/help">Help</a></li>
-    </ul>
-</nav>
+<jsp:include page="Navbar.jsp" />
 
 <main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
  

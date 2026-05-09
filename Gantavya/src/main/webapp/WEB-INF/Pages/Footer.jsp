@@ -23,7 +23,7 @@
 	            <h3>Quick Links</h3>
 	            <ul>
 	            	<li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-	                <li><a href="${pageContext.request.contextPath}/booking">Booking</a></li>
+	                <li><a href="${pageContext.request.contextPath}/search">Booking</a></li>
 	                <li><a href="${pageContext.request.contextPath}/about">About US</a></li>
 	            </ul>
 	        </div>

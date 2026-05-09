@@ -14,15 +14,6 @@ body { background-color: #f8f9fa; color: var(--text-dark); line-height: 1.6; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* NAVBAR */
-.navbar { background: #1a2e4a; color: white; padding: 15px 0; font-size: 14px; }
-.nav-flex { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
-.menu a { color: white; text-decoration: none; margin: 0 15px; font-weight: 500; }
-.menu i { font-size: 10px; margin-left: 3px; }
-.lang { font-weight: 500; cursor: pointer; }
-
-
 .hero { 
     height: 480px; 
     background: url('../images/test.png') center/cover;

@@ -21,20 +21,19 @@ public class EmailUtil {
                 classLoader = EmailUtil.class.getClassLoader();
             }
 
-            InputStream input = classLoader.getResourceAsStream("email.properties");
+            InputStream input = EmailUtil.class.getClassLoader().getResourceAsStream("email.properties");
             
-            // Fallback 1: try without class loader (using Class.getResourceAsStream with absolute path)
             if (input == null) {
-                input = EmailUtil.class.getResourceAsStream("/email.properties");
+                input = Thread.currentThread().getContextClassLoader().getResourceAsStream("email.properties");
             }
             
-            // Fallback 2: try relative to the class if still null
             if (input == null) {
-                input = EmailUtil.class.getResourceAsStream("email.properties");
+                // Try absolute path in resources
+                input = EmailUtil.class.getResourceAsStream("/email.properties");
             }
 
             if (input == null) {
-                System.err.println("ERROR: email.properties not found in classpath!");
+                System.err.println("CRITICAL ERROR: email.properties not found in any classpath location!");
             } else {
                 config.load(input);
                 SENDER_EMAIL = config.getProperty("email");
@@ -42,6 +41,10 @@ public class EmailUtil {
                 
                 if (SENDER_EMAIL != null) SENDER_EMAIL = SENDER_EMAIL.trim();
                 if (APP_PASSWORD != null) APP_PASSWORD = APP_PASSWORD.trim();
+                
+                if (SENDER_EMAIL != null && !SENDER_EMAIL.isEmpty() && APP_PASSWORD != null && !APP_PASSWORD.isEmpty()) {
+                    System.out.println("EmailUtil: Configuration loaded successfully for " + SENDER_EMAIL);
+                }
                 
                 if (SENDER_EMAIL == null || SENDER_EMAIL.trim().isEmpty()) {
                     System.err.println("ERROR: 'email' property is missing or empty in email.properties");
@@ -72,6 +75,11 @@ public class EmailUtil {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", SMTP_HOST);
         props.put("mail.smtp.port", SMTP_PORT);
+        
+        // Reliability properties
+        props.put("mail.smtp.timeout", "10000"); // 10s timeout
+        props.put("mail.smtp.connectiontimeout", "10000"); // 10s connection timeout
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -87,10 +95,16 @@ public class EmailUtil {
             message.setSubject(subject);
             message.setText(body);
 
+            System.out.println("Sending email to " + recipientEmail + " via " + SMTP_HOST + "...");
             Transport.send(message);
+            System.out.println("Email sent successfully!");
             return true;
         } catch (MessagingException e) {
-            System.err.println("MessagingException while sending email to " + recipientEmail);
+            System.err.println("CRITICAL: MessagingException while sending email to " + recipientEmail);
+            System.err.println("Error details: " + e.getMessage());
+            if (e.getNextException() != null) {
+                System.err.println("Next Exception: " + e.getNextException().getMessage());
+            }
             e.printStackTrace();
             return false;
         }

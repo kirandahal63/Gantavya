@@ -10,21 +10,8 @@
         .error-text { color: red; font-size: 0.85rem; display: block; margin-top: 5px; font-weight: bold; }
     </style>
 </head>
+<jsp:include page="Navbar.jsp" />
 <body>
-
-<nav class="navbar">
-    <div class="navbar-brand">
-        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
-    </div>
-    <ul class="nav-links">
-        <li><a href="${pageContext.request.contextPath}/">Plan Your Journey ▾</a></li>
-        <li><a href="${pageContext.request.contextPath}/services">Service ▾</a></li>
-        <li><a href="${pageContext.request.contextPath}/manage-booking">Manage My Booking</a></li>
-        <li><a href="${pageContext.request.contextPath}/trip-tracker">Trip Tracker</a></li>
-        <li><a href="${pageContext.request.contextPath}/help">Help</a></li>
-    </ul>
-</nav>
-
 <main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
     <section class="hero-panel"></section>
 

@@ -1,0 +1,189 @@
+@charset "UTF-8";
+
+/* Global Variables */
+:root {
+    --deep-navy: #1a2e4a;  /* Primary Brand Color */
+    --cerulean: #1e6bad;   /* Accent Color */
+    --white: #ffffff;
+    --transition: all 0.3s ease;
+}
+
+/* Navbar Container */
+.gantavya-nav {
+    height: 65px;
+    width: 100%;
+    background: var(--deep-navy); 
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Pushes content 40px from the left and right edges */
+    padding: 0 40px; 
+    box-sizing: border-box;
+}
+
+/* Logo & Text Wrapper (Keeps them together) */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px; /* Controls the exact gap between bus image and text */
+    transition: var(--transition);
+}
+
+.nav-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 2px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 40px; 
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--white); 
+    font-weight: 500;
+    font-size: 15px;
+    transition: var(--transition);
+    position: relative;
+    opacity: 0.85;
+}
+
+.nav-links a:not(.login-btn):hover {
+    opacity: 1;
+    color: var(--cerulean);
+}
+
+/* Active Link Underline */
+.nav-links a.active {
+    opacity: 1;
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2.5px;
+    background: var(--cerulean);
+    border-radius: 2px;
+}
+
+/* Authentication Button (White Pill Style) */
+.login-btn {
+    background: var(--white); 
+    color: var(--deep-navy) !important; 
+    padding: 5px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    opacity: 1 !important;
+    transition: var(--transition);
+}
+
+.login-btn:hover {
+    background: var(--cerulean);
+    color: var(--white) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* User Profile & Logout */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-icon {
+    font-size: 22px;
+    color: var(--white);
+}
+
+.logout-link {
+    color: #ff7675 !important; 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Mobile Responsive Menu */
+#nav-check { 
+    display: none; 
+}
+
+@media (max-width: 992px) {
+    .nav-container {
+        padding: 0 20px;
+    }
+
+    .nav-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .nav-btn span {
+        width: 25px;
+        height: 3px;
+        background: var(--white);
+        border-radius: 3px;
+    }
+
+    .nav-links {
+        position: absolute;
+        display: block;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--deep-navy);
+        height: 0;
+        transition: all 0.3s ease-in;
+        overflow-y: hidden;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .nav-links li {
+        display: block;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #nav-check:checked ~ .nav-links {
+        height: auto;
+        padding-bottom: 20px;
+    }
+}
