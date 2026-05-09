@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="price-section">
                                     <div class="price">Rs. ${trip.fare}</div>
-                                    <button class="book-btn" onclick="window.location.href='book?tripId=${trip.tripId}'">
+                                    <button class="book-btn" onclick="window.location.href='booking?tripId=${trip.tripId}'">
                                         Book Now <i class="fa fa-chevron-right"></i>
                                     </button>
                                     <div class="seats-left"> ${trip.availableSeats} Seats available</div>
@@ -459,7 +459,7 @@
                                 '</div>' +
                                 '<div class="price-section">' +
                                     '<div class="price">Rs. ' + trip.fare + '</div>' +
-                                    '<button class="book-btn" onclick="window.location.href=\'book?tripId=' + trip.tripId + '\'">' +
+                                    '<button class="book-btn" onclick="window.location.href=\'booking?tripId=' + trip.tripId + '\'">' +
                                         'Book Now <i class="fa fa-chevron-right"></i>' +
                                     '</button>' +
                                     '<div class="seats-left"> ' + trip.availableSeats + ' Seats available</div>' +

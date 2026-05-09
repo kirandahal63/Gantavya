@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import com.gantavya.dao.TripDao;
 
 /**
  * Servlet implementation class BookingServlet
@@ -26,7 +27,22 @@ public class BookingServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String tripId = request.getParameter("tripId");
+		if (tripId == null || tripId.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+		}
+
+		TripDao tripDao = new TripDao();
+		com.gantavya.model.TripModel trip = tripDao.getTripById(tripId);
+		
+		if (trip == null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+		}
+
+		request.setAttribute("trip", trip);
+		
 		request.getRequestDispatcher("/WEB-INF/Pages/Booking.jsp").forward(request, response);
 	}
 

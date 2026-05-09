@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +13,7 @@
 
     <div class="booking-master-container">
         <form action="BookingServlet" method="POST">
+            <input type="hidden" name="tripId" value="${trip.tripId}">
             <div class="booking-grid">
                 
                 <!-- COLUMN 1: Seat Selection -->
@@ -18,15 +21,24 @@
                     <div class="step-header">
                         <span class="step-num">1</span>
                         <h2>Select Seats</h2>
+                        <small style="color: #666; margin-left: 10px;">${trip.busType} - ${trip.capacity} Seats</small>
                     </div>
                     <div class="bus-container">
                         <div class="bus-front">Driver</div>
                         <div class="seat-grid" id="seatGrid">
                             <% 
+                               com.gantavya.model.TripModel trip = (com.gantavya.model.TripModel) request.getAttribute("trip");
+                               int capacity = (trip != null) ? trip.getCapacity() : 0;
+                               if (capacity == 0) capacity = 23; // Fallback
+                               
                                char[] rows = {'A','B','C','D','E','F','G','H','I'};
+                               int seatsGenerated = 0;
                                for(char row : rows) {
+                                   if (seatsGenerated >= capacity) break;
                                    for(int i=1; i<=4; i++) {
+                                       if (seatsGenerated >= capacity) break;
                                        String id = row + "" + i;
+                                       seatsGenerated++;
                             %>
                                 <div class="seat" data-seat="<%=id%>"><%=id%></div>
                             <% if(i==2) { %><div class="aisle"></div><% } %>
@@ -44,8 +56,9 @@
                             <h2>Passengers</h2>
                         </div>
                         <div class="passenger-inputs">
-                            <input type="text" name="fName" placeholder="First Name *" class="full-input" required>
-                            <input type="text" name="lName" placeholder="Last Name *" class="full-input" required>
+                            <c:set var="names" value="${fn:split(sessionScope.passengerName, ' ')}" />
+                            <input type="text" name="fName" placeholder="First Name *" class="full-input" value="${sessionScope.passengerName != null ? sessionScope.passengerName : ''}" required>
+                            <input type="text" name="email" placeholder="Email *" class="full-input" value="${sessionScope.userEmail != null ? sessionScope.userEmail : ''}" readonly>
                         </div>
                     </section>
 
@@ -99,19 +112,19 @@
                     <div class="summary-container">
                         <div class="summary-header">
                             <h3>Your Booking</h3>
-                            <div class="timer"><i class="far fa-clock"></i> 09:59</div>
+                            
                         </div>
 
                         <div class="trip-details card-inner">
-                            <div class="date-badge" style="font-weight: bold; margin-bottom: 10px;">Sat, 9 May</div>
+                            <div class="date-badge" style="font-weight: bold; margin-bottom: 10px;">${trip.departureDate}</div>
                             <div class="route-visual">
                                 <div class="dot"></div>
                                 <div class="line"></div>
                                 <div class="dot"></div>
                             </div>
                             <div class="route-text">
-                                <p style="margin-bottom: 15px;"><strong>Kathmandu</strong> <span style="float:right;">10:45</span></p>
-                                <p><strong>Pokhara</strong> <span style="float:right;">13:50</span></p>
+                                <p style="margin-bottom: 15px;"><strong>${trip.source}</strong> <span style="float:right;">${trip.departureDate.length() > 16 ? trip.departureDate.substring(11, 16) : ''}</span></p>
+                                <p><strong>${trip.destination}</strong> <span style="float:right;">${trip.arrivalDate.length() > 16 ? trip.arrivalDate.substring(11, 16) : ''}</span></p>
                             </div>
                             <div class="direct-tag" style="color: #2ecc71; font-size: 12px; font-weight: bold; margin-top: 15px;">DIRECT TRIP</div>
                         </div>
@@ -153,7 +166,7 @@
         const seatCountDisplay = document.getElementById('seatCountDisplay');
         
         let selected = [];
-        const TICKET_PRICE = 1200;
+        const TICKET_PRICE = ${trip.fare};
         const SERVICE_FEE = 50;
 
         seats.forEach(seat => {

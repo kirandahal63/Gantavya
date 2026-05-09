@@ -113,7 +113,7 @@
 
                             <div class="card-footer">
                                 <span><i class="fa fa-bus"></i> ${trip.availableSeats} Seats Left</span>
-                                <a href="book?id=${trip.tripId}">BOOK JOURNEY</a>
+                                <a href="booking?tripId=${trip.tripId}">BOOK JOURNEY</a>
                             </div>
                         </div>
                     </c:forEach>
@@ -151,7 +151,7 @@
                     const date = document.getElementById('real-date').value;
                     const passengers = document.getElementById('passengers').value;
 
-                    window.location.href = '<%= request.getContextPath() %>/booking?from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + encodeURIComponent(date) + '&passengers=' + encodeURIComponent(passengers);
+                    window.location.href = '<%= request.getContextPath() %>/search?from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + encodeURIComponent(date) + '&passengers=' + encodeURIComponent(passengers);
                 }
 
                 function handleDateSelection(val) {

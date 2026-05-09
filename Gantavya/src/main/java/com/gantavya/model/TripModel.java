@@ -13,6 +13,7 @@ public class TripModel {
     private String destination;
     private int availableSeats;
     private String busType;
+    private int capacity;
 
     public TripModel() {}
 
@@ -119,5 +120,13 @@ public class TripModel {
 
     public void setBusType(String busType) {
         this.busType = busType;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 }

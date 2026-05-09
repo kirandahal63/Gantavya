@@ -133,4 +133,29 @@ public class PassengerDao {
 	        return false;
 	    }
 	}
+
+    public PassengerModel getPassengerByEmail(String email) {
+        String query = "SELECT * FROM passenger WHERE Email = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    PassengerModel passenger = new PassengerModel(
+                        rs.getString("Name"),
+                        rs.getLong("ContactNumber"),
+                        rs.getString("DOB"),
+                        rs.getString("Gender"),
+                        rs.getString("Email"),
+                        null 
+                    );
+                    passenger.setId(rs.getString("PassengerID"));
+                    return passenger;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

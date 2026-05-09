@@ -4,16 +4,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.net.URLEncoder;
 
-/**
- * AuthFilter intercepts ALL requests and enforces role-based access control.
- *
- * Roles:
- *   "ADMIN"     → staff/admin, can access /admin and /dashboard
- *   "PASSENGER" → registered user, can access /home
- *
- * Public paths (no session needed): /login, /Register, /CSS/*, /images/*
- */
 @WebFilter("/*")
 public class AuthFilter implements Filter {
 
@@ -28,69 +20,67 @@ public class AuthFilter implements Filter {
         HttpServletResponse res  = (HttpServletResponse) response;
 
         String path = req.getServletPath();
+        String contextPath = req.getContextPath();
         
+        // Handle root path
         if (path == null || path.equals("/") || path.isEmpty()) {
-            res.sendRedirect(req.getContextPath() + "/home");
+            res.sendRedirect(contextPath + "/home");
             return;
         }
 
+        // 1. Define Public Paths
         boolean isPublic = path.equals("/login")
                         || path.equals("/Register")
-                        
-                        //remove it later
-                        || path.equals("/search")
-                        || path.equals("/auth/google")
                         || path.equals("/home")
-                        || path.equals("/booking")
+                        || path.equalsIgnoreCase("/search") 
+                        || path.equals("/auth/google")
                         || path.equals("/404error.jsp")
                         || path.equals("/500error.jsp")
                         || path.equals("/error")
                         || path.equals("/password-reset")
-                        || path.equals("/admin")
-                        || path.equals("/bus")
-                        || path.equals("/route")
                         || path.startsWith("/about")
                         || path.startsWith("/contact")
                         || path.startsWith("/CSS/")
                         || path.startsWith("/images/")
-                        || path.equals("/");          
+                        || path.equals("/");
 
         if (isPublic) {
             chain.doFilter(request, response);
             return;
         }
 
-        // ── 2. All other paths require a valid session ────────────────────────
+        // 2. Check Authentication
         HttpSession session = req.getSession(false);
+        boolean isLoggedIn = (session != null && session.getAttribute("role") != null);
 
-        if (session == null || session.getAttribute("role") == null) {
-            res.sendRedirect(req.getContextPath() + "/login");
+        if (!isLoggedIn) {
+            // Unauthenticated access to protected page (e.g., /booking)
+            String queryString = req.getQueryString();
+            String targetUrl = req.getRequestURI() + (queryString != null ? "?" + queryString : "");
+            
+            System.out.println("DEBUG: AuthFilter intercepting " + path);
+            System.out.println("DEBUG: Saving targetUrl to session and param: " + targetUrl);
+            
+            // Save in session as backup
+            req.getSession(true).setAttribute("targetUrl", targetUrl);
+            
+            // Redirect to login with targetUrl as parameter
+            res.sendRedirect(contextPath + "/login?targetUrl=" + URLEncoder.encode(targetUrl, "UTF-8"));
             return;
         }
 
-        String role = (String) session.getAttribute("role"); // "ADMIN" or "PASSENGER"
-
-        // ── 3. Admin-only paths: /admin, /dashboard ───────────────────────────
-        if (path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/bus") || path.startsWith("/route") || path.startsWith("/trip") ) {
+        // 3. Admin-only paths
+        String role = (String) session.getAttribute("role");
+        if (path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/bus") || path.startsWith("/route") || path.startsWith("/trip")) {
             if ("ADMIN".equals(role)) {
                 chain.doFilter(request, response);
             } else {
-                // Passenger tried to access admin area → send to their home
-                res.sendRedirect(req.getContextPath() + "/home");
+                res.sendRedirect(contextPath + "/home");
             }
             return;
         }
 
-        // ── 4. Passenger-only paths: /home ────────────────────────────────────
-        if (path.startsWith("/home")) {
-            if ("PASSENGER".equals(role)) {
-                chain.doFilter(request, response);
-            } else {
-                // Admin tried to access passenger area → send to admin dashboard
-                res.sendRedirect(req.getContextPath() + "/admin");
-            }
-            return;
-        }
+        // 4. All other authenticated paths (like /booking)
         chain.doFilter(request, response);
     }
 

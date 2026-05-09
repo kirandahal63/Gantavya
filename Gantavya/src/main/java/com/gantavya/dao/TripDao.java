@@ -3,22 +3,13 @@ package com.gantavya.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.gantavya.config.DBConnection;
 import com.gantavya.model.TripModel;
 
 public class TripDao {
-    private String url = "jdbc:mysql://localhost:3306/gantavya";
-    private String username = "root";
-    private String password = ""; 
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return connection;
+    protected Connection getConnection() throws SQLException {
+        return DBConnection.getConnection();
     }
 
     public String generateNextTripId() {
@@ -111,15 +102,43 @@ public class TripDao {
         }
     }
     
+    public TripModel getTripById(String tripId) {
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity " +
+                "FROM trip t " +
+                "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
+                "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
+                "WHERE t.TripID = ?";
+        try (Connection conn = getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, tripId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TripModel trip = new TripModel();
+                trip.setTripId(rs.getString("TripID"));
+                trip.setDepartureDate(rs.getString("DepartureDate"));
+                trip.setArrivalDate(rs.getString("Arrival Date"));
+                trip.setFare(rs.getLong("Fare"));
+                trip.setSource(rs.getString("RouteOrigin"));
+                trip.setDestination(rs.getString("RouteDestination"));
+                trip.setBusType(rs.getString("BusType"));
+                int cap = rs.getInt("Capacity");
+                trip.setCapacity(cap);
+                trip.setAvailableSeats(cap); 
+                return trip;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<TripModel> getUpcomingTrips() {
         List<TripModel> trips = new ArrayList<>();
-        // Change r.Source to r.RouteOrigin and r.Destination to r.RouteDestination
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity, " +
-                "(b.Capacity - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity " +
                 "FROM trip t " +
-                "JOIN route r ON t.RouteID = r.RouteID " +
-                "JOIN bus b ON t.BusID = b.BusID " +
-                "WHERE t.TripStatus IN ('ACTIVE', 'SCHEDULED') LIMIT 6";
+                "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
+                "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
+                "ORDER BY t.DepartureDate ASC LIMIT 6";
                        
         try (Connection conn = getConnection(); 
              PreparedStatement ps = conn.prepareStatement(query);
@@ -132,13 +151,13 @@ public class TripDao {
                 trip.setArrivalDate(rs.getString("Arrival Date"));
                 trip.setFare(rs.getLong("Fare"));
                 
-                // IMPORTANT: Match these to the new names in the query above
                 String origin = rs.getString("RouteOrigin");
                 String destination = rs.getString("RouteDestination");
+                trip.setSource(origin != null ? origin : "Unknown (" + rs.getString("RouteID") + ")"); 
+                trip.setDestination(destination != null ? destination : "Unknown");
                 
-                trip.setSource(origin); 
-                trip.setDestination(destination);
-                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
+                int cap = rs.getInt("Capacity");
+                trip.setAvailableSeats(cap > 0 ? cap : 0);
                 
                 trips.add(trip);
             }
@@ -165,59 +184,52 @@ public class TripDao {
 
     public List<TripModel> searchTrips(String from, String to, String date, int passengers) {
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, COALESCE(b.Capacity, 0) as Capacity, " +
-                "(COALESCE(b.Capacity, 0) - (SELECT COUNT(*) FROM booking bk WHERE bk.TripID = t.TripID AND bk.BookingStatus = 'CONFIRMED')) as AvailableSeats " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity " +
                 "FROM trip t " +
-                "JOIN route r ON t.RouteID = r.RouteID " +
-                "JOIN bus b ON t.BusID = b.BusID " +
-                "WHERE (r.RouteOrigin LIKE ? OR r.RouteOrigin LIKE ?) " +
-                "AND (r.RouteDestination LIKE ? OR r.RouteDestination LIKE ?) " +
-                "HAVING AvailableSeats >= ?";
+                "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
+                "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
+                "WHERE (r.RouteOrigin LIKE ? OR r.RouteOrigin LIKE ? OR ? = '') " +
+                "AND (r.RouteDestination LIKE ? OR r.RouteDestination LIKE ? OR ? = '')";
 
         try (Connection conn = getConnection(); 
              PreparedStatement ps = conn.prepareStatement(query)) {
             
             String fromExpanded = expandLocationOnly(from);
             String toExpanded = expandLocationOnly(to);
-            int pCount = (passengers < 1) ? 1 : passengers;
             
-            ps.setString(1, "%" + from + "%");
+            ps.setString(1, "%" + (from != null ? from : "") + "%");
             ps.setString(2, "%" + fromExpanded + "%");
-            ps.setString(3, "%" + to + "%");
-            ps.setString(4, "%" + toExpanded + "%");
-            ps.setInt(5, pCount);
-            
-            System.out.println("Executing SQL Search for Route: From=" + from + ", To=" + to + ", Seeking Date=" + date);
+            ps.setString(3, from != null ? from : "");
+            ps.setString(4, "%" + (to != null ? to : "") + "%");
+            ps.setString(5, "%" + toExpanded + "%");
+            ps.setString(6, to != null ? to : "");
             
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
                 String dbDate = rs.getString("DepartureDate");
-                System.out.println("DEBUG: DB has trip on: " + dbDate);
                 
-                // If date is provided, filter in Java
                 if (date != null && !date.isEmpty()) {
                     if (!dbDate.contains(date)) {
-                        String altDate = date; // fallback to DD-MM-YYYY check
+                        String altDate = date; 
                         String[] p = date.split("-");
                         if (p.length == 3) altDate = p[2] + "-" + p[1] + "-" + p[0];
-                        
-                        if (!dbDate.contains(altDate)) {
-                            System.out.println("DEBUG: Date mismatch (DB:" + dbDate + " vs Search:" + date + ")");
-                            continue; 
-                        }
+                        if (!dbDate.contains(altDate)) continue; 
                     }
                 }
                 
+                int cap = rs.getInt("Capacity");
+                if (cap > 0 && cap < passengers) continue; 
+
                 TripModel trip = new TripModel();
                 trip.setTripId(rs.getString("TripID"));
                 trip.setDepartureDate(dbDate);
                 trip.setArrivalDate(rs.getString("Arrival Date"));
                 trip.setFare(rs.getLong("Fare"));
-                trip.setSource(rs.getString("RouteOrigin"));
-                trip.setDestination(rs.getString("RouteDestination"));
-                trip.setBusType(rs.getString("BusType"));
-                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
+                trip.setSource(rs.getString("RouteOrigin") != null ? rs.getString("RouteOrigin") : "Unknown");
+                trip.setDestination(rs.getString("RouteDestination") != null ? rs.getString("RouteDestination") : "Unknown");
+                trip.setBusType(rs.getString("BusType") != null ? rs.getString("BusType") : "Standard");
+                trip.setAvailableSeats(cap > 0 ? cap : 0);
                 trips.add(trip);
             }
         } catch (Exception e) {

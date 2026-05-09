@@ -48,6 +48,14 @@
 	        <% } %>
         
             <form action="${pageContext.request.contextPath}/login" method="post" >
+                <!-- Hidden field to preserve redirect target -->
+                <% 
+                   String tUrl = request.getParameter("targetUrl");
+                   if (tUrl == null || tUrl.isEmpty()) tUrl = (String) request.getAttribute("targetUrl");
+                   if (tUrl == null) tUrl = "";
+                %>
+                <%-- DEBUG: targetUrl being passed to form: <%= tUrl %> --%>
+                <input type="hidden" name="targetUrl" value="<%= tUrl %>">
 
                 <!-- Email Field -->
                 	<%
@@ -227,7 +235,12 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === 'registered') {
-                window.location.href = '${pageContext.request.contextPath}/home';
+                const targetUrl = document.querySelector('input[name="targetUrl"]').value;
+                if (targetUrl && targetUrl !== "") {
+                    window.location.href = targetUrl;
+                } else {
+                    window.location.href = '${pageContext.request.contextPath}/home';
+                }
             } else if (data.status === 'not_registered') {
                 window.location.href = '${pageContext.request.contextPath}/Register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name);
             } else {
