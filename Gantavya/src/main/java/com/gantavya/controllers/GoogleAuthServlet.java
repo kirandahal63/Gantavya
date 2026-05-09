@@ -48,6 +48,13 @@ public class GoogleAuthServlet extends HttpServlet {
             session.setAttribute("role", "PASSENGER");
             session.setAttribute("isLoggedIn", true);
             
+            com.gantavya.model.PassengerModel passenger = passengerDao.getPassengerByEmail(email.trim());
+            if (passenger != null) {
+                session.setAttribute("passengerName", passenger.getFullName());
+                session.setAttribute("passengerId", passenger.getId());
+                session.setAttribute("user", passenger);
+            }
+            
             out.print("{\"status\":\"registered\"}");
         } else {
             out.print("{\"status\":\"not_registered\"}");

@@ -19,9 +19,18 @@
                 <!-- COLUMN 1: Seat Selection -->
                 <section class="booking-card seat-section">
                     <div class="step-header">
-                        <span class="step-num">1</span>
-                        <h2>Select Seats</h2>
-                        <small style="color: #666; margin-left: 10px;">${trip.busType} - ${trip.capacity} Seats</small>
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="step-header">
+                                <span class="step-num">1</span>
+                                <h2>Select Seats</h2>
+                            </div>
+                            <div style="margin-left: 45px; color: #666; font-weight: 500; margin-top: -5px;">
+                                ${trip.busType} - ${trip.capacity} Seats
+                            </div>
+                            <div id="selectedSeatsList" style="margin-left: 45px; margin-top: 5px; font-size: 14px; color: #1a2e4a; font-weight: bold;">
+                                Selected: None
+                            </div>
+                        </div>
                     </div>
                     <div class="bus-container">
                         <div class="bus-front">Driver</div>
@@ -55,11 +64,10 @@
                             <span class="step-num">2</span>
                             <h2>Passengers</h2>
                         </div>
-                        <div class="passenger-inputs">
-                            <c:set var="names" value="${fn:split(sessionScope.passengerName, ' ')}" />
-                            <input type="text" name="fName" placeholder="First Name *" class="full-input" value="${sessionScope.passengerName != null ? sessionScope.passengerName : ''}" required>
-                            <input type="text" name="email" placeholder="Email *" class="full-input" value="${sessionScope.userEmail != null ? sessionScope.userEmail : ''}" readonly>
+                        <div class="passenger-inputs" id="passengerInputs">
+                            <!-- Populated dynamically by script -->
                         </div>
+                        <input type="hidden" name="email" value="${sessionScope.userEmail}">
                     </section>
 
                     <section class="booking-card extras-card">
@@ -112,7 +120,7 @@
                     <div class="summary-container">
                         <div class="summary-header">
                             <h3>Your Booking</h3>
-                            
+                            <div class="timer"><i class="far fa-clock"></i> 09:59</div>
                         </div>
 
                         <div class="trip-details card-inner">
@@ -126,7 +134,7 @@
                                 <p style="margin-bottom: 15px;"><strong>${trip.source}</strong> <span style="float:right;">${trip.departureDate.length() > 16 ? trip.departureDate.substring(11, 16) : ''}</span></p>
                                 <p><strong>${trip.destination}</strong> <span style="float:right;">${trip.arrivalDate.length() > 16 ? trip.arrivalDate.substring(11, 16) : ''}</span></p>
                             </div>
-                            <div class="direct-tag" style="color: #2ecc71; font-size: 12px; font-weight: bold; margin-top: 15px;">DIRECT TRIP</div>
+                            <div class="direct-tag" style="color: #1a2e4a; font-size: 12px; font-weight: bold; margin-top: 15px;">DIRECT TRIP</div>
                         </div>
 
                         <div class="cost-details card-inner">
@@ -164,10 +172,79 @@
         const totalDisplay = document.getElementById('totalDisplay');
         const passengerPrice = document.getElementById('passengerPrice');
         const seatCountDisplay = document.getElementById('seatCountDisplay');
+        const passengerInputs = document.getElementById('passengerInputs');
+        const luggageQty = document.getElementById('luggageQty');
+        const selectedSeatsList = document.getElementById('selectedSeatsList');
         
         let selected = [];
         const TICKET_PRICE = ${trip.fare};
+        const LUGGAGE_PRICE = 500;
         const SERVICE_FEE = 50;
+        const CURRENT_USER_NAME = "${sessionScope.passengerName != null ? sessionScope.passengerName : ''}";
+
+        function updateUI() {
+            // 1. Update Hidden Input and Text List
+            selectedInput.value = selected.join(',');
+            selectedSeatsList.innerText = selected.length > 0 ? "Selected: " + selected.join(', ') : "Selected: None";
+            
+            // 2. Update Passenger Fields
+            passengerInputs.innerHTML = '';
+            
+            // Always show first passenger (Readonly)
+            const p1Div = document.createElement('div');
+            p1Div.className = 'form-group';
+            p1Div.style.marginBottom = "15px";
+            const p1Label = document.createElement('label');
+            p1Label.className = 'form-label';
+            p1Label.innerText = "Passenger 1 ";
+            const p1Input = document.createElement('input');
+            p1Input.type = 'text';
+            p1Input.name = 'passengerName_0';
+            p1Input.className = 'full-input';
+            p1Input.value = CURRENT_USER_NAME;
+            p1Input.readOnly = true;
+            p1Input.style.backgroundColor = "#f9f9f9"; // Subtle hint that it's uneditable
+            p1Div.appendChild(p1Label);
+            p1Div.appendChild(p1Input);
+            passengerInputs.appendChild(p1Div);
+
+            // Show additional fields if more than 1 seat is selected
+            if (selected.length > 1) {
+                for (let i = 1; i < selected.length; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'form-group';
+                    div.style.marginBottom = "15px";
+                    
+                    const label = document.createElement('label');
+                    label.className = 'form-label';
+                    label.innerText = "Passenger " + (i + 1) + "  (Seat " + selected[i] + ")";
+                    
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = 'passengerName_' + i;
+                    input.className = 'full-input';
+                    input.required = true;
+                    input.placeholder = "Full Name *";
+                    
+                    div.appendChild(label);
+                    div.appendChild(input);
+                    passengerInputs.appendChild(div);
+                }
+            }
+
+            // 3. Update Summary Prices
+            let calcPassengers = selected.length * TICKET_PRICE;
+            let calcLuggage = parseInt(luggageQty.value) * LUGGAGE_PRICE;
+            
+            seatCountDisplay.innerText = selected.length;
+            passengerPrice.innerText = 'Rs. ' + calcPassengers;
+            
+            let total = 0;
+            if (selected.length > 0) {
+                total = calcPassengers + calcLuggage + SERVICE_FEE;
+            }
+            totalDisplay.innerText = 'Rs. ' + total;
+        }
 
         seats.forEach(seat => {
             seat.addEventListener('click', () => {
@@ -179,23 +256,30 @@
                     selected.push(id);
                     seat.classList.add('selected');
                 }
-                
-                // Update Hidden Input
-                selectedInput.value = selected.join(',');
-                
-                // Update Summary
-                let calcPassengers = selected.length * TICKET_PRICE;
-                seatCountDisplay.innerText = selected.length;
-                passengerPrice.innerText = 'Rs. ' + calcPassengers;
-                totalDisplay.innerText = 'Rs. ' + (calcPassengers > 0 ? (calcPassengers + SERVICE_FEE) : 0);
+                updateUI();
             });
         });
 
         function changeQty(val) {
-            let qty = document.getElementById('luggageQty');
-            let newVal = parseInt(qty.value) + val;
-            if(newVal >= 0) qty.value = newVal;
+            let newVal = parseInt(luggageQty.value) + val;
+            if(newVal >= 0) {
+                luggageQty.value = newVal;
+                updateUI();
+            }
         }
+
+        // Form Validation
+        document.querySelector('form').onsubmit = function(e) {
+            if (selected.length === 0) {
+                alert("Please select at least one seat to proceed.");
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        };
+
+        // Initialize empty UI
+        updateUI();
     </script>
 </body>
 </html>
