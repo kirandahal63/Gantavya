@@ -50,8 +50,50 @@ public class BookingServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String tripId = request.getParameter("tripId");
+		String selectedSeats = request.getParameter("selectedSeats");
+		String luggageQty = request.getParameter("extraLuggage");
+		String paymentMethod = request.getParameter("paymentMethod");
+		
+		if (tripId == null || selectedSeats == null || selectedSeats.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/booking?tripId=" + tripId);
+			return;
+		}
+
+		// Collect additional passengers if any
+		String[] seatsArray = selectedSeats.split(",");
+		StringBuilder otherPassengers = new StringBuilder();
+		for (int i = 1; i < seatsArray.length; i++) {
+			String name = request.getParameter("passengerName_" + i);
+			if (name != null && !name.isEmpty()) {
+				if (otherPassengers.length() > 0) otherPassengers.append("; ");
+				otherPassengers.append(name).append(" (Seat ").append(seatsArray[i]).append(")");
+			}
+		}
+
+		int luggageCount = 0;
+		try {
+			if (luggageQty != null && !luggageQty.isEmpty()) {
+				luggageCount = Integer.parseInt(luggageQty);
+			}
+		} catch (NumberFormatException e) {
+			luggageCount = 0;
+		}
+
+		// Store data in session to be used in PaymentServlet
+		request.getSession().setAttribute("pending_tripId", tripId);
+		request.getSession().setAttribute("pending_seats", selectedSeats);
+		request.getSession().setAttribute("pending_otherPassengers", otherPassengers.toString());
+		request.getSession().setAttribute("pending_luggage", String.valueOf(luggageCount));
+		request.getSession().setAttribute("pending_paymentMethod", paymentMethod);
+		
+		// Also calculate total price and store it
+		TripDao tripDao = new TripDao();
+		com.gantavya.model.TripModel trip = tripDao.getTripById(tripId);
+		long total = (seatsArray.length * trip.getFare()) + (luggageCount * 500) + 50;
+		request.getSession().setAttribute("pending_total", total);
+
+		response.sendRedirect(request.getContextPath() + "/payment");
 	}
 
 }

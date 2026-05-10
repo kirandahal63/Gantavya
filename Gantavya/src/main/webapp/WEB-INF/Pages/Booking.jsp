@@ -12,7 +12,7 @@
     <jsp:include page="Navbar.jsp" />
 
     <div class="booking-master-container">
-        <form action="BookingServlet" method="POST">
+        <form action="booking" method="POST">
             <input type="hidden" name="tripId" value="${trip.tripId}">
             <div class="booking-grid">
                 

@@ -80,6 +80,23 @@
     position: relative;
     opacity: 0.85;
 }
+/* Unified Active Link Style */
+.nav-links li a.active {
+    color: var(--white) !important; /* Keep it white or use var(--cerulean) */
+    opacity: 1;
+    font-weight: 700;
+}
+
+.nav-links li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Adjusted to fit within the 65px navbar height */
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--cerulean); /* This creates the visible underline */
+    border-radius: 2px;
+}
 
 .nav-links a:not(.login-btn):hover {
     opacity: 1;
@@ -91,16 +108,6 @@
     opacity: 1;
 }
 
-.nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 100%;
-    height: 2.5px;
-    background: var(--cerulean);
-    border-radius: 2px;
-}
 
 /* Authentication Button (White Pill Style) */
 .login-btn {
