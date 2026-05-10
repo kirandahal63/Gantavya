@@ -4,12 +4,17 @@
     // This is a placeholder for your actual session check logic
     boolean isLoggedIn = (session.getAttribute("user") != null);
     
-    // Get the current page URI to determine the active link
-    String uri = request.getRequestURI();
+    // Get the current servlet path. When using jsp:include, the original 
+    // servlet path is stored in this request attribute.
+    String currentPath = (String) request.getAttribute("jakarta.servlet.forward.servlet_path");
+    if (currentPath == null) {
+        currentPath = request.getServletPath();
+    }
 %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Navigation.css"> 
 <nav class="gantavya-nav">
     <div class="nav-container">
+        <!-- Left: Logo -->
         <a href="${pageContext.request.contextPath}/home" class="logo-wrapper">
             <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
             <span class="logo-text">GANTAVYA</span>
@@ -22,40 +27,41 @@
             <span></span>
         </label>
 
+        <!-- Right: Links & Auth -->
         <ul class="nav-links">
             <li>
                 <a href="${pageContext.request.contextPath}/home" 
-                   class="<%= uri.endsWith("home") || uri.endsWith("Index.jsp") ? "active" : "" %>">Home</a>
+                   class="<%= "/home".equalsIgnoreCase(currentPath) || "/".equals(currentPath) ? "active" : "" %>">Home</a>
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/search" 
-                   class="<%= uri.contains("/search") || uri.contains("Booking.jsp") ? "active" : "" %>">Booking</a>
+                   class="<%= "/search".equalsIgnoreCase(currentPath) || "/booking".equalsIgnoreCase(currentPath) || "/payment".equalsIgnoreCase(currentPath) ? "active" : "" %>">Booking</a>
             </li>
             
             <% if (isLoggedIn) { %>
                 <li>
-                    <a href="my-bookings.jsp" 
-                       class="<%= uri.endsWith("MyBookings.jsp") ? "active" : "" %>">My Bookings</a>
+                    <a href="${pageContext.request.contextPath}/my-bookings" 
+                       class="<%= "/my-bookings".equalsIgnoreCase(currentPath) ? "active" : "" %>">My Bookings</a>
                 </li>
             <% } %>
             
             <li>
                 <a href="${pageContext.request.contextPath}/about" 
-                   class="<%= uri.endsWith("about") ? "active" : "" %>">About</a>
+                   class="<%= "/about".equalsIgnoreCase(currentPath) ? "active" : "" %>">About</a>
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/contact" 
-                   class="<%= uri.endsWith("contact") ? "active" : "" %>">Contact</a>
+                   class="<%= "/contact".equalsIgnoreCase(currentPath) ? "active" : "" %>">Contact</a>
             </li>
 
             <li class="auth-item">
                 <% if (!isLoggedIn) { %>
                     <a href="${pageContext.request.contextPath}/login" 
-                       class="login-btn <%= uri.endsWith("login") ? "active-btn" : "" %>">Login</a>
+                       class="login-btn <%= "/login".equalsIgnoreCase(currentPath) || "/Register".equalsIgnoreCase(currentPath) ? "active" : "" %>">Login</a>
                 <% } else { %>
                     <div class="user-profile">
                         <i class="fas fa-user-circle profile-icon"></i>
-                        <a href="logout.jsp" class="logout-link">Logout</a>
+                        <a href="${pageContext.request.contextPath}/logout" class="logout-link">Logout</a>
                     </div>
                 <% } %>
             </li>
