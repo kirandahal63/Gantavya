@@ -203,3 +203,59 @@ body {
 .pay-btn:hover {
     background: #2c3e50;
 }
+
+/* 1. Container for the whole payment area */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    /* Apply 43px margin to both left and right */
+    margin-left: 43px; 
+    margin-right: 43px;
+    
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+}
+
+/* 2. The Individual Row (The Clickable Box) */
+.pay-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%; 
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
+}
+
+.pay-item:hover {
+    background-color: #f9f9f9;
+    border-color: #1a2e4a;
+}
+
+/* 3. Image Control */
+.pay-item img {
+    height: 30px !important;
+    width: auto !important;
+    display: block;
+    object-fit: contain;
+}
+
+/* 4. Text Styling */
+.pay-item span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a2e4a;
+}
+
+/* 5. Radio Button Styling */
+.pay-item input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}

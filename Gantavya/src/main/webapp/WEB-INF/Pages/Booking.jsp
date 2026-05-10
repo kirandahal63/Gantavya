@@ -103,15 +103,18 @@
                             <h2>Payment Method</h2>
                         </div>
                         <div class="payment-options">
-                            <label class="pay-item">
-                                <input type="radio" name="payment" value="khalti" checked>
-                                <img src="images/khalti.png" alt="Khalti" style="height:20px; vertical-align:middle;"> Khalti / FonePay
-                            </label>
-                            <label class="pay-item" style="margin-top:10px; display:block;">
-                                <input type="radio" name="payment" value="card">
-                                <i class="fa-solid fa-credit-card"></i> Credit / Debit Card
-                            </label>
-                        </div>
+						    <label class="pay-item">
+						        <input type="radio" name="paymentMethod" value="esewa" checked>
+						        <img src="${pageContext.request.contextPath}/images/eSewa.png" alt="eSewa">
+						        <span>eSewa</span>
+						    </label>
+						
+						    <label class="pay-item">
+						        <input type="radio" name="paymentMethod" value="khalti">
+						        <img src="${pageContext.request.contextPath}/images/khalti.png" alt="Khalti">
+						        <span>Khalti</span>
+						    </label>
+						</div>
                     </section>
                 </div> <!-- End of Center Column -->
 
