@@ -1,10 +1,8 @@
 package com.gantavya.controllers;
 
 import com.gantavya.dao.TripDao;
-import com.gantavya.dao.RouteDao; // Create this to fetch from your 'route' table
 
 import com.gantavya.model.TripModel;
-import com.gantavya.model.RouteModel;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

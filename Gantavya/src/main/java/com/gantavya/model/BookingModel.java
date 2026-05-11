@@ -12,7 +12,8 @@ public class BookingModel {
     private String paymentId;
     private String tripId;
     private String passengerId;
-
+    private TripModel trip;
+    
     public BookingModel() {}
 
     public BookingModel(String bookingId, Timestamp bookingDate, String seatNumber, String otherPassengers,
@@ -91,4 +92,12 @@ public class BookingModel {
     public void setPassengerId(String passengerId) { 
     	this.passengerId = passengerId; 
     }
+
+	public TripModel getTrip() {
+		return trip;
+	}
+
+	public void setTrip(TripModel trip) {
+		this.trip = trip;
+	}
 }

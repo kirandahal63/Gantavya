@@ -14,6 +14,7 @@ public class TripModel {
     private int availableSeats;
     private String busType;
     private int capacity;
+    
 
     public TripModel() {}
 

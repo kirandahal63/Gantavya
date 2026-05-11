@@ -96,9 +96,8 @@ public class PaymentServlet extends HttpServlet {
                 session.removeAttribute("pending_total");
                 session.removeAttribute("pending_paymentMethod");
                 
-                request.setAttribute("message", "Booking Confirmed Successfully!");
-                request.setAttribute("booking", booking);
-                request.getRequestDispatcher("/WEB-INF/Pages/Success.jsp").forward(request, response);
+                request.getSession().setAttribute("new_booking_success", "true");
+                response.sendRedirect(request.getContextPath() + "/success?bookingId=" + bookingId);
             } else {
                 request.setAttribute("error", "Failed to save booking. Please try again.");
                 doGet(request, response);
