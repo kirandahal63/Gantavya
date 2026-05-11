@@ -57,11 +57,17 @@
             <li class="auth-item">
                 <% if (!isLoggedIn) { %>
                     <a href="${pageContext.request.contextPath}/login" 
-                       class="login-btn <%= "/login".equalsIgnoreCase(currentPath) || "/Register".equalsIgnoreCase(currentPath) ? "active" : "" %>">Login</a>
+                       class="login-btn <%= "/login".equalsIgnoreCase(currentPath) ? "active" : "" %>">Login</a>
                 <% } else { %>
-                    <div class="user-profile">
-                        <i class="fas fa-user-circle profile-icon"></i>
-                        <a href="${pageContext.request.contextPath}/logout" class="logout-link">Logout</a>
+                    <div class="user-dropdown">
+                        <div class="user-profile">
+                            <span class="user-name"><%= session.getAttribute("passengerName") != null ? session.getAttribute("passengerName") : "User" %></span>
+                            <i class="fas fa-user-circle profile-icon"></i>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a href="${pageContext.request.contextPath}/profile">Profile</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout" class="logout-link"><i class="fa fa-sign-out" style="font-size:14px; padding-right:2px;"></i>Logout</a></li>
+                        </ul>
                     </div>
                 <% } %>
             </li>

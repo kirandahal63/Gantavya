@@ -31,7 +31,7 @@
         }
         .success-icon {
             font-size: 60px;
-            color: #2ecc71;
+            color: #5db712;
             margin-bottom: 15px;
         }
         .success-header h1 {
@@ -76,18 +76,21 @@
         }
         
         .ticket-top {
-            background: var(--ticket-dark);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+		    background: var(--ticket-dark);
+		    color: white;
+		    padding: 20px 30px;
+		    display: flex;
+		    justify-content: start;
+		    align-items: center;
+		    width: 300px;
+		    border-radius: 0 15px 15px 0;
+		}
         .ticket-top h2 {
             margin: 0;
             font-size: 24px;
             letter-spacing: 2px;
             font-weight: 800;
+            padding-left: 15px;
         }
         .brand-section {
             display: flex;
@@ -107,17 +110,18 @@
             font-size: 40px;
         }
         .brand-name {
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--ticket-dark);
-            letter-spacing: -1px;
-        }
+		    font-size: 24px;
+		    font-weight: 600;
+		    color: var(--ticket-dark);
+		    letter-spacing: -1px;
+		}
         
         .ticket-content {
-            padding: 0 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px 20px;
+		    padding: 0 40px;
+		    display: grid;
+		    grid-template-columns: 1fr 1fr;
+		    gap: 10px 20px;
+		    padding-top: 40px;
         }
         .info-group {
             margin-bottom: 20px;
@@ -232,24 +236,27 @@
                 <div class="bus-ticket">
                     <div class="ticket-main">
                     	<div class="ticket-top">
-                            <h2>TICKET</h2>
-                            <span>${booking.ticketId}</span>
+                    		<img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
+                            <h2>GANTAVYA</h2>
                         </div>
                         
-                        <div class="brand-section">
-                            <div class="bus-icon-circle">
-                                <img src="${pageContext.request.contextPath}/images/logo.png" alt="Gantavya Logo" class="nav-logo">
-                            </div>
-                            <span class="brand-name">Gantavya</span>
-                        </div>
+                        
 
                         <div class="ticket-content">
+                        	<div class="info-group">
+                                <span class="label">Ticket No</span>
+                                <span class="value">${booking.ticketId}</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="label"></span>
+                                <span class="value"></span>
+                            </div>
                             <div class="info-group">
                                 <span class="label">Passenger</span>
                                 <span class="value">${sessionScope.passengerName}</span>
                             </div>
                             <div class="info-group">
-                                <span class="label">Date</span>
+                                <span class="label">Booking Date</span>
                                 <span class="value">${booking.bookingDate}</span>
                             </div>
                             <div class="info-group">

@@ -82,7 +82,7 @@
 }
 /* Unified Active Link Style */
 .nav-links li a.active {
-    color: var(--white) !important; /* Keep it white or use var(--cerulean) */
+    color: var(--white) !important; 
     opacity: 1;
     font-weight: 700;
 }
@@ -97,6 +97,17 @@
     background: var(--cerulean); /* This creates the visible underline */
     border-radius: 2px;
 }
+.login-btn.active {
+    background: var(--cerulean) !important;
+    color: var(--white) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.login-btn.active::after {
+    display: none;
+    
+}
 
 .nav-links a:not(.login-btn):hover {
     opacity: 1;
@@ -108,12 +119,12 @@
     opacity: 1;
 }
 
-
-/* Authentication Button (White Pill Style) */
 .login-btn {
+	display: inline-block;
     background: var(--white); 
     color: var(--deep-navy) !important; 
-    padding: 5px 30px;
+    /*padding: 3px 30px;*/
+    padding: 3px 30px;
     border-radius: 50px;
     font-weight: 700;
     opacity: 1 !important;
@@ -127,11 +138,28 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* User Profile & Logout */
+
+/* User Dropdown */
+.user-dropdown {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.user-name {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    padding: 10px 0;
 }
 
 .profile-icon {
@@ -139,10 +167,59 @@
     color: var(--white);
 }
 
-.logout-link {
-    color: #ff7675 !important; 
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    min-width: 90px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 2px 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.user-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 6px 8px;
+    color: #444 !important;
+    text-decoration: none;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
+    transition: var(--transition);
+    opacity: 1 !important;
+    position: relative;
+}
+
+.dropdown-menu li a:not(.logout-link):hover {
+    background: #f8f9fa;
+    color: var(--cerulean) !important;
+    padding-left: 25px;
+}
+
+/* Logout specifically in dropdown */
+.dropdown-menu li a.logout-link {
+    color: #888 !important; /* Grey by default as requested */
+    border-top: 1px solid #eee;
+    margin-top: 5px;
+}
+
+.dropdown-menu li a.logout-link:hover {
+    color: #ff7675 !important; /* Red on hover */
+    background: #fff5f5;
+    padding-left: 25px;
 }
 
 /* Mobile Responsive Menu */

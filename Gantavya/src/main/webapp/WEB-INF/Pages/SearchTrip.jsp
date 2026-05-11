@@ -19,7 +19,6 @@
                     <div class="search-card">
                         <div class="trip-type">
                             <label><input type="radio" name="type" checked> <span></span> One Way</label>
-                            <label><input type="radio" name="type"> <span></span> Round Trip</label>
                         </div>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
                             <div class="box">

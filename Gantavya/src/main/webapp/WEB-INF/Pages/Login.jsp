@@ -105,7 +105,7 @@
 			                required
 			            >
 			            <button type="button" class="toggle-password" onclick="togglePassword()">
-			                <span id="eye-icon">👁</span>
+			                <span id="eye-icon">Show</span>
 			            </button>
 			            <c:if test="${not empty passError}">
 				            <span style="color: red; font-size: 0.85rem; margin-top: 5px; display: block;">
@@ -175,7 +175,7 @@
         const icon    = document.getElementById('eye-icon');
         const isHidden = input.type === 'password';
         input.type = isHidden ? 'text' : 'password';
-        icon.textContent = isHidden ? '🙈' : '👁';
+        icon.textContent = isHidden ? 'Hide' : 'Show';
     }
 
     function handleForgotPassword() {

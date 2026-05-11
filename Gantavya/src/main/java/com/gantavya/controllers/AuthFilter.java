@@ -37,10 +37,12 @@ public class AuthFilter implements Filter {
                         || path.equals("/404error.jsp")
                         || path.equals("/500error.jsp")
                         || path.equals("/error")
+                        || path.equals("/profile")
                         || path.equals("/password-reset")
                         || path.startsWith("/about")
                         || path.startsWith("/contact")
                         || path.startsWith("/CSS/")
+                        || path.equals("/logout")
                         || path.startsWith("/images/")
                         || path.equals("/");
 

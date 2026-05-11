@@ -158,4 +158,21 @@ public class PassengerDao {
         }
         return null;
     }
+    
+    public boolean updatePassengerDetails(PassengerModel passenger) {
+        String query = "UPDATE passenger SET Name = ?, ContactNumber = ?, DOB = ?, Gender = ?, Email = ? WHERE PassengerID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, passenger.getFullName());
+            pstmt.setLong(2, passenger.getContactNumber());
+            pstmt.setString(3, passenger.getDob());
+            pstmt.setString(4, passenger.getGender());
+            pstmt.setString(5, passenger.getEmail());
+            pstmt.setString(6, passenger.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
