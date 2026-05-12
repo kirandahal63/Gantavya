@@ -17,11 +17,17 @@ public class ViewBookingsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TripDao tripDao = new TripDao();
+    	TripDao tripDao = new TripDao();
         BookingDao bookingDao = new BookingDao();
 
         String tripId = request.getParameter("tripId");
+        String searchTrip = request.getParameter("searchTrip");
         String sortBy = request.getParameter("sort");
+        
+        // If search is used, it takes precedence
+        if (searchTrip != null && !searchTrip.trim().isEmpty()) {
+            tripId = searchTrip.trim();
+        }
         
         List<TripModel> allTrips = tripDao.getAllTrips("");
         request.setAttribute("trips", allTrips);

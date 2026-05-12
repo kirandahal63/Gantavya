@@ -137,13 +137,14 @@ html, body {
 }
 
 .toggle-password {
-    position: absolute;
+	position: absolute;
     right: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
+    font-size: 12px;
     font-size: 1rem;
     color: var(--text-light);
     padding: 0;

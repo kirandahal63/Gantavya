@@ -5,17 +5,14 @@
 :root {
     --gantavya-blue:  #1a2e4a;
     --bg-main:        #f8fafc; /* Light gray background like FoxHR */
-    --white:          #ffffff;
-    
+    --white:          #ffffff;    
     --text-primary:   #2d3748;
     --text-secondary: #718096;
-    --text-muted:     #a0aec0;
-    
+    --text-muted:     #a0aec0;    
     --accent-orange:  #f1a52e; /* The bright FoxHR banner color */
     --accent-blue:    #4299e1;
     --accent-green:   #48bb78;
     --accent-red:     #f56565;
-
     --sidebar-w:      240px;
     --radius-lg:      30px;
     --radius-md:      12px;
@@ -24,7 +21,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
+html, body { height: 100%;overflow: hidden; }
 
 body {
     font-family: var(--font-main);
@@ -63,21 +60,14 @@ body {
     border-bottom: 1px solid #f1f5f9;
 }
 
-.page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+.page-title { font-size: 28px; font-weight: 800; color: var(--text-primary); }
 
-.topbar-actions { display: flex; gap: 10px; }
 
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-.dot-gray { background: #e2e8f0; }
-.dot-light { background: var(--accent-orange); }
-
-/* =============================================
-   CONTENT AREA & GRID LAYOUT
-   ============================================= */
+/* CONTENT AREA & GRID LAYOUT*/
 .content-area {
     flex: 1;
     overflow-y: auto;
-    padding: 30px 40px;
+    padding: 25px 40px;
 }
 
 /* This creates the 2-column look: Main Data | Sidebar */
@@ -276,12 +266,12 @@ body {
 }
 
 .status-pill {
-    padding: 4px 12px;
+    padding: 6px 16px;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
 }
-.status-pill.open { background: #e6fffa; color: #2c7a7b; }
+.status-pill.open { background: #e6fffa; color: #05cd99;}
 .status-pill.closed { background: #fff5f5; color: #c53030; }
 
 /* =============================================
@@ -386,6 +376,57 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--gantavya-blue);
+}
+
+/* =========================
+   CALENDAR NAVIGATION
+   ========================= */
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calendar-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    color: #4a5568;
+    transition: all 0.2s ease;
+}
+
+.calendar-btn:hover {
+    background: #f1f5f9;
+}
+
+/* =========================
+   DAY STATES
+   ========================= */
+
+/* Today's date */
+.day-number.today {
+    background: #f1f5f9;
+    color: #1a2e4a;
+    font-weight: 700;
+}
+#calendarDays {
+    margin-top: 10px;
+}
+/* Selected date */
+.day-number.selected {
+    background: #1a2e4a;
+    color: white;
+    font-weight: 700;
+}
+
+/* Prevent hover overriding selected */
+.day-number.selected:hover {
+    background: #1a2e4a;
+    color: white;
 }
 
 .item-info strong { display: block; font-size: 13px; }

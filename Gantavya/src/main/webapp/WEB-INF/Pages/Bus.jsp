@@ -19,7 +19,7 @@
     <div class="main-panel">
         <header class="header-nav">
             <div class="header-left">
-                <h1 class="page-title">Fleet Management</h1>
+                <h1 class="page-title">Bus Management</h1>
                 <p class="breadcrumb">Admin / <span class="active-crumb">Buses</span></p>
             </div>
         </header>
@@ -37,7 +37,7 @@
                 <div class="input-grid">
                     <div class="input-group">
                         <label>Bus Number</label>
-                        <input type="text" name="busNumber" placeholder="e.g. BA 2 K 4456" required>
+                        <input type="text" name="busNumber"required>
                     </div>
                     <div class="input-group">
                         <label>Vehicle Type</label>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="input-group">
                         <label>Total Capacity</label>
-                        <input type="number" name="capacity" placeholder="40" required>
+                        <input type="number" name="capacity"required>
                     </div>
                     <div class="input-group">
                         <label>Status</label>

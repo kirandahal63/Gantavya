@@ -30,25 +30,37 @@
                         <h3>Select Trip</h3>
                         <p>Choose a trip to view its passenger list and booking details.</p>
                     </div>
-                    <form action="${pageContext.request.contextPath}/viewBookings" method="GET" class="filter-form">
-                        <div class="input-grid">
-                            <div class="input-group">
-                                <label for="tripSelect">Available Trips</label>
-                                <select name="tripId" id="tripSelect" onchange="this.form.submit()">
+                    <form action="${pageContext.request.contextPath}/viewBookings" method="GET" class="premium-filter-form" style="margin-top: 20px;">
+                        <div class="filter-row" style="display: flex; gap: 20px; width: 100%; align-items: flex-end;">
+                            <div class="input-group" style="flex: 2;">
+                                <label for="tripSelect">Select Trip</label>
+                                <select name="tripId" id="tripSelect" class="premium-select" onchange="document.getElementsByName('searchTrip')[0].value=''; this.form.submit()" style="width: 100%; height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px;">
                                     <option value="">-- Choose a Trip --</option>
                                     <c:forEach var="trip" items="${trips}">
                                         <option value="${trip.tripId}" ${trip.tripId == selectedTripId ? 'selected' : ''}>
-                                            ${trip.tripId} | ${trip.source} to ${trip.destination} (${trip.departureDate})
+                                             ${trip.source} to ${trip.destination} | ${trip.departureDate}
                                         </option>
                                     </c:forEach>
                                 </select>
-                            </div>
-                            <div class="input-group">
-                                <label for="sortSelect">Sort Bookings By</label>
-                                <select name="sort" id="sortSelect" onchange="this.form.submit()">
+                            </div>                          
+                            
+
+                            <div class="input-group" style="flex: 1;">
+                                <label for="sortSelect">Sort Bookings</label>
+                                <select name="sort" id="sortSelect" class="premium-select" onchange="this.form.submit()" style="width: 100%; height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px;">
                                     <option value="date" ${currentSort == 'date' ? 'selected' : ''}>Booking Date</option>
                                     <option value="fare" ${currentSort == 'fare' ? 'selected' : ''}>Total Fare</option>
                                 </select>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label>Quick Search</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" name="searchTrip" value="${param.searchTrip}" placeholder="Trip ID " class="premium-input" style="height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px; flex: 1;">
+                                    <button type="submit" class="btn-primary" 
+								        style="height: 45px; width: 45px; min-width: 45px; display: flex; align-items: center; justify-content: center; border-radius: 10px; padding: 0;">
+								    <i class="fas fa-search"></i>
+								</button>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -22,6 +22,7 @@ body {
     /*background-color: var(--bg-light);*/
     color: var(--text-main);
     overflow: hidden; /* Keeps the whole page from scrolling */
+    
 }
 
 /* THE APP SHELL - Only use this one wrapper */

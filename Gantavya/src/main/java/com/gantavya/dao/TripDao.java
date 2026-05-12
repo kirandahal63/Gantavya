@@ -138,17 +138,26 @@ public class TripDao {
     }
 
     public List<TripModel> getUpcomingTrips() {
+        return getUpcomingTrips(null);
+    }
+
+    public List<TripModel> getUpcomingTrips(String selectedDate) {
         List<TripModel> trips = new ArrayList<>();
         String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
+                (selectedDate != null ? "WHERE t.DepartureDate LIKE ? " : "") +
                 "ORDER BY t.DepartureDate ASC LIMIT 6";
                        
         try (Connection conn = getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(query)) {
             
+            if (selectedDate != null) {
+                ps.setString(1, "%" + selectedDate + "%");
+            }
+
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 TripModel trip = new TripModel();
                 trip.setTripId(rs.getString("TripID"));

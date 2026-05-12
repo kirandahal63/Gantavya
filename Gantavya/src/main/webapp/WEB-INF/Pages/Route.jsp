@@ -38,19 +38,19 @@
                         <div class="input-grid">
                             <div class="input-group">
                                 <label>Route Name</label>
-                                <input type="text" name="routeName" placeholder="e.g. KTM-PKR-01" required>
+                                <input type="text" name="routeName" required>
                             </div>
                             <div class="input-group">
                                 <label>Origin</label>
-                                <input type="text" name="origin" placeholder="Kathmandu" required>
+                                <input type="text" name="origin" required>
                             </div>
                             <div class="input-group">
                                 <label>Destination</label>
-                                <input type="text" name="destination" placeholder="Pokhara" required>
+                                <input type="text" name="destination" required>
                             </div>
                             <div class="input-group">
                                 <label>Distance (KM)</label>
-                                <input type="number" name="distance" placeholder="200" required>
+                                <input type="number" name="distance" required>
                             </div>
                             
                             <div class="btn-group-row" style="display: flex; gap: 15px;">

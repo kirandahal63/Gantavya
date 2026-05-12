@@ -8,8 +8,8 @@
             <meta charset="UTF-8">
             <title>Gantavya Admin - Schedule Trip</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Buses.css">
-            <link
-                href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+             
+            <link  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
                 rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         </head>
@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="input-group">
                                                 <label>Fare Amount</label>
-                                                <input type="number" name="fare" placeholder="e.g. 1500" required>
+                                                <input type="number" name="fare" required>
                                             </div>
                                             <div class="input-group">
                                                 <label>Trip Status</label>
