@@ -73,7 +73,8 @@ public class AuthFilter implements Filter {
 
         // 3. Admin-only paths
         String role = (String) session.getAttribute("role");
-        if (path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/bus") || path.startsWith("/route") || path.startsWith("/trip")) {
+        if (path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/bus") || path.startsWith("/route") 
+        	|| path.startsWith("/trip") || path.startsWith("viewBookings")) {
             if ("ADMIN".equals(role)) {
                 chain.doFilter(request, response);
             } else {

@@ -37,13 +37,13 @@
             <i class="fa-solid fa-chart-bar"></i>
             <span>Staff</span>
         </a>
-        <a href="payments" class="nav-item ${pageName == 'payments' ? 'active' : ''}">
-            <i class="fa-solid fa-credit-card"></i>
-            <span>Payments</span>
+        <a href="${pageContext.request.contextPath}/viewBookings"  class="nav-item ${pageName == 'viewBookings' ? 'active' : ''}">
+            <i class="fa-solid fa-book-open"></i>
+            <span>View Bookings</span>
         </a>
-        <a href="settings" class="nav-item ${pageName == 'settings' ? 'active' : ''}">
-            <i class="fa-solid fa-gear"></i>
-            <span>Settings</span>
+        <a href="${pageContext.request.contextPath}/logout" class="nav-item ${pageName == 'settings' ? 'active' : ''}">
+            <i class="fa fa-sign-out"></i>
+            <span>Logout</span>
         </a>
     </nav>
 

@@ -96,5 +96,52 @@ public class BookingDao {
         }
         return bookings;
     }
+    
+    public List<String> getBookedSeatsByTripId(String tripId) {
+        List<String> bookedSeats = new ArrayList<>();
+        String query = "SELECT SeatNumber FROM booking WHERE TripID = ?";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, tripId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String seats = rs.getString("SeatNumber");
+                if (seats != null) {
+                    String[] seatArray = seats.split(",");
+                    for (String seat : seatArray) {
+                        bookedSeats.add(seat.trim());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bookedSeats;
+    }
+    
+    public List<BookingModel> getBookingsByTripId(String tripId) {
+        List<BookingModel> bookings = new ArrayList<>();
+        String query = "SELECT b.*, p.Name FROM booking b " +
+                       "LEFT JOIN passenger p ON TRIM(b.PassengerID) = TRIM(p.PassengerID) " +
+                       "WHERE TRIM(b.TripID) = TRIM(?) ORDER BY b.BookingDate DESC";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, tripId.trim());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BookingModel booking = new BookingModel();
+                booking.setBookingId(rs.getString("BookingID"));
+                booking.setBookingDate(rs.getTimestamp("BookingDate"));
+                booking.setSeatNumber(rs.getString("SeatNumber"));
+                booking.setOtherPassengers(rs.getString("OtherPassengers"));
+                booking.setPassengerName(rs.getString("Name"));
+                booking.setTripId(rs.getString("TripID"));
+                bookings.add(booking);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bookings;
+    }
 }
 

@@ -104,7 +104,6 @@
             <div class="card-container">
                 <div class="card-header">
                     <h3>Route Condition</h3>
-                    <button class="view-all-btn">View All</button>
                 </div>
                 <table class="progress-table">
                     <thead>

@@ -2,7 +2,7 @@
 /* Sidebar specific styles extracted from your main CSS */
 .sidebar {
     width: var(--sidebar-w);
-    background: #2d3748;
+    background: #1a2e4a;
     display: flex;
     flex-direction: column;    
     color: white;

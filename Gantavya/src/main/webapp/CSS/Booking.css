@@ -99,6 +99,13 @@ body {
     color: white; 
     border-color: #646668; 
 }
+.seat.booked {
+    background: #ccc;
+    color: #888;
+    border-color: #bbb;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
 .aisle { width: 20px; }
 

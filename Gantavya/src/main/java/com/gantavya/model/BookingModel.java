@@ -13,6 +13,7 @@ public class BookingModel {
     private String tripId;
     private String passengerId;
     private TripModel trip;
+    private String passengerName;
     
     public BookingModel() {}
 
@@ -99,5 +100,13 @@ public class BookingModel {
 
 	public void setTrip(TripModel trip) {
 		this.trip = trip;
+	}
+
+	public String getPassengerName() {
+		return passengerName;
+	}
+
+	public void setPassengerName(String passengerName) {
+		this.passengerName = passengerName;
 	}
 }

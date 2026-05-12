@@ -19,8 +19,18 @@
                 <!-- COLUMN 1: Seat Selection -->
                 <section class="booking-card seat-section">
                     <div class="step-header">
-                        <div style="display: flex; flex-direction: column;">
-                            <div class="step-header">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <c:if test="${param.error == 'seat_taken'}">
+                                <div style="color: #d9534f; background: #f2dede; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">
+                                    <i class="fas fa-exclamation-circle"></i> Some seats were already booked. Please select available ones.
+                                </div>
+                            </c:if>
+                            <c:if test="${param.error == 'limit_exceeded'}">
+                                <div style="color: #d9534f; background: #f2dede; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">
+                                    <i class="fas fa-exclamation-circle"></i> You can only book up to 5 seats at once.
+                                </div>
+                            </c:if>
+                            <div class="step-header" style="margin-bottom: 0;">
                                 <span class="step-num">1</span>
                                 <h2>Select Seats</h2>
                             </div>
@@ -40,6 +50,8 @@
                                int capacity = (trip != null) ? trip.getCapacity() : 0;
                                if (capacity == 0) capacity = 23; // Fallback
                                
+                               java.util.List<String> bookedSeats = (java.util.List<String>) request.getAttribute("bookedSeats");
+                               
                                char[] rows = {'A','B','C','D','E','F','G','H','I'};
                                int seatsGenerated = 0;
                                for(char row : rows) {
@@ -48,8 +60,9 @@
                                        if (seatsGenerated >= capacity) break;
                                        String id = row + "" + i;
                                        seatsGenerated++;
+                                       boolean isBooked = (bookedSeats != null && bookedSeats.contains(id));
                             %>
-                                <div class="seat" data-seat="<%=id%>"><%=id%></div>
+                                <div class="seat <%= isBooked ? "booked" : "" %>" data-seat="<%=id%>"><%=id%></div>
                             <% if(i==2) { %><div class="aisle"></div><% } %>
                             <% } } %>
                         </div>
@@ -256,6 +269,10 @@
                     selected = selected.filter(s => s !== id);
                     seat.classList.remove('selected');
                 } else {
+                    if (selected.length >= 5) {
+                        alert("You can only book up to 5 seats at once.");
+                        return;
+                    }
                     selected.push(id);
                     seat.classList.add('selected');
                 }

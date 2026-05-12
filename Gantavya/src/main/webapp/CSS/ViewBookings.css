@@ -1,0 +1,233 @@
+:root {
+    --primary: #1a2e4a;
+    --accent: #3498db;
+    --success: #2ecc71;
+    --bg: #f4f7f6;
+    --white: #ffffff;
+    --text: #333;
+    --text-light: #777;
+    --border: #e1e8ed;
+    --shadow: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+.main-content {
+    background: var(--bg);
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.content-header {
+    margin-bottom: 30px;
+}
+
+.header-title h1 {
+    font-size: 28px;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.header-title p {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* Trip Selection */
+.trip-selection-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.filter-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+}
+
+.filter-form label {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.filter-form select {
+    padding: 12px 15px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--text);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+.filter-form select:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+/* Summary Cards */
+.trip-info-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.info-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.info-card i {
+    font-size: 24px;
+    color: var(--primary);
+    background: rgba(52, 152, 219, 0.1);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.info-card span {
+    display: block;
+    font-size: 12px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-card strong {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+/* Bookings Table */
+.bookings-table-container {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.bookings-table th {
+    background: #f8fafd;
+    padding: 15px 20px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 2px solid var(--border);
+}
+
+.bookings-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+}
+
+.id-badge {
+    background: #eef2f7;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.seat-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.seat-badge {
+    background: var(--primary);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-pill {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-pill.confirmed {
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--success);
+}
+
+.other-passengers {
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+.none-text {
+    color: #ccc;
+    font-size: 12px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px !important;
+    color: var(--text-light);
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.3;
+}
+
+.empty-selection {
+    text-align: center;
+    padding: 100px 30px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.empty-selection i {
+    font-size: 64px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-20px);}
+    60% {transform: translateY(-10px);}
+}
+
+.empty-selection h2 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.empty-selection p {
+    color: var(--text-light);
+}

@@ -16,7 +16,6 @@
         </head>
 
         <body>
-
             <div class="app-shell">
                 <jsp:include page="/WEB-INF/Pages/SideNav.jsp" />
 

@@ -77,7 +77,7 @@
                 <!-- Header updated to "UPCOMING TRIPS" -->
                 <div class="section-head">
                     <h2>UPCOMING TRIPS</h2>
-                    <a href="#">View All Trips ></a>
+                    <a href="${pageContext.request.contextPath}/search">View All Trips ></a>
                 </div>
 
                 <!-- UPCOMING TRIPS GRID -->
@@ -122,10 +122,8 @@
                     <div class="promo-blue">
                         <h2>THE NEW STANDARD OF BUS TRAVEL.</h2>
                         <p>Every journey is engineered for comfort with high-speed Wi-Fi and ergonomic seating.</p>
-                        <i class="fa fa-bus-simple water-icon"></i>
                     </div>
                     <div class="promo-eco">
-                        <i class="fa-solid fa-leaf leaf"></i>
                         <h3>Sustainable Routes</h3>
                         <p>Join us in reducing CO2 emissions with our modern Euro 6 fleet.</p>
                     </div>

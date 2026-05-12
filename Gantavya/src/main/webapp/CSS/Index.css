@@ -135,9 +135,9 @@ main { margin-top: 220px; }
 .card-footer a:hover { border-bottom: 2px solid var(--action-blue); }
 
 /* PROMO SECTION */
-.promo-flex { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 100px; }
+.promo-flex { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 120px; }
 .promo-blue { 
-    background: var(--light-blue); 
+    background: var(--primary-blue); 
     color: white; 
     padding: 60px 40px; 
     border-radius: 8px; 
@@ -148,7 +148,16 @@ main { margin-top: 220px; }
 .promo-blue p { font-size: 18px; width: 60%; opacity: 0.9; }
 .water-icon { position: absolute; right: 20px; bottom: 20px; font-size: 100px; opacity: 0.1; }
 
-.promo-eco { background: #eee; padding: 40px; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; position: relative;}
+.promo-eco {
+    background: #eee;
+    padding: 60px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+}
+
 .leaf { font-size: 30px; color: var(--primary-blue); position: absolute; top: 40px; left: 40px; }
 .promo-eco h3 { font-size: 22px; margin-bottom: 10px; }
 .promo-eco p { color: var(--text-grey); font-size: 14px; }

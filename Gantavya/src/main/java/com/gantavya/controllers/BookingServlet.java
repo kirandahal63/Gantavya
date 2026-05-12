@@ -43,6 +43,10 @@ public class BookingServlet extends HttpServlet {
 
 		request.setAttribute("trip", trip);
 		
+		com.gantavya.dao.BookingDao bookingDao = new com.gantavya.dao.BookingDao();
+		java.util.List<String> bookedSeats = bookingDao.getBookedSeatsByTripId(tripId);
+		request.setAttribute("bookedSeats", bookedSeats);
+		
 		request.getRequestDispatcher("/WEB-INF/Pages/Booking.jsp").forward(request, response);
 	}
 
@@ -59,9 +63,22 @@ public class BookingServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/booking?tripId=" + tripId);
 			return;
 		}
-
-		// Collect additional passengers if any
+		
 		String[] seatsArray = selectedSeats.split(",");
+		if (seatsArray.length > 5) {
+			response.sendRedirect(request.getContextPath() + "/booking?tripId=" + tripId + "&error=limit_exceeded");
+			return;
+		}
+		
+		// Server-side seat validation
+		com.gantavya.dao.BookingDao bookingDao = new com.gantavya.dao.BookingDao();
+		java.util.List<String> alreadyBooked = bookingDao.getBookedSeatsByTripId(tripId);
+		for (String seat : seatsArray) {
+			if (alreadyBooked.contains(seat.trim())) {
+				response.sendRedirect(request.getContextPath() + "/booking?tripId=" + tripId + "&error=seat_taken");
+				return;
+			}
+		}
 		StringBuilder otherPassengers = new StringBuilder();
 		for (int i = 1; i < seatsArray.length; i++) {
 			String name = request.getParameter("passengerName_" + i);

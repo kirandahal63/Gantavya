@@ -70,14 +70,16 @@ public class TripDao {
 
     public List<TripModel> getAllTrips(String search) {
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT * FROM trip WHERE TripID LIKE ? OR RouteID LIKE ? OR BusID LIKE ?";
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination FROM trip t " +
+                       "LEFT JOIN route r ON t.RouteID = r.RouteID " +
+                       "WHERE t.TripID LIKE ? OR t.RouteID LIKE ? OR t.BusID LIKE ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, "%" + search + "%");
             ps.setString(2, "%" + search + "%");
             ps.setString(3, "%" + search + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                trips.add(new TripModel(
+                TripModel trip = new TripModel(
                     rs.getString("TripID"),
                     rs.getString("DepartureDate"),
                     rs.getString("Arrival Date"),
@@ -86,7 +88,10 @@ public class TripDao {
                     rs.getString("RouteID"),
                     rs.getString("BusID"),
                     rs.getString("StaffID")
-                ));
+                );
+                trip.setSource(rs.getString("RouteOrigin"));
+                trip.setDestination(rs.getString("RouteDestination"));
+                trips.add(trip);
             }
         } catch (Exception e) {
             e.printStackTrace();
