@@ -7,7 +7,6 @@
         <head>
             <meta charset="UTF-8">
             <title>Gantavya Admin - Schedule Trip</title>
-            <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Buses.css">
             <link
                 href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -208,8 +207,10 @@
                                             <thead>
                                                 <tr>
                                                     <th>Trip ID</th>
-                                                    <th>Bus / Route</th>
-                                                    <th>Departure / Arrival</th>
+                                                    <th>Bus</th>
+                                                    <th>Route</th>
+                                                    <th>Departure</th>
+                                                    <th>Arrival</th>
                                                     <th>Fare</th>
                                                     <th>Status</th>
                                                     <th>Manage</th>
@@ -218,15 +219,11 @@
                                             <tbody>
                                                 <c:forEach var="trip" items="${tripList}">
                                                     <tr>
-                                                        <td><span class="id-badge">#${trip.tripId}</span></td>
-                                                        <td>
-                                                            <strong>${trip.busId}</strong><br>
-                                                            <small>${trip.routeId}</small>
-                                                        </td>
-                                                        <td>
-                                                            <small>Dep: ${trip.departureDate}</small><br>
-                                                            <small>Arr: ${trip.arrivalDate}</small>
-                                                        </td>
+                                                        <td><span class="id-badge">${trip.tripId}</span></td>
+                                                        <td>${trip.busId}</td>
+                                                        <td>${trip.routeId}</td>
+                                                        <td>${trip.departureDate}</td>
+                                                        <td>${trip.arrivalDate}</td>
                                                         <td>Rs. ${trip.fare}</td>
                                                         <td>
                                                             <span

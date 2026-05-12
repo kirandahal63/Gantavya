@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Insert title here</title>
+<title>Gantavya - Admin Side Navigation</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -21,7 +22,7 @@
             <i class="fa-solid fa-gauge-high"></i>
             <span>Dashboard</span>
         </a>
-        <a href = "${pageContext.request.contextPath}/trip" class="nav-item ${pageName == 'bookings' ? 'active' : ''}">
+        <a href = "${pageContext.request.contextPath}/trip" class="nav-item ${pageName == 'trips' ? 'active' : ''}">
             <i class="fa-solid fa-ticket"></i>
             <span>Schedule Trip</span>
         </a>
@@ -29,20 +30,20 @@
             <i class="fa-solid fa-bus-simple"></i>
             <span>Buses </span>
         </a>
-        <a href ="${pageContext.request.contextPath}/route"  class="nav-item ${pageName == 'passengers' ? 'active' : ''}">
+        <a href ="${pageContext.request.contextPath}/route"  class="nav-item ${pageName == 'routes' ? 'active' : ''}">
             <i class="fa-solid fa-route"></i>
             <span>Route</span>
         </a>
-        <a href = "${pageContext.request.contextPath}/staff" class="nav-item ${pageName == 'reports' ? 'active' : ''}">
-            <i class="fa-solid fa-chart-bar"></i>
+        <a href = "${pageContext.request.contextPath}/staff" class="nav-item ${pageName == 'staff' ? 'active' : ''}">
+            <i class="fa-solid fa-users-gear"></i>
             <span>Staff</span>
         </a>
         <a href="${pageContext.request.contextPath}/viewBookings"  class="nav-item ${pageName == 'viewBookings' ? 'active' : ''}">
             <i class="fa-solid fa-book-open"></i>
             <span>View Bookings</span>
         </a>
-        <a href="${pageContext.request.contextPath}/logout" class="nav-item ${pageName == 'settings' ? 'active' : ''}">
-            <i class="fa fa-sign-out"></i>
+        <a href="${pageContext.request.contextPath}/logout" class="nav-item">
+            <i class="fa-solid fa-right-from-bracket"></i>
             <span>Logout</span>
         </a>
     </nav>

@@ -40,6 +40,7 @@ public class RouteServlet extends HttpServlet {
             }
 
             request.setAttribute("routeList", routeDao.getAllRoutes(search));
+            request.setAttribute("pageName", "routes");
             request.getRequestDispatcher("/WEB-INF/Pages/Route.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

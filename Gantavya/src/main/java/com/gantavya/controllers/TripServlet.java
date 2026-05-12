@@ -71,7 +71,7 @@ public class TripServlet extends HttpServlet {
         List<TripModel> tripList = tripDao.getAllTrips(search);
         request.setAttribute("tripList", tripList);
         
-        request.setAttribute("pageName", "bookings"); 
+        request.setAttribute("pageName", "trips");  
 
         request.getRequestDispatcher("/WEB-INF/Pages/Trip.jsp").forward(request, response);
     }

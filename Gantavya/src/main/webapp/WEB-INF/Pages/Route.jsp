@@ -132,8 +132,8 @@
                     <tbody>
                         <c:forEach var="route" items="${routeList}">
                             <tr>
-                                <td><span class="id-badge">#${route.routeId}</span></td>
-                                <td><strong>${route.routeName}</strong></td>
+                                <td><span class="id-badge">${route.routeId}</span></td>
+                                <td>${route.routeName}</td>
                                 <td>${route.origin}</td>
                                 <td>${route.destination}</td>
                                 <td>${route.distance} KM</td>

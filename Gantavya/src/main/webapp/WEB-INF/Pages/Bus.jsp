@@ -137,8 +137,8 @@
             <tbody>
                 <c:forEach var="bus" items="${busList}">
                     <tr>
-                        <td><span class="id-badge">#${bus.busId}</span></td>
-                        <td><strong>${bus.busNumber}</strong></td>
+                        <td><span class="id-badge">${bus.busId}</span></td>
+                        <td>${bus.busNumber}</td>
                         <td>${bus.busType}</td>
                         <td>${bus.capacity} Seats</td>
                         <td>

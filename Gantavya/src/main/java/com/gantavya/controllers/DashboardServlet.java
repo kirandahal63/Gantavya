@@ -35,7 +35,6 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("totalBookings",    "5,600");
         request.setAttribute("totalRevenue",     "$345,000");
         request.setAttribute("totalStops",       18);
-        request.getRequestDispatcher("/WEB-INF/Pages/Dashboard.jsp").forward(request, response);
      List<Map<String, Object>> routeConditions = new ArrayList<>();
 
      // Add Route 1
@@ -55,8 +54,9 @@ public class DashboardServlet extends HttpServlet {
      route2.put("tasks", 3);
      route2.put("progress", 0);
      routeConditions.add(route2);
-
      request.setAttribute("routeConditions", routeConditions);
+     request.setAttribute("pageName", "dashboard");
+     request.getRequestDispatcher("/WEB-INF/Pages/Dashboard.jsp").forward(request, response);
     }
 
 }

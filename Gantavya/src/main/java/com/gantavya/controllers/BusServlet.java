@@ -40,6 +40,7 @@ public class BusServlet extends HttpServlet {
             }
 
             request.setAttribute("busList", busDao.getAllBuses(search));
+            request.setAttribute("pageName", "buses");
             request.getRequestDispatcher("/WEB-INF/Pages/Bus.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
