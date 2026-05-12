@@ -44,6 +44,8 @@ public class AuthFilter implements Filter {
                         || path.startsWith("/CSS/")
                         || path.equals("/logout")
                         || path.startsWith("/images/")
+                        || path.equals("/terms")
+                        || path.equals("/privacy")
                         || path.equals("/");
 
         if (isPublic) {

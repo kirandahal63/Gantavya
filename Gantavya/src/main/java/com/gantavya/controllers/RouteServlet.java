@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.gantavya.dao.RouteDao;
+import com.gantavya.service.RouteService;
 import com.gantavya.model.RouteModel;
 
 @WebServlet("/route")
 public class RouteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private RouteDao routeDao;
+    private RouteService routeService;
 
     public void init() {
-        routeDao = new RouteDao();
+        routeService = new RouteService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,17 +29,17 @@ public class RouteServlet extends HttpServlet {
         try {
             if ("edit".equals(action)) {
                 String id = request.getParameter("id");
-                List<RouteModel> results = routeDao.getAllRoutes(id);
+                List<RouteModel> results = routeService.getAllRoutes(id);
                 if (!results.isEmpty()) {
                     request.setAttribute("editableRoute", results.get(0));
                 }
             } else if ("delete".equals(action)) {
-                routeDao.deleteRoute(request.getParameter("id"));
+                routeService.deleteRoute(request.getParameter("id"));
                 response.sendRedirect("route");
                 return;
             }
 
-            request.setAttribute("routeList", routeDao.getAllRoutes(search));
+            request.setAttribute("routeList", routeService.getAllRoutes(search));
             request.setAttribute("pageName", "routes");
             request.getRequestDispatcher("/WEB-INF/Pages/Route.jsp").forward(request, response);
         } catch (Exception e) {
@@ -53,21 +53,49 @@ public class RouteServlet extends HttpServlet {
         String routeName = request.getParameter("routeName");
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");
-        long distance = Long.parseLong(request.getParameter("distance"));
+        String distanceStr = request.getParameter("distance");
+        
+        long distance = 0;
+        boolean hasError = false;
+
+        // Validation using utility
+        if (!com.gantavya.util.Validation.isValidRouteId(routeId)) {
+            hasError = true;
+            request.setAttribute("routeIdError", "Invalid Format (RT001)");
+        }
+
+        try {
+            distance = (distanceStr != null && !distanceStr.isEmpty()) ? Long.parseLong(distanceStr) : 0L;
+        } catch (NumberFormatException e) {
+            hasError = true;
+            request.setAttribute("distanceError", "Invalid Format");
+        }
+
+        RouteModel route = new RouteModel(routeId, routeName, distance, origin, destination);
+
+        if (hasError) {
+            request.setAttribute("errorRoute", route);
+            request.setAttribute("routeList", routeService.getAllRoutes(""));
+            request.setAttribute("pageName", "routes");
+            
+            if ("update".equals(action)) {
+                request.setAttribute("editableRoute", route);
+            }
+            
+            request.getRequestDispatcher("/WEB-INF/Pages/Route.jsp").forward(request, response);
+            return;
+        }
 
         try {
             if ("add".equals(action)) {
-                String newId = routeDao.generateNextRouteId();
-                RouteModel newRoute = new RouteModel(newId, routeName, distance, origin, destination);
-                routeDao.saveOrUpdateRoute(newRoute, "add");
+                routeService.addRoute(route);
             } else if ("update".equals(action)) {
-                RouteModel updatedRoute = new RouteModel(routeId, routeName, distance, origin, destination);
-                routeDao.saveOrUpdateRoute(updatedRoute, "update");
+                routeService.updateRoute(route);
             }
+            response.sendRedirect("route");
         } catch (SQLException e) {
             e.printStackTrace();
+            response.sendRedirect("route?error=SaveFailed");
         }
-
-        response.sendRedirect("route");
     }
 }

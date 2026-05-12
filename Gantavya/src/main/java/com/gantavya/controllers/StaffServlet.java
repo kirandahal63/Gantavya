@@ -1,7 +1,8 @@
 package com.gantavya.controllers;
 
-import com.gantavya.dao.StaffDao;
+import com.gantavya.service.StaffService;
 import com.gantavya.model.StaffModel;
+import com.gantavya.util.Validation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @WebServlet("/staff")
 public class StaffServlet extends HttpServlet {
-    private StaffDao staffDao = new StaffDao();
+    private StaffService staffService = new StaffService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -21,23 +22,20 @@ public class StaffServlet extends HttpServlet {
         
         List<StaffModel> staffList;
 
-        // Logic for Searching Staff
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            staffList = staffDao.searchStaff(searchQuery);
+            staffList = staffService.searchStaff(searchQuery);
         } else {
-            staffList = staffDao.getAllStaff();
+            staffList = staffService.getAllStaff();
         }
 
-        // Logic for Preparing Edit Modal
         if ("edit".equals(action)) {
             String id = request.getParameter("id");
-            StaffModel s = staffDao.getStaffById(id);
+            StaffModel s = staffService.getStaffById(id);
             request.setAttribute("editableStaff", s);
         } 
-        // Logic for Deletion
         else if ("delete".equals(action)) {
             String id = request.getParameter("id");
-            staffDao.deleteStaff(id);
+            staffService.deleteStaff(id);
             response.sendRedirect("staff");
             return;
         }
@@ -51,7 +49,6 @@ public class StaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        // Map request parameters to Model
         StaffModel s = new StaffModel();
         s.setStaffId(request.getParameter("staffId"));
         s.setStaffName(request.getParameter("staffName"));
@@ -69,15 +66,58 @@ public class StaffServlet extends HttpServlet {
             s.setJoiningDate(java.sql.Date.valueOf(joiningStr));
         }
         
-        // Handle numerical salary safely
         String salaryStr = request.getParameter("salary");
-        s.setSalary(salaryStr != null ? Long.parseLong(salaryStr) : 0L);
+        long salary = 0;
+        boolean hasError = false;
+
+        // Salary Validation
+        try {
+            salary = (salaryStr != null && !salaryStr.isEmpty()) ? Long.parseLong(salaryStr) : 0L;
+        } catch (NumberFormatException e) {
+            hasError = true;
+            request.setAttribute("salaryError", "Please enter salary in number.");
+        }
+
+        // Email Validation
+        if (!Validation.isValidEmail(s.getStaffEmail())) {
+            hasError = true;
+            request.setAttribute("emailError", "Please enter a valid Email");
+        }
+
+        // Name Validation
+        if (!Validation.isValidFullName(s.getStaffName())) {
+            hasError = true;
+            request.setAttribute("nameError", "Please enter a valid Name.");
+        }
+
+        // DOB Validation
+        if (dobStr != null && !Validation.isValidDOB(dobStr)) {
+            hasError = true;
+            request.setAttribute("dobError", "Staff must be above 18 years.");
+        }
+
+        s.setSalary(salary);
+
+        if (hasError) {
+            request.setAttribute("errorStaff", s);
+            // Forward back to doGet to reload list but with error attributes
+            request.setAttribute("staffList", staffService.getAllStaff());
+            request.setAttribute("pageName", "staff");
+            
+            // If we were updating, we need editableStaff to keep the modal open
+            if ("update".equals(action)) {
+                request.setAttribute("editableStaff", s);
+            }
+            
+            request.getRequestDispatcher("/WEB-INF/Pages/StaffManagement.jsp").forward(request, response);
+            return;
+        }
 
         if ("add".equals(action)) {
             s.setPassword(request.getParameter("password"));
-            staffDao.registerStaff(s);
+            staffService.registerStaff(s);
         } else if ("update".equals(action)) {
-            staffDao.updateStaff(s);
+            staffService.updateStaff(s);
         }
         
         response.sendRedirect("staff");

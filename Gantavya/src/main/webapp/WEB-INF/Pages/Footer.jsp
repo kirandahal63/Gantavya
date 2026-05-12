@@ -31,8 +31,8 @@
 	        <div class="footer-column">
 	            <h3>Support</h3>
 	            <ul>
-	                <li><a href="#">Privacy Policy</a></li>
-	                <li><a href="#">Terms & Conditions</a></li>
+	                <li><a href="${pageContext.request.contextPath}/privacy">Privacy Policy</a></li>
+					<li><a href="${pageContext.request.contextPath}/terms">Terms & Conditions</a></li>
 	            </ul>
 	        </div>
 	

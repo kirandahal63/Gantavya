@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee 
+                      https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+  version="5.0">
+
+    <servlet>
+        <servlet-name>TermsPage</servlet-name>
+        <jsp-file>/WEB-INF/Pages/TermsCondition.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>TermsPage</servlet-name>
+        <url-pattern>/terms</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>PolicyPage</servlet-name>
+        <jsp-file>/WEB-INF/Pages/PrivacyPolicy.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>PolicyPage</servlet-name>
+        <url-pattern>/privacy</url-pattern>
+    </servlet-mapping>
+
+</web-app>

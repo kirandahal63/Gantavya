@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.gantavya.dao.BusDao;
+import com.gantavya.service.BusService;
 import com.gantavya.model.BusModel;
 
 @WebServlet("/bus")
 public class BusServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private BusDao busDao;
+    private BusService busService;
 
     public void init() {
-        busDao = new BusDao();
+        busService = new BusService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,17 +29,17 @@ public class BusServlet extends HttpServlet {
         try {
             if ("edit".equals(action)) {
                 String id = request.getParameter("id");
-                List<BusModel> results = busDao.getAllBuses(id);
+                List<BusModel> results = busService.getAllBuses(id);
                 if (!results.isEmpty()) {
                     request.setAttribute("editableBus", results.get(0));
                 }
             } else if ("delete".equals(action)) {
-                busDao.deleteBus(request.getParameter("id"));
+                busService.deleteBus(request.getParameter("id"));
                 response.sendRedirect("bus");
                 return;
             }
 
-            request.setAttribute("busList", busDao.getAllBuses(search));
+            request.setAttribute("busList", busService.getAllBuses(search));
             request.setAttribute("pageName", "buses");
             request.getRequestDispatcher("/WEB-INF/Pages/Bus.jsp").forward(request, response);
         } catch (Exception e) {
@@ -49,27 +49,50 @@ public class BusServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        String busId = request.getParameter("busId"); // Used for updates
-        
+        String busId = request.getParameter("busId"); 
         String busNo = request.getParameter("busNumber");
         String busType = request.getParameter("busType");
         String status = request.getParameter("status");
-        int capacity = Integer.parseInt(request.getParameter("capacity"));
+        String capacityStr = request.getParameter("capacity");
+        
+        int capacity = 0;
+        boolean hasError = false;
+        if (!com.gantavya.util.Validation.isValidBusNumber(busNo)) {
+            hasError = true;
+            request.setAttribute("busNumberError", "Enter Bus Number");
+        }
+        try {
+            capacity = (capacityStr != null && !capacityStr.isEmpty()) ? Integer.parseInt(capacityStr) : 0;
+        } catch (NumberFormatException e) {
+            hasError = true;
+            request.setAttribute("capacityError", "Please enter a valid seat number.");
+        }
+
+        BusModel bus = new BusModel(busId, busNo, busType, capacity, status);
+
+        if (hasError) {
+            request.setAttribute("errorBus", bus);
+            request.setAttribute("busList", busService.getAllBuses(""));
+            request.setAttribute("pageName", "buses");
+            
+            if ("update".equals(action)) {
+                request.setAttribute("editableBus", bus);
+            }
+            
+            request.getRequestDispatcher("/WEB-INF/Pages/Bus.jsp").forward(request, response);
+            return;
+        }
 
         try {
             if ("add".equals(action)) {
-                // IMPORTANT: Generate the new BSIDxxx here
-                String newId = busDao.generateNextBusId();
-                BusModel newBus = new BusModel(newId, busNo, busType, capacity, status);
-                busDao.saveOrUpdateBus(newBus, "add");
+                busService.addBus(bus);
             } else if ("update".equals(action)) {
-                BusModel updatedBus = new BusModel(busId, busNo, busType, capacity, status);
-                busDao.saveOrUpdateBus(updatedBus, "update");
+                busService.updateBus(bus);
             }
+            response.sendRedirect("bus");
         } catch (SQLException e) {
             e.printStackTrace();
+            response.sendRedirect("bus?error=SaveFailed");
         }
-
-        response.sendRedirect("bus");
     }
 }

@@ -53,6 +53,12 @@ public class DashboardServlet extends HttpServlet {
 
         TripDao tripDao = new TripDao();
         String selectedDate = request.getParameter("selectedDate");
+        
+        // Default to today's date if no date is selected
+        if (selectedDate == null || selectedDate.isEmpty()) {
+            selectedDate = java.time.LocalDate.now().toString(); 
+        }
+        
         List<TripModel> upcomingTrips = tripDao.getUpcomingTrips(selectedDate);
         request.setAttribute("upcomingTrips", upcomingTrips);
         request.setAttribute("selectedDate", selectedDate);

@@ -8,17 +8,16 @@ public class RouteModel {
     private String destination;
 
     public RouteModel(String routeId, String routeName, long distance, String origin, String destination) {
-        this.routeId = routeId;
+        this.setRouteId(routeId);
         this.routeName = routeName;
         this.distance = distance;
         this.origin = origin;
         this.destination = destination;
     }
 
-    // Getters 
     public String getRouteId() {
-    	return routeId; 
-    }
+		return routeId;
+	}    
     
     public String getRouteName() { 
     	return routeName; 
@@ -35,4 +34,8 @@ public class RouteModel {
     public String getDestination() { 
     	return destination; 
     }
+
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
+	}
 }

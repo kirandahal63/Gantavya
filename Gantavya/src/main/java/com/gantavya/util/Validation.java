@@ -76,6 +76,23 @@ public class Validation {
 	    }
 	}
 	
-	
+	public static boolean isValidBusNumber(String busNo) {
+        return busNo != null && !busNo.trim().isEmpty();
+    }
+
+    // Positive number validation (for fare, capacity, etc.)
+    public static boolean isPositive(long value) {
+        return value > 0;
+    }
+
+    public static boolean isPositive(int value) {
+        return value > 0;
+    }
+
+    // Route ID validation (e.g., RT001)
+    public static boolean isValidRouteId(String routeId) {
+        if (routeId == null) return false;
+        return routeId.matches("^RT\\d{3,5}$");
+    }	
 	
 }
