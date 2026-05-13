@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import com.gantavya.dao.TripDao;
+import com.gantavya.service.BookingService;
+import com.gantavya.service.TripService;
+import com.gantavya.model.TripModel;
 
 /**
  * Servlet implementation class BookingServlet
@@ -14,18 +16,13 @@ import com.gantavya.dao.TripDao;
 @WebServlet("/booking")
 public class BookingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private TripService tripService = new TripService();
+    private BookingService bookingService = new BookingService();
+
     public BookingServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tripId = request.getParameter("tripId");
 		if (tripId == null || tripId.isEmpty()) {
@@ -33,8 +30,7 @@ public class BookingServlet extends HttpServlet {
 			return;
 		}
 
-		TripDao tripDao = new TripDao();
-		com.gantavya.model.TripModel trip = tripDao.getTripById(tripId);
+		TripModel trip = tripService.getTripById(tripId);
 		
 		if (trip == null) {
 			response.sendRedirect(request.getContextPath() + "/home");
@@ -43,16 +39,12 @@ public class BookingServlet extends HttpServlet {
 
 		request.setAttribute("trip", trip);
 		
-		com.gantavya.dao.BookingDao bookingDao = new com.gantavya.dao.BookingDao();
-		java.util.List<String> bookedSeats = bookingDao.getBookedSeatsByTripId(tripId);
+		java.util.List<String> bookedSeats = bookingService.getBookedSeatsByTripId(tripId);
 		request.setAttribute("bookedSeats", bookedSeats);
 		
 		request.getRequestDispatcher("/WEB-INF/Pages/Booking.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tripId = request.getParameter("tripId");
 		String selectedSeats = request.getParameter("selectedSeats");
@@ -71,8 +63,7 @@ public class BookingServlet extends HttpServlet {
 		}
 		
 		// Server-side seat validation
-		com.gantavya.dao.BookingDao bookingDao = new com.gantavya.dao.BookingDao();
-		java.util.List<String> alreadyBooked = bookingDao.getBookedSeatsByTripId(tripId);
+		java.util.List<String> alreadyBooked = bookingService.getBookedSeatsByTripId(tripId);
 		for (String seat : seatsArray) {
 			if (alreadyBooked.contains(seat.trim())) {
 				response.sendRedirect(request.getContextPath() + "/booking?tripId=" + tripId + "&error=seat_taken");
@@ -105,8 +96,7 @@ public class BookingServlet extends HttpServlet {
 		request.getSession().setAttribute("pending_paymentMethod", paymentMethod);
 		
 		// Also calculate total price and store it
-		TripDao tripDao = new TripDao();
-		com.gantavya.model.TripModel trip = tripDao.getTripById(tripId);
+		TripModel trip = tripService.getTripById(tripId);
 		long total = (seatsArray.length * trip.getFare()) + (luggageCount * 500) + 50;
 		request.getSession().setAttribute("pending_total", total);
 
@@ -114,3 +104,4 @@ public class BookingServlet extends HttpServlet {
 	}
 
 }
+

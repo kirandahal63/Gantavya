@@ -96,17 +96,19 @@
 				<div class="form-group">
 			        <label for="password" class="form-label">Password</label>
 			        <div class="password-wrapper">
-			            <input
-			                type="text"
-			                id="password"
-			                name="password"
-			                class="form-input"
-			                placeholder="••••••••"
-			                required
-			            >
-			            <button type="button" class="toggle-password" onclick="togglePassword()">
-			                <span id="eye-icon">Show</span>
-			            </button>
+			            <div style="position: relative;">
+			                <input
+			                    type="password"
+			                    id="password"
+			                    name="password"
+			                    class="form-input"
+			                    placeholder="••••••••"
+			                    required
+			                >
+			                <button type="button" class="toggle-password" onclick="togglePassword()">
+			                    <span id="eye-icon">Show</span>
+			                </button>
+			            </div>
 			            <c:if test="${not empty passError}">
 				            <span style="color: red; font-size: 0.85rem; margin-top: 5px; display: block;">
 				                ${passError}
@@ -245,7 +247,7 @@
             } else if (data.status === 'not_registered') {
                 window.location.href = '${pageContext.request.contextPath}/Register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name);
             } else {
-                alert('An error occurred during Google Login.');
+            	alert(data.message || 'An error occurred during Google Login.'); 
             }
         })
         .catch(error => {

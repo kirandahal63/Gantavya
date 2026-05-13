@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import com.gantavya.dao.PassengerDao;
 import com.gantavya.model.PassengerModel;
 import com.gantavya.util.Validation;
 
@@ -59,18 +57,13 @@ public class RegisterServlet extends HttpServlet {
 	        hasError = true;
 	    }
 	    if (!Validation.isValidDOB(dob)) {
-	        request.setAttribute("dobError", "You must be at least 18 years old to register.");
+	        request.setAttribute("dobError", "You must be at least 18 years old to register!");
 	        hasError = true;
 	    }
 	    if (!Validation.isValidEmail(email)) {
 	        request.setAttribute("emailError", "Please enter a valid number!");
 	        hasError = true;
-	    }
-	    
-	    
-	    
-	    
-
+	    }  
 	    // 3. Check for Validation Failures
 	    if (hasError) {
 	        // Send inputs back so the user doesn't have to re-fill the whole form
@@ -87,10 +80,10 @@ public class RegisterServlet extends HttpServlet {
 	    // 4. Database Validation (Uniqueness)
 	    // Safe to parse now because Validation.isValidPhone confirmed it's numeric
 	    long contact = Long.parseLong(contactStr); 
-	    PassengerDao dao = new PassengerDao();
+	    com.gantavya.service.PassengerService passengerService = new com.gantavya.service.PassengerService();
 
 	    // Check if Email already exists
-	    if (dao.isEmailExists(email)) {
+	    if (passengerService.isEmailExists(email)) {
 	        request.setAttribute("emailError", "This email is already registered.");
 	        request.setAttribute("passengerNameValue", fullName);
 	        request.setAttribute("contactNumberValue", contactStr);
@@ -103,7 +96,7 @@ public class RegisterServlet extends HttpServlet {
 	    }
 
 	    // Check if Contact Number already exists
-	    if (dao.isNumberExists(contact)) {
+	    if (passengerService.isNumberExists(contact)) {
 	        request.setAttribute("phoneError", "This contact number is already registered.");
 	        request.setAttribute("passengerNameValue", fullName);
 	        request.setAttribute("contactNumberValue", contactStr);
@@ -116,7 +109,7 @@ public class RegisterServlet extends HttpServlet {
 	    }
 
 	    PassengerModel passenger = new PassengerModel(fullName, contact, dob, gender, email, password);
-	    boolean isSaved = dao.registerPassenger(passenger);
+	    boolean isSaved = passengerService.registerPassenger(passenger);
 
 	    if (isSaved) {
 	        // Successful registration: Redirect to login with a success flag

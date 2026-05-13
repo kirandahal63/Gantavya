@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.UUID;
-import com.gantavya.dao.BookingDao;
-import com.gantavya.dao.TripDao;
-import com.gantavya.dao.PaymentDao;
+import com.gantavya.service.BookingService;
+import com.gantavya.service.TripService;
+import com.gantavya.service.PaymentService;
 import com.gantavya.model.BookingModel;
 import com.gantavya.model.TripModel;
 import com.gantavya.model.PaymentModel;
@@ -19,6 +19,9 @@ import com.gantavya.model.PaymentModel;
 @WebServlet("/payment")
 public class PaymentServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private TripService tripService = new TripService();
+    private BookingService bookingService = new BookingService();
+    private PaymentService paymentService = new PaymentService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -29,8 +32,7 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
 
-        TripDao tripDao = new TripDao();
-        TripModel trip = tripDao.getTripById(tripId);
+        TripModel trip = tripService.getTripById(tripId);
         request.setAttribute("trip", trip);
         
         request.getRequestDispatcher("/WEB-INF/Pages/Payment.jsp").forward(request, response);
@@ -52,10 +54,7 @@ public class PaymentServlet extends HttpServlet {
         String otherPassengers = (String) session.getAttribute("pending_otherPassengers");
         String luggage = (String) session.getAttribute("pending_luggage");
         
-        BookingDao bookingDao = new BookingDao();
-        PaymentDao paymentDao = new PaymentDao();
-        
-        String bookingId = bookingDao.generateNextBookingId();
+        String bookingId = bookingService.generateNextBookingId();
         String ticketId = "TKT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         String paymentId = "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
@@ -83,9 +82,9 @@ public class PaymentServlet extends HttpServlet {
         booking.setPassengerId(passengerId);
 
         try {
-            // Save both payment and booking
-            paymentDao.savePayment(payment);
-            boolean success = bookingDao.saveBooking(booking);
+            // Save both payment and booking via Services
+            paymentService.savePayment(payment);
+            boolean success = bookingService.saveBooking(booking);
             
             if (success) {
                 // Clear session pending data
@@ -109,3 +108,4 @@ public class PaymentServlet extends HttpServlet {
         }
     }
 }
+

@@ -7,12 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
-import com.gantavya.dao.PassengerDao;
-import com.gantavya.dao.StaffDao;
-import com.gantavya.util.Validation;
 import com.gantavya.model.PassengerModel;
+import com.gantavya.util.LockoutManager;
 
 /**
  * Servlet implementation class LoginServlet
@@ -36,27 +33,37 @@ public class LoginServlet extends HttpServlet {
 	    String identifier = request.getParameter("email");
 	    String password   = request.getParameter("password");
 	    String remember   = request.getParameter("rememberMe");
-	    
-	    // 2. Read Redirect Target (Persistent across attempts)
-	    String targetUrl = request.getParameter("targetUrl");
+	    String targetUrl  = request.getParameter("targetUrl");
 
 	    String emailError = null;
 	    String passError  = null;
 	    boolean hasError  = false;
 
-	    // 3. Basic validation
+	    // 2. Basic validation
 	    if (identifier == null || identifier.trim().isEmpty()) {
-	        emailError = "Email or Staff ID is required.";
+	        emailError = "Please enter a registered email address.";
 	        hasError   = true;
 	    }
 
 	    if (password == null || password.trim().isEmpty()) {
-	        passError = "Password cannot be empty.";
+	        passError = "Please enter a valid password.";
 	        hasError  = true;
+	    }
+
+	    // 3. Lockout Check
+	    if (!hasError && identifier != null) {
+	        if (LockoutManager.isLocked(identifier)) {
+	            long remainingMillis = LockoutManager.getRemainingTimeMillis(identifier);
+	            long remainingMins = remainingMillis / 1000 / 60;
+	            passError = "Account is locked. Please try again in approximately " + (remainingMins + 1) + " minute(s).";
+	            hasError = true;
+	        }
 	    }
 
 	    // 4. Authenticate
 	    if (!hasError) {
+	        String id = identifier.trim().toLowerCase();
+	        
 	        // Read targetUrl from session as backup before invalidating
 	        HttpSession oldSession = request.getSession(false);
 	        String targetUrlFromSession = (oldSession != null) ? (String) oldSession.getAttribute("targetUrl") : null;
@@ -70,39 +77,41 @@ public class LoginServlet extends HttpServlet {
 	        }
 
 	        // 4a. Try STAFF login first
-	        StaffDao staffDao = new StaffDao();
-	        String memberType = staffDao.authenticateStaff(identifier.trim(), password);
+	        com.gantavya.service.StaffService staffService = new com.gantavya.service.StaffService();
+	        String memberType = staffService.authenticateStaff(id, password);
 
 	        if (memberType != null) {
+	            LockoutManager.resetAttempts(id);
+
 	            HttpSession session = request.getSession(true);
-	            session.setAttribute("userEmail", identifier.trim());
+	            session.setAttribute("userEmail", id);
 	            session.setAttribute("role", memberType.toUpperCase()); 
 	            session.setAttribute("isLoggedIn", true);
 
-	            handleRememberMe(response, identifier.trim(), remember);
+	            handleRememberMe(response, id, remember);
 
 	            response.sendRedirect(request.getContextPath() + "/admin");
 	            return;
 	        }
 
 	        // 4b. Try PASSENGER login
-	        PassengerDao passengerDao = new PassengerDao();
-	        boolean isPassenger = passengerDao.authenticatePassenger(identifier.trim(), password);
+	        com.gantavya.service.PassengerService passengerService = new com.gantavya.service.PassengerService();
+	        boolean isPassenger = passengerService.authenticatePassenger(id, password);
 
 	        if (isPassenger) {
-	            PassengerModel passenger = passengerDao.getPassengerByEmail(identifier.trim());
+	            LockoutManager.resetAttempts(id);
+
+	            PassengerModel passenger = passengerService.getPassengerByEmail(id);
 	            HttpSession session = request.getSession(true);
-	            session.setAttribute("userEmail", identifier.trim());
+	            session.setAttribute("userEmail", id);
 	            session.setAttribute("role", "PASSENGER");
 	            session.setAttribute("isLoggedIn", true);
-	            session.setAttribute("user", passenger); // For Navbar
+	            session.setAttribute("user", passenger); 
 	            session.setAttribute("passengerId", passenger.getId());
 	            session.setAttribute("passengerName", passenger.getFullName());
 	            
-	            handleRememberMe(response, identifier.trim(), remember);
+	            handleRememberMe(response, id, remember);
 
-	            System.out.println("DEBUG: Login successful. Redirecting to: " + targetUrl);
-	            
 	            if (targetUrl != null && !targetUrl.isEmpty()) {
 	                response.sendRedirect(targetUrl);
 	            } else {
@@ -110,7 +119,14 @@ public class LoginServlet extends HttpServlet {
 	            }
 	            return;
 	        } else {
-	            passError = "Invalid Email/Staff ID or Password.";
+	            // Failed attempt
+	            LockoutManager.recordFailedAttempt(id);
+	            
+	            if (LockoutManager.isLocked(id)) {
+	                passError = "Too many failed attempts. Account locked for 5 minutes.";
+	            } else {
+	                passError = "Please enter a registered email or password.";
+	            }
 	            hasError = true;
 	        }
 	    }
@@ -119,7 +135,7 @@ public class LoginServlet extends HttpServlet {
 	    request.setAttribute("emailError", emailError);
 	    request.setAttribute("passError", passError);
 	    request.setAttribute("emailValue", identifier);
-	    request.setAttribute("targetUrl", targetUrl); // This is now in scope!
+	    request.setAttribute("targetUrl", targetUrl);
 	    request.getRequestDispatcher("/WEB-INF/Pages/Login.jsp").forward(request, response);
 	}
 
@@ -135,3 +151,6 @@ public class LoginServlet extends HttpServlet {
 	    response.addCookie(emailCookie);
 	}
 }
+
+
+

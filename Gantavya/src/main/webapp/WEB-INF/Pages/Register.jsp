@@ -38,7 +38,7 @@
 
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" 
+                    <input type="text" id="email" name="email" class="form-input" 
                         value="<%= request.getAttribute("emailValue") != null ? request.getAttribute("emailValue") : (request.getParameter("email") != null ? request.getParameter("email") : "") %>" required>
                     <% if (request.getAttribute("emailError") != null) { %>
                         <span class="error-text"><%= request.getAttribute("emailError") %></span>
@@ -73,14 +73,16 @@
                     <% } %>
                 </div>
 
-                <div class="form-group">
+               <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div class="password-wrapper">
-                        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" 
-                        value="<%= request.getAttribute("passwordValue") != null ? request.getAttribute("passwordValue") : "" %>"  required>
-                        <button type="button" class="toggle-password" onclick="togglePassword()">
-                            <span id="eye-icon">👁</span>
-                        </button>
+                        <div style="position: relative;">
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" 
+                            value="<%= request.getAttribute("passwordValue") != null ? request.getAttribute("passwordValue") : "" %>"  required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <span id="eye-icon">SHOW</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -100,7 +102,7 @@
         const icon = document.getElementById('eye-icon');
         const isHidden = input.type === 'password';
         input.type = isHidden ? 'text' : 'password';
-        icon.textContent = isHidden ? '🙈' : '👁';
+        icon.textContent = isHidden ? 'HIDE' : 'SHOW';
     }
 </script>
 </body>

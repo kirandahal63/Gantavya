@@ -8,13 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import com.gantavya.dao.BookingDao;
+import com.gantavya.service.BookingService;
 import com.gantavya.model.BookingModel;
 
 @WebServlet("/my-bookings")
 public class MyBookingsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private BookingDao bookingDao = new BookingDao();
+    private BookingService bookingService = new BookingService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -25,8 +25,9 @@ public class MyBookingsServlet extends HttpServlet {
             return;
         }
 
-        List<BookingModel> bookings = bookingDao.getBookingsByPassengerId(passengerId);
+        List<BookingModel> bookings = bookingService.getPassengerBookings(passengerId);
         request.setAttribute("bookings", bookings);
         request.getRequestDispatcher("/WEB-INF/Pages/MyBookings.jsp").forward(request, response);
     }
 }
+

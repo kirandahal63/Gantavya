@@ -38,4 +38,8 @@ public class TripService {
     public TripModel getTripById(String id) {
         return tripDao.getTripById(id);
     }
+    
+    public List<TripModel> searchTrips(String from, String to, String date, int passengerCount) {
+        return tripDao.searchTrips(from, to, date, passengerCount);
+    }
 }

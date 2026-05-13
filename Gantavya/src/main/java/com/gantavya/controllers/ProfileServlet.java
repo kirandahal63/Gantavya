@@ -6,17 +6,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
-import com.gantavya.dao.PassengerDao;
 import com.gantavya.model.PassengerModel;
+import com.gantavya.service.PassengerService;
 import com.gantavya.util.Validation;
-import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private PassengerDao passengerDao = new PassengerDao();
+    private PassengerService passengerService = new PassengerService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -26,7 +24,7 @@ public class ProfileServlet extends HttpServlet {
         }
 
         String email = (String) session.getAttribute("userEmail");
-        PassengerModel passenger = passengerDao.getPassengerByEmail(email);
+        PassengerModel passenger = passengerService.getPassengerByEmail(email);
         
         if (passenger != null) {
             request.setAttribute("passenger", passenger);
@@ -78,7 +76,7 @@ public class ProfileServlet extends HttpServlet {
         }
         
         // If email changed, check if new email exists
-        if (!email.equalsIgnoreCase(oldEmail) && passengerDao.isEmailExists(email)) {
+        if (!email.equalsIgnoreCase(oldEmail) && passengerService.isEmailExists(email)) {
             request.setAttribute("emailError", "Email already registered.");
             hasError = true;
         }
@@ -100,7 +98,7 @@ public class ProfileServlet extends HttpServlet {
         PassengerModel passenger = new PassengerModel(name, Long.parseLong(phoneStr), dob, gender, email, null);
         passenger.setId(passengerId); // Identification by ID is more robust
 
-        if (passengerDao.updatePassengerDetails(passenger)) {
+        if (passengerService.updatePassengerDetails(passenger)) {
             request.setAttribute("successMessage", "Profile updated successfully!");
             // Update session if email or name changed
             session.setAttribute("userEmail", email);
@@ -123,13 +121,13 @@ public class ProfileServlet extends HttpServlet {
         }
 
         // Verify current password
-        if (!passengerDao.authenticatePassenger(email, currentPassword)) {
+        if (!passengerService.authenticatePassenger(email, currentPassword)) {
             request.setAttribute("passError", "Current password is incorrect.");
             doGet(request, response);
             return;
         }
 
-        if (passengerDao.updatePassword(email, newPassword)) {
+        if (passengerService.updatePassword(email, newPassword)) {
             request.setAttribute("successMessage", "Password changed successfully!");
         } else {
             request.setAttribute("errorMessage", "Failed to update password.");
@@ -137,3 +135,4 @@ public class ProfileServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+

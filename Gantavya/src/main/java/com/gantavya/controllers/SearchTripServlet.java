@@ -7,12 +7,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import com.gantavya.dao.TripDao;
+import com.gantavya.service.TripService;
 import com.gantavya.model.TripModel;
 
 @WebServlet("/search")
 public class SearchTripServlet extends HttpServlet {
-    private TripDao tripDao = new TripDao();
+    private TripService tripService = new TripService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -30,14 +30,14 @@ public class SearchTripServlet extends HttpServlet {
             passengerCount = 1;
         }
 
-        // Fetch dynamic data from database
-        List<TripModel> trips = tripDao.searchTrips(from, to, date, passengerCount);
+        // Fetch dynamic data from database via Service
+        List<TripModel> trips = tripService.searchTrips(from, to, date, passengerCount);
 
         // Fallback Logic: If no trips for specific date, search all dates for same route
         boolean isFallback = false;
         String fallbackMessage = null;
         if (trips.isEmpty() && date != null && !date.isEmpty()) {
-            List<TripModel> fallbackTrips = tripDao.searchTrips(from, to, "", passengerCount);
+            List<TripModel> fallbackTrips = tripService.searchTrips(from, to, "", passengerCount);
             if (!fallbackTrips.isEmpty()) {
                 trips = fallbackTrips;
                 isFallback = true;
@@ -84,3 +84,4 @@ public class SearchTripServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/Pages/SearchTrip.jsp").forward(request, response);
     }
 }
+

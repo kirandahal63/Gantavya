@@ -15,7 +15,17 @@ public class BookingService {
     public List<BookingModel> getPassengerBookings(String passengerId) {
         return bookingDao.getBookingsByPassengerId(passengerId);
     }
+    public List<String> getBookedSeatsByTripId(String tripId) {
+        return bookingDao.getBookedSeatsByTripId(tripId);
+    }
 
+    public String generateNextBookingId() {
+        return bookingDao.generateNextBookingId();
+    }
+
+    public boolean saveBooking(BookingModel booking) throws java.sql.SQLException {
+        return bookingDao.saveBooking(booking);
+    }
     /**
      * Sorts bookings by total fare using INSERTION SORT. Descending order.
      */

@@ -1,6 +1,6 @@
 package com.gantavya.controllers;
 
-import com.gantavya.dao.PassengerDao;
+import com.gantavya.service.PassengerService;
 import com.gantavya.util.EmailUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+@SuppressWarnings("serial")
 @WebServlet("/password-reset")
 public class ForgotPasswordServlet extends HttpServlet {
-    private PassengerDao passengerDao;
+    private PassengerService passengerService;
 
     @Override
     public void init() throws ServletException {
-        passengerDao = new PassengerDao();
+        passengerService = new PassengerService();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                 return;
             }
 
-            boolean exists = passengerDao.isEmailExists(email);
+            boolean exists = passengerService.isEmailExists(email);
             if (!exists) {
                 out.print("{\"success\": false, \"message\": \"Email not found\"}");
                 return;
@@ -111,7 +112,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                 return;
             }
 
-            boolean updated = passengerDao.updatePassword(email, newPassword);
+            boolean updated = passengerService.updatePassword(email, newPassword);
             if (updated) {
                 session.removeAttribute("resetOtp");
                 session.removeAttribute("resetEmail");
@@ -151,3 +152,4 @@ public class ForgotPasswordServlet extends HttpServlet {
         out.flush();
     }
 }
+
