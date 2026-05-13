@@ -5,21 +5,30 @@ public class Validation {
 	
 	//name validation
 	public static boolean isValidFullName(String name) {
-        if (name == null) return false;
+	    if (name == null) return false;
 
-        name = name.trim();
+	    name = name.trim();
 
-        if (name.length() < 2) return false;
+	    // Must contain at least one space
+	    if (!name.contains(" ")) return false;
 
-        for (int i = 0; i < name.length(); i++) {
-            char ch = name.charAt(i);
+	    // Split by one or more spaces
+	    String[] parts = name.split("\\s+");
 
-            if (!Character.isLetter(ch) && ch != ' ') {
-                return false;
-            }
-        }
-        return true;
-    }
+	    // Need at least first name and last name
+	    if (parts.length < 2) return false;
+
+	    // Check every character
+	    for (int i = 0; i < name.length(); i++) {
+	        char ch = name.charAt(i);
+
+	        if (!Character.isLetter(ch) && ch != ' ') {
+	            return false;
+	        }
+	    }
+
+	    return true;
+	}
 	
 	//email validation
 	public static boolean isValidEmail(String email) {
@@ -27,7 +36,9 @@ public class Validation {
 
         email = email.trim();
 
-        if (!email.contains("@") || !email.contains(".")) return false;
+        if (!email.endsWith("@gmail.com") && !email.endsWith("@outlook.com") &&  !email.endsWith("@hotmail.com") && !email.endsWith(" @icloud.com")) {
+        	    return false;
+        	}
         if (email.startsWith("@") || email.endsWith("@")) return false;
 
         return true;
@@ -80,7 +91,6 @@ public class Validation {
         return busNo != null && !busNo.trim().isEmpty();
     }
 
-    // Positive number validation (for fare, capacity, etc.)
     public static boolean isPositive(long value) {
         return value > 0;
     }
@@ -89,10 +99,6 @@ public class Validation {
         return value > 0;
     }
 
-    // Route ID validation (e.g., RT001)
-    public static boolean isValidRouteId(String routeId) {
-        if (routeId == null) return false;
-        return routeId.matches("^RT\\d{3,5}$");
-    }	
+   	
 	
 }

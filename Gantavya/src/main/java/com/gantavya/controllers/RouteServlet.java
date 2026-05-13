@@ -58,12 +58,6 @@ public class RouteServlet extends HttpServlet {
         long distance = 0;
         boolean hasError = false;
 
-        // Validation using utility
-        if (!com.gantavya.util.Validation.isValidRouteId(routeId)) {
-            hasError = true;
-            request.setAttribute("routeIdError", "Invalid Format (RT001)");
-        }
-
         try {
             distance = (distanceStr != null && !distanceStr.isEmpty()) ? Long.parseLong(distanceStr) : 0L;
         } catch (NumberFormatException e) {

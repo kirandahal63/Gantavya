@@ -7,55 +7,11 @@
 <meta charset="UTF-8">
 <title>Privacy Policy</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Contact.css">
+	href="${pageContext.request.contextPath}/CSS/Rules.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/CSS/About.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-.terms-section {
-	padding: 80px 0;
-	background: #fff;
-	min-height: 50vh;
-}
-
-.terms-content {
-	max-width: 900px;
-	margin: 0 auto;
-	padding: 0 40px;
-	line-height: 1.8;
-	color: #444;
-}
-
-.terms-content h1 {
-	color: #1a2e4a;
-	margin-bottom: 40px;
-	font-size: 2.5rem;
-	text-align: left;
-	font-weight: 800;
-}
-
-.terms-content h2 {
-	color: #1a2e4a;
-	margin-top: 35px;
-	margin-bottom: 15px;
-	font-size: 1.5rem;
-}
-
-.terms-content p {
-	margin-bottom: 20px;
-	text-align: justify;
-}
-
-.terms-content ul {
-	margin-bottom: 20px;
-	padding-left: 20px;
-}
-
-.terms-content li {
-	margin-bottom: 10px;
-}
-</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/Pages/Navbar.jsp" />
