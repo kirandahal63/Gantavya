@@ -51,7 +51,7 @@
 						</div>
 					</div>
 					<div class="box">
-						<label>Passengers / Bikes</label>
+						<label>Passengers</label>
 						<div class="inner-input">
 							<i class="fa-solid fa-user-group"></i> <select id="passengers">
 								<option value="1">1 Adult</option>
@@ -63,11 +63,6 @@
 						</div>
 					</div>
 					<button class="search-btn" onclick="performSearch()">Search</button>
-				</div>
-				<div class="accommodation">
-					<input type="checkbox" checked id="acc"> <label for="acc">Find
-						my accommodation <i class="fa-solid fa-circle-info"></i>
-					</label>
 				</div>
 			</div>
 		</div>
@@ -119,16 +114,17 @@
 			</c:forEach>
 		</div>
 
-		<div class="promo-flex" style="margin-bottom: 40px;">
+		<div class="promo-flex" style="margin-bottom: 60px;">
 			<div class="promo-blue">
 				<h2>THE NEW STANDARD OF BUS TRAVEL.</h2>
-				<p>Every journey is engineered for comfort with high-speed Wi-Fi
+				<p>Every journey is engineered for comfort with <br>high-speed Wi-Fi
 					and ergonomic seating.</p>
 			</div>
 			<div class="promo-eco">
 				<h3>Sustainable Routes</h3>
-				<p>Join us in reducing CO2 emissions with our modern Euro 6
-					fleet.</p>
+				<p>At Gantavya, we believe every journey should move the world forward not pollute it.
+				 Our buses are engineered for lower emissions and higher efficiency, helping reduce your 
+				 carbon footprint while maintaining comfort and reliability. </p>
 			</div>
 		</div>
 
@@ -146,8 +142,8 @@
                 }
 
                 function performSearch() {
-                    const from = document.getElementById('from-location').value || document.getElementById('from-location').placeholder;
-                    const to = document.getElementById('to-location').value || document.getElementById('to-location').placeholder;
+                	const from = document.getElementById('from-location').value.trim();
+                    const to = document.getElementById('to-location').value.trim();
                     const date = document.getElementById('real-date').value;
                     const passengers = document.getElementById('passengers').value;
 

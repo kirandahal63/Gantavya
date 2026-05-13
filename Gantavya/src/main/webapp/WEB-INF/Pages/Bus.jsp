@@ -34,7 +34,26 @@
 				</div>
 			</header>
 
-			<div class="content-wrapper">
+						<div class="content-wrapper">
+					    <%-- SUCCESS MESSAGE --%>
+					    <% if (request.getParameter("message") != null) { %>
+					        <div id="successToast" class="success-toast">
+					            <i class="fa-solid fa-circle-check"></i>
+					            <span>
+					                <%= request.getParameter("message").equals("BusAdded") ? "New Bus added successfully!" : "" %>
+					                <%= request.getParameter("message").equals("BusUpdated") ? "Bus details updated successfully!" : "" %>
+					            </span>
+					        </div>
+					        <script>
+					            setTimeout(() => {
+					                const toast = document.getElementById('successToast');
+					                if (toast) {
+					                    toast.style.opacity = '0';
+					                    setTimeout(() => toast.remove(), 500);
+					                }
+					            }, 15000);
+					        </script>
+					    <% } %>
 
 				<%-- SECTION 1: ADD NEW BUS (Only shows if NOT editing) --%>
 				<c:if test="${editableBus == null}">

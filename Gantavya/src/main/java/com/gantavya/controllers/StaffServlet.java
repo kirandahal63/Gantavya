@@ -116,8 +116,12 @@ public class StaffServlet extends HttpServlet {
         if ("add".equals(action)) {
             s.setPassword(request.getParameter("password"));
             staffService.registerStaff(s);
+            response.sendRedirect("staff?message=StaffAdded");
+            return;
         } else if ("update".equals(action)) {
             staffService.updateStaff(s);
+            response.sendRedirect("staff?message=StaffUpdated");
+            return;
         }
         
         response.sendRedirect("staff");

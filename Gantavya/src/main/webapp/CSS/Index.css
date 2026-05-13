@@ -160,7 +160,10 @@ main { margin-top: 220px; }
 
 .leaf { font-size: 30px; color: var(--primary-blue); position: absolute; top: 40px; left: 40px; }
 .promo-eco h3 { font-size: 22px; margin-bottom: 10px; }
-.promo-eco p { color: var(--text-grey); font-size: 14px; }
+.promo-eco p { 
+	color: var(--text-grey); 
+	font-size: 14px;
+    text-align: justify; }
 
 
 /* Path Visualization Improvements */

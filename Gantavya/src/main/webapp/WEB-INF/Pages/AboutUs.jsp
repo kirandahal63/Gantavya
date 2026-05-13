@@ -39,17 +39,17 @@
             </div>
             <div class="team-grid">
                 <div class="team-card">
-                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/founder.jpg" alt="Founder"></div>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/foundert.png" alt="Founder"></div>
                     <h3>Ray Dahal</h3>
                     <p>Founder</p>
                 </div>
                 <div class="team-card">
-                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/coo.jpg" alt="COO"></div>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/coo.png" alt="COO"></div>
                     <h3>Anil Shrestha</h3>
                     <p>Chief Operating Officer</p>
                 </div>
                 <div class="team-card">
-                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cordinator.jpg" alt="Cordinator"></div>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cordinator.png" alt="Cordinator"></div>
                     <h3>Suman Thapa</h3>
                     <p>Regional Coordinator</p>
                 </div>
@@ -60,7 +60,7 @@
                     <p>Experience Manager</p>
                 </div>
                 <div class="team-card">
-                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cto.jpg" alt="cto"></div>
+                    <div class="img-circle"><img src="${pageContext.request.contextPath}/images/cto.png" alt="cto"></div>
                     <h3>Aditya Joshi</h3>
                     <p>Chief Technology Officer</p>
                 </div>
@@ -74,26 +74,22 @@
     <section class="mission-section">
         <div class="container">
             <h2>A Mission Rooted in Community</h2>
-            <p class="mission-subtext">We started with a simple goal: to make transit feel less like a chore and more like a service <br>that respects your time and your journey.</p>
+            <p class="mission-subtext">We started with a simple goal, to make transit feel less like a chore and more <br>like a service that respects your time and your journey.</p>
             
             <div class="mission-grid">
                 <div class="mission-card">
-                    <div class="icon">🌐</div>
                     <h3>Connected Routes</h3>
                     <p>Strategically mapping the veins of Nepal from the vibrant streets of Kathmandu to the serene lakes of Pokhara and beyond.</p>
                 </div>
                 <div class="mission-card">
-                    <div class="icon">🛡️</div>
                     <h3>Safety Standards</h3>
                     <p>Exceeding industry benchmarks with a rigorously maintained bus and staffs trained for the demands of intercity travel.</p>
                 </div>
                 <div class="mission-card">
-                    <div class="icon">👥</div>
                     <h3>People First</h3>
                     <p>Every interaction is an opportunity to provide a travel experience that feels as warm as it is efficient.</p>
                 </div>
                 <div class="mission-card">
-                    <div class="icon">🍃</div>
                     <h3>Sustainability</h3>
                     <p>Investing in low-emission technology to ensure that as we explore the beauty of Nepal, we also protect it for the next generation.</p>
                 </div>

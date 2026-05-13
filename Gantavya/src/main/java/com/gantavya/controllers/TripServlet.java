@@ -52,7 +52,6 @@ public class TripServlet extends HttpServlet {
             request.setAttribute("editableTrip", editableTrip);
         }
 
-        // Fetch Dropdown Data via Services
         List<BusModel> allBuses = busService.getAllBuses("");
         List<BusModel> operatingBuses = allBuses.stream()
             .filter(b -> "OPERATING".equalsIgnoreCase(b.getStatus()))
@@ -62,7 +61,7 @@ public class TripServlet extends HttpServlet {
         List<RouteModel> allRoutes = routeService.getAllRoutes("");
         request.setAttribute("routeList", allRoutes);
 
-        // FILTER: Only ACTIVE staff members
+        // Filter: Only ACTIVE staff members
         List<StaffModel> allStaff = staffService.getAllStaff();
         List<StaffModel> activeStaff = allStaff.stream()
             .filter(s -> "ACTIVE".equalsIgnoreCase(s.getStaffStatus()))
@@ -85,6 +84,9 @@ public class TripServlet extends HttpServlet {
         String departureDate = request.getParameter("departureDate");
         String arrivalDate = request.getParameter("arrivalDate");
         String tripStatus = request.getParameter("tripStatus");
+        if (tripStatus == null || tripStatus.trim().isEmpty()) {
+            tripStatus = "SCHEDULED";
+        }
         String fareStr = request.getParameter("fare");
         String routeId = request.getParameter("routeId");
         String busId = request.getParameter("busId");
@@ -143,8 +145,12 @@ public class TripServlet extends HttpServlet {
         try {
             if ("add".equals(action)) {
                 tripService.addTrip(trip);
+                response.sendRedirect("trip?message=TripScheduled");
+                return;
             } else if ("update".equals(action)) {
                 tripService.updateTrip(trip);
+                response.sendRedirect("trip?message=TripUpdated");
+                return;
             }
             response.sendRedirect("trip");
         } catch (Exception e) {

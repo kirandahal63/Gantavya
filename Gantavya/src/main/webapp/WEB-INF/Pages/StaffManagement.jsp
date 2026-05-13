@@ -29,8 +29,27 @@
                     </header>
 
                     <div class="content-wrapper">
+                    <%-- SUCCESS MESSAGE --%>
+					    <% if (request.getParameter("message") != null) { %>
+					        <div id="successToast" class="success-toast">
+					            <i class="fa-solid fa-circle-check"></i>
+					            <span>
+					                <%= request.getParameter("message").equals("StaffAdded") ? "New Staff added successfully!" : "" %>
+					                <%= request.getParameter("message").equals("StaffUpdated") ? "Staff details updated successfully!" : "" %>
+					            </span>
+					        </div>
+					        <script>
+					            setTimeout(() => {
+					                const toast = document.getElementById('successToast');
+					                if (toast) {
+					                    toast.style.opacity = '0';
+					                    setTimeout(() => toast.remove(), 500);
+					                }
+					            }, 15000);
+					        </script>
+					    <% } %>
 
-                        <%-- SECTION 1: ADD NEW STAFF --%>
+                        <%-- ADD NEW STAFF --%>
                             <c:if test="${editableStaff == null}">
                                 <div class="glass-card form-container">
                                     <div class="card-header">

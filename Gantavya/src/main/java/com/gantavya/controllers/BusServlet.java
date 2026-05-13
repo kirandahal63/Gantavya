@@ -65,7 +65,7 @@ public class BusServlet extends HttpServlet {
             capacity = (capacityStr != null && !capacityStr.isEmpty()) ? Integer.parseInt(capacityStr) : 0;
         } catch (NumberFormatException e) {
             hasError = true;
-            request.setAttribute("capacityError", "Please enter a valid seat number.");
+            request.setAttribute("capacityError", "Please enter a valid seat capacity.");
         }
 
         BusModel bus = new BusModel(busId, busNo, busType, capacity, status);
@@ -86,8 +86,12 @@ public class BusServlet extends HttpServlet {
         try {
             if ("add".equals(action)) {
                 busService.addBus(bus);
+                response.sendRedirect("bus?message=BusAdded");
+                return;
             } else if ("update".equals(action)) {
                 busService.updateBus(bus);
+                response.sendRedirect("bus?message=BusUpdated");
+                return;
             }
             response.sendRedirect("bus");
         } catch (SQLException e) {

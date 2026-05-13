@@ -21,7 +21,6 @@
 <body>
 	<div class="app-shell">
 		<jsp:include page="/WEB-INF/Pages/SideNav.jsp" />
-
 		<div class="main-panel">
 			<header class="header-nav">
 				<div class="header-left">
@@ -33,6 +32,25 @@
 			</header>
 
 			<div class="content-wrapper">
+		    <%-- SUCCESS MESSAGE --%>
+		    <% if (request.getParameter("message") != null) { %>
+		        <div id="successToast" class="success-toast">
+		            <i class="fa-solid fa-circle-check"></i>
+		            <span>
+		                <%= request.getParameter("message").equals("TripScheduled") ? "Trip scheduled successfully!" : "" %>
+		                <%= request.getParameter("message").equals("TripUpdated") ? "Trip updated successfully!" : "" %>
+		            </span>
+		        </div>
+		        <script>
+		            setTimeout(() => {
+		                const toast = document.getElementById('successToast');
+		                if (toast) {
+		                    toast.style.opacity = '0';
+		                    setTimeout(() => toast.remove(), 500);
+		                }
+		            }, 15000);
+		        </script>
+		    <% } %>
 
 				<%-- SECTION 1: ADD NEW TRIP (Only shows if NOT editing) --%>
 				<c:if test="${editableTrip == null}">
@@ -68,18 +86,7 @@
 										style="${fareError != null ? 'border-color: red;' : ''}"
 										required>
 								</div>
-								<div class="input-group">
-									<label>Trip Status</label> <select name="tripStatus">
-										<option value="SCHEDULED"
-											${errorTrip.tripStatus == 'SCHEDULED' ? 'selected' : ''}>Scheduled</option>
-										<option value="ONGOING"
-											${errorTrip.tripStatus == 'ONGOING' ? 'selected' : ''}>Ongoing</option>
-										<option value="COMPLETED"
-											${errorTrip.tripStatus == 'COMPLETED' ? 'selected' : ''}>Completed</option>
-										<option value="CANCELLED"
-											${errorTrip.tripStatus == 'CANCELLED' ? 'selected' : ''}>Cancelled</option>
-									</select>
-								</div>
+								
 								<div class="input-group">
 									<label>Select Route</label> <select name="routeId" required>
 										<option value="" disabled selected>-- Select Route --</option>

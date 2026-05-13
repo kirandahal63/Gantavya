@@ -83,8 +83,12 @@ public class RouteServlet extends HttpServlet {
         try {
             if ("add".equals(action)) {
                 routeService.addRoute(route);
+                response.sendRedirect("route?message=RouteAdded");
+                return;
             } else if ("update".equals(action)) {
                 routeService.updateRoute(route);
+                response.sendRedirect("route?message=RouteUpdated");
+                return;
             }
             response.sendRedirect("route");
         } catch (SQLException e) {

@@ -142,8 +142,8 @@
 }
 
 .status-pill.confirmed {
-    background: rgba(46, 204, 113, 0.1);
-    color: var(--success);
+    background: #7cd70e2e;
+    color: #78c021;
 }
 
 .other-passengers {

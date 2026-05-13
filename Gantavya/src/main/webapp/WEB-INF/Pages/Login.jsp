@@ -48,7 +48,7 @@
 	            <p style="color: green;">Registration successful. Please login.</p>
 	        <% } %>
         
-            <form action="${pageContext.request.contextPath}/login" method="post" >
+            <form action="${pageContext.request.contextPath}/login" method="post" autocomplete="off">
                 <!-- Hidden field to preserve redirect target -->
                 <% 
                    String tUrl = request.getParameter("targetUrl");
@@ -103,6 +103,7 @@
 			                    name="password"
 			                    class="form-input"
 			                    placeholder="••••••••"
+			                    autocomplete="off"
 			                    required
 			                >
 			                <button type="button" class="toggle-password" onclick="togglePassword()">
@@ -247,7 +248,7 @@
             } else if (data.status === 'not_registered') {
                 window.location.href = '${pageContext.request.contextPath}/Register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name);
             } else {
-            	alert(data.message || 'An error occurred during Google Login.'); 
+            	alert(data.message || 'An error occurred during Google Login.');                                                                                            
             }
         })
         .catch(error => {

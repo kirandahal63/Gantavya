@@ -2,11 +2,59 @@ package com.gantavya.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.gantavya.config.DBConnection;
 import com.gantavya.model.TripModel;
+import com.gantavya.util.DateUtil;
 
 public class TripDao {
+
+    private void updateTripStatuses() {
+        String query = "SELECT TripID, DepartureDate, `Arrival Date`, TripStatus FROM trip WHERE TripStatus IN ('SCHEDULED', 'ONGOING')";
+        String updateQuery = "UPDATE trip SET TripStatus = ? WHERE TripID = ?";
+        
+        Date now = new Date();
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                String tripId = rs.getString("TripID");
+                String depStr = rs.getString("DepartureDate");
+                String arrStr = rs.getString("Arrival Date");
+                String currentStatus = rs.getString("TripStatus");
+                
+                try {
+                    Date dep = DateUtil.parseDateTime(depStr.replace(" ", "T"));
+                    Date arr = DateUtil.parseDateTime(arrStr.replace(" ", "T"));
+                    
+                    if (dep == null || arr == null) continue;
+                    
+                    String newStatus = currentStatus;
+                    
+                    if (now.after(arr)) {
+                        newStatus = "COMPLETED";
+                    } else if (now.after(dep)) {
+                        newStatus = "ONGOING";
+                    }
+                    
+                    if (!newStatus.equals(currentStatus)) {
+                        try (PreparedStatement ups = conn.prepareStatement(updateQuery)) {
+                            ups.setString(1, newStatus);
+                            ups.setString(2, tripId);
+                            ups.executeUpdate();
+                        }
+                    }
+                } catch (Exception e) {
+                    // Skip if date format is invalid
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     protected Connection getConnection() throws SQLException {
         return DBConnection.getConnection();
@@ -69,6 +117,7 @@ public class TripDao {
     }
 
     public List<TripModel> getAllTrips(String search) {
+        updateTripStatuses();
         List<TripModel> trips = new ArrayList<>();
         String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination FROM trip t " +
                        "LEFT JOIN route r ON t.RouteID = r.RouteID " +
@@ -142,12 +191,14 @@ public class TripDao {
     }
 
     public List<TripModel> getUpcomingTrips(String selectedDate) {
+        updateTripStatuses();
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity, b.BusType " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
-                (selectedDate != null ? "WHERE t.DepartureDate LIKE ? " : "") +
+                "WHERE t.TripStatus = 'SCHEDULED' " +
+                (selectedDate != null ? "AND t.DepartureDate LIKE ? " : "") +
                 "ORDER BY t.DepartureDate ASC LIMIT 6";
                        
         try (Connection conn = getConnection(); 
@@ -197,12 +248,14 @@ public class TripDao {
     }
 
     public List<TripModel> searchTrips(String from, String to, String date, int passengers) {
+        updateTripStatuses();
         List<TripModel> trips = new ArrayList<>();
         String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
-                "WHERE (r.RouteOrigin LIKE ? OR r.RouteOrigin LIKE ? OR ? = '') " +
+                "WHERE t.TripStatus = 'SCHEDULED' " +
+                "AND (r.RouteOrigin LIKE ? OR r.RouteOrigin LIKE ? OR ? = '') " +
                 "AND (r.RouteDestination LIKE ? OR r.RouteDestination LIKE ? OR ? = '')";
 
         try (Connection conn = getConnection(); 

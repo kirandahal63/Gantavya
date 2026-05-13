@@ -329,9 +329,9 @@
                     bar.innerHTML = '';
 
                     const dates = [
-                        new Date(centerDate.getTime() - 86400000), // Left
-                        new Date(centerDate.getTime()),            // Middle (Active)
-                        new Date(centerDate.getTime() + 86400000)  // Right
+                        new Date(centerDate.getTime() - 86400000), 
+                        new Date(centerDate.getTime()),            
+                        new Date(centerDate.getTime() + 86400000)  
                     ];
 
 
@@ -401,7 +401,7 @@
                     const date = centerDate.toISOString().split('T')[0];
                     const passengers = document.getElementById('passengers').value;
 
-                    const url = '<%= request.getContextPath() %>/booking?ajax=true&from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + date + '&passengers=' + passengers;
+                    const url = '<%= request.getContextPath() %>/search?ajax=true&from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + date + '&passengers=' + passengers;
 
                     try {
                         const response = await fetch(url);

@@ -46,13 +46,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input" 
-                        value="<%= request.getAttribute("dateOfBirthValue") != null ? request.getAttribute("dateOfBirthValue") : "" %>" required>
-                    <% if (request.getAttribute("dobError") != null) { %>
-                        <span class="error-text"><%= request.getAttribute("dobError") %></span>
-                    <% } %>
-                </div>
+				    <label for="dateOfBirth" class="form-label">Date of Birth</label>
+				    <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-input" 
+				        value="<%= request.getAttribute("dateOfBirthValue") != null ? request.getAttribute("dateOfBirthValue") : "" %>"  placeholder="dd-mm-yyyy" onfocus="(this.type='date')"
+				        onblur="if(!this.value) this.type='text'" required>
+				    <% if (request.getAttribute("dobError") != null) { %>
+				        <span class="error-text"><%= request.getAttribute("dobError") %></span>
+				    <% } %>
+				</div>
 
                 <div class="form-group">
                     <label for="gender" class="form-label">Gender</label>

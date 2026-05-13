@@ -41,6 +41,12 @@ public class ContactServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/Pages/Contact.jsp").forward(request, response);
             return;
         }
+        if (!Validation.isValidPhone(phone)) {
+            request.setAttribute("error", "Please enter a valid phone number.");
+            request.getRequestDispatcher("/WEB-INF/Pages/Contact.jsp").forward(request, response);
+            return;
+        }
+        
 
         // 3. Send Email
         String recipientEmail = "dahal.utsav63@gmail.com";

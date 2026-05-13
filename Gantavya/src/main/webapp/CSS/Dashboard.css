@@ -1,15 +1,12 @@
 @charset "UTF-8";
-/* =============================================
-   VARIABLES & RESET
-   ============================================= */
 :root {
     --gantavya-blue:  #1a2e4a;
-    --bg-main:        #f8fafc; /* Light gray background like FoxHR */
+    --bg-main:        #f8fafc; 
     --white:          #ffffff;    
     --text-primary:   #2d3748;
     --text-secondary: #718096;
     --text-muted:     #a0aec0;    
-    --accent-orange:  #f1a52e; /* The bright FoxHR banner color */
+    --accent-orange:  #f1a52e; 
     --accent-blue:    #4299e1;
     --accent-green:   #48bb78;
     --accent-red:     #f56565;
@@ -31,19 +28,10 @@ body {
     line-height: 1.5;
     overflow: hidden;
 }
-
-/* =============================================
-   APP SHELL & SIDEBAR
-   ============================================= */
 .app-shell {
     display: flex;
     height: 100vh;
 }
-
-
-/* =============================================
-   MAIN CONTENT & TOPBAR
-   ============================================= */
 .main-content {
     flex: 1;
     display: flex;
@@ -79,18 +67,13 @@ body {
     align-items: start;
 }
 
-/* =============================================
-   LEFT COLUMN COMPONENTS
-   ============================================= */
 .main-column {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
-/* =============================================
-   HERO BANNER & VISUALS FIXES
-   ============================================= */
+/* HERO BANNER & VISUALS FIXES */
 .hero-banner {
     background: #1a2e4a;
     border-radius: var(--radius-lg);
@@ -141,8 +124,6 @@ body {
     max-width: 50%;     /* Prevents it from spreading too far across the text */
     object-fit: contain; /* Ensures the whole shape is visible without cropping */
     z-index: 1;
-    /*opacity: 0; 
-    transform: scale(0.95); -out, transform 1.2s ease-in-out; */
     transition: opacity 1.2s ease-in
 }
 
@@ -168,8 +149,7 @@ body {
 /* Container for all 8 cards */
 .stats-grid {
     display: grid;
-    /* This creates 4 equal columns; it will wrap to a second row automatically */
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr); /* This creates 4 equal columns; it will wrap to a second row automatically */
     gap: 15px;
     margin-bottom: 10px;
     width: 100%;
@@ -271,12 +251,10 @@ body {
     font-size: 14px;
     font-weight: 600;
 }
-.status-pill.open { background: #e6fffa; color: #05cd99;}
-.status-pill.closed { background: #fff5f5; color: #c53030; }
+.status-pill.open { background: #7cd70e2e; color: #78c021;}
+.status-pill.closed { background: #bf4d4d1f; color: #e16464; }
 
-/* =============================================
-   RIGHT SIDEBAR COMPONENTS
-   ============================================= */
+/* RIGHT SIDEBAR COMPONENTS*/
 .right-sidebar-box {
     display: flex;
     flex-direction: column;
@@ -432,9 +410,7 @@ body {
 .item-info strong { display: block; font-size: 13px; }
 .item-info span { font-size: 11px; color: var(--text-muted); }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
+
 @media (max-width: 1200px) {
     .dashboard-layout { grid-template-columns: 1fr; }
 }
