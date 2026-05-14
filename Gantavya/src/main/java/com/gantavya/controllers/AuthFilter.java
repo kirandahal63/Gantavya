@@ -34,7 +34,6 @@ public class AuthFilter implements Filter {
                         || path.equals("/home")
                         || path.equalsIgnoreCase("/search") 
                         || path.equals("/auth/google")
-                        || path.equals("/profile")
                         || path.equals("/password-reset")
                         || path.startsWith("/about")
                         || path.startsWith("/contact")

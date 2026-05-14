@@ -99,14 +99,12 @@ public class ProfileServlet extends HttpServlet {
         passenger.setId(passengerId); // Identification by ID is more robust
 
         if (passengerService.updatePassengerDetails(passenger)) {
-            request.setAttribute("successMessage", "Profile updated successfully!");
-            // Update session if email or name changed
-            session.setAttribute("userEmail", email);
-            session.setAttribute("passengerName", name);
+            session.invalidate();
+            response.sendRedirect(request.getContextPath() + "/login?msg=Profile updated successfully. Please login again.");
         } else {
             request.setAttribute("errorMessage", "Failed to update profile.");
+            doGet(request, response);
         }
-        doGet(request, response);
     }
 
     private void handleChangePassword(HttpServletRequest request, HttpServletResponse response, String email) throws ServletException, IOException {
@@ -128,11 +126,13 @@ public class ProfileServlet extends HttpServlet {
         }
 
         if (passengerService.updatePassword(email, newPassword)) {
-            request.setAttribute("successMessage", "Password changed successfully!");
+            HttpSession s = request.getSession();
+            if (s != null) s.invalidate();
+            response.sendRedirect(request.getContextPath() + "/login?msg=Password changed successfully. Please login again.");
         } else {
             request.setAttribute("errorMessage", "Failed to update password.");
+            doGet(request, response);
         }
-        doGet(request, response);
     }
 }
 

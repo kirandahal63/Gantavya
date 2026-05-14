@@ -50,9 +50,9 @@
                                int capacity = (trip != null) ? trip.getCapacity() : 0;
                                if (capacity == 0) capacity = 23; // Fallback
                                
-                               java.util.List<String> bookedSeats = (java.util.List<String>) request.getAttribute("bookedSeats");
+                               java.util.List<?> bookedSeats = (java.util.List<?>) request.getAttribute("bookedSeats");
                                
-                               char[] rows = {'A','B','C','D','E','F','G','H','I'};
+                               char[] rows = {'A','B','C','D','E','F','G','H','I','J','K','L','M'};
                                int seatsGenerated = 0;
                                for(char row : rows) {
                                    if (seatsGenerated >= capacity) break;

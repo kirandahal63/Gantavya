@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>Gantavya - Admin Side Navigation</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+
 <aside class="sidebar">
     <div class="sidebar-brand">
         <div class="brand-icon">
@@ -23,7 +16,7 @@
             <span>Dashboard</span>
         </a>
         <a href = "${pageContext.request.contextPath}/trip" class="nav-item ${pageName == 'trips' ? 'active' : ''}">
-            <i class="fa-solid fa-ticket"></i>
+            <i class="fas fa-calendar-check"></i>
             <span>Schedule Trip</span>
         </a>
         <a href = "${pageContext.request.contextPath}/bus" class="nav-item  ${pageName == 'buses' ? 'active' : ''}">
@@ -39,7 +32,7 @@
             <span>Staff</span>
         </a>
         <a href="${pageContext.request.contextPath}/viewBookings"  class="nav-item ${pageName == 'viewBookings' ? 'active' : ''}">
-            <i class="fa-solid fa-book-open"></i>
+            <i class="fas fa-book"></i>
             <span>View Bookings</span>
         </a>
         <a href="${pageContext.request.contextPath}/logout" class="nav-item">
@@ -52,6 +45,3 @@
         <img src="${pageContext.request.contextPath}/images/footer.png" alt="Gantavya Hub Scene" class="vector-stop-img">
     </div>
 </aside>
-
-</body>
-</html>

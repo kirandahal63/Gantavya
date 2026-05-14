@@ -26,11 +26,11 @@
 %>
 <jsp:include page="Navbar.jsp" />
 
-<main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
+<main class="login-page">
  
     <section class="hero-panel"></section>
 
-    <!-- ── Right Panel: Login Form ──────────────────────────────── -->
+    <!--  Right Panel: Login Form-->
     <section class="form-panel">
         <div class="form-container">
 
@@ -46,6 +46,12 @@
 	        <% String success = request.getParameter("success"); 
 	           if (success != null) { %>
 	            <p style="color: green;">Registration successful. Please login.</p>
+	        <% } %>
+	        <% String msg = request.getParameter("msg"); 
+	           if (msg != null) { %>
+	            <p style="color: green;padding-bottom:15px;">
+	                <%= msg %>
+	            </p>
 	        <% } %>
         
             <form action="${pageContext.request.contextPath}/login" method="post" autocomplete="off">

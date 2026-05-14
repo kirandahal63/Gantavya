@@ -2,7 +2,7 @@
 
 <%
     // This is a placeholder for your actual session check logic
-    boolean isLoggedIn = (session.getAttribute("user") != null);
+    boolean isLoggedIn = (session != null && session.getAttribute("role") != null);
     
     // Get the current servlet path. When using jsp:include, the original 
     // servlet path is stored in this request attribute.

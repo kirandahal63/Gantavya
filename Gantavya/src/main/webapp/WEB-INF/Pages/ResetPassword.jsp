@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="Navbar.jsp" />
-<main class="login-page" style="background-image: url('${pageContext.request.contextPath}/images/background.png');">
+<main class="login-page">
     <section class="hero-panel"></section>
 
     <section class="form-panel">

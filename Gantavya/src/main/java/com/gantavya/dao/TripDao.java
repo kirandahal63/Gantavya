@@ -157,7 +157,8 @@ public class TripDao {
     }
     
     public TripModel getTripById(String tripId) {
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity, " +
+                "(b.Capacity - (SELECT COALESCE(SUM(LENGTH(SeatNumber) - LENGTH(REPLACE(SeatNumber, ',', '')) + 1), 0) FROM booking WHERE TripID = t.TripID)) AS AvailableSeats " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
@@ -175,9 +176,8 @@ public class TripDao {
                 trip.setSource(rs.getString("RouteOrigin"));
                 trip.setDestination(rs.getString("RouteDestination"));
                 trip.setBusType(rs.getString("BusType"));
-                int cap = rs.getInt("Capacity");
-                trip.setCapacity(cap);
-                trip.setAvailableSeats(cap); 
+                trip.setCapacity(rs.getInt("Capacity"));
+                trip.setAvailableSeats(rs.getInt("AvailableSeats")); 
                 return trip;
             }
         } catch (Exception e) {
@@ -193,7 +193,8 @@ public class TripDao {
     public List<TripModel> getUpcomingTrips(String selectedDate) {
         updateTripStatuses();
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity, b.BusType " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.Capacity, b.BusType, " +
+                "(b.Capacity - (SELECT COALESCE(SUM(LENGTH(SeatNumber) - LENGTH(REPLACE(SeatNumber, ',', '')) + 1), 0) FROM booking WHERE TripID = t.TripID)) AS AvailableSeats " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
@@ -222,7 +223,7 @@ public class TripDao {
                 trip.setDestination(destination != null ? destination : "Unknown");
                 
                 int cap = rs.getInt("Capacity");
-                trip.setAvailableSeats(cap > 0 ? cap : 0);
+                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
                 
                 trips.add(trip);
             }
@@ -250,7 +251,8 @@ public class TripDao {
     public List<TripModel> searchTrips(String from, String to, String date, int passengers) {
         updateTripStatuses();
         List<TripModel> trips = new ArrayList<>();
-        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity " +
+        String query = "SELECT t.*, r.RouteOrigin, r.RouteDestination, b.BusType, b.Capacity, " +
+                "(b.Capacity - (SELECT COALESCE(SUM(LENGTH(SeatNumber) - LENGTH(REPLACE(SeatNumber, ',', '')) + 1), 0) FROM booking WHERE TripID = t.TripID)) AS AvailableSeats " +
                 "FROM trip t " +
                 "LEFT JOIN route r ON TRIM(t.RouteID) = TRIM(r.RouteID) " +
                 "LEFT JOIN bus b ON TRIM(t.BusID) = TRIM(b.BusID) " +
@@ -296,7 +298,7 @@ public class TripDao {
                 trip.setSource(rs.getString("RouteOrigin") != null ? rs.getString("RouteOrigin") : "Unknown");
                 trip.setDestination(rs.getString("RouteDestination") != null ? rs.getString("RouteDestination") : "Unknown");
                 trip.setBusType(rs.getString("BusType") != null ? rs.getString("BusType") : "Standard");
-                trip.setAvailableSeats(cap > 0 ? cap : 0);
+                trip.setAvailableSeats(rs.getInt("AvailableSeats"));
                 trips.add(trip);
             }
         } catch (Exception e) {

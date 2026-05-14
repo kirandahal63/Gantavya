@@ -6,9 +6,9 @@
 
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gantavya - Travel</title>
+<title>Gantavya </title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Index.css">
-<link rel="stylesheet" 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -26,8 +26,7 @@
 						<label>From</label>
 						<div class="inner-input">
 							<i class="fa-solid fa-location-dot"></i> <input type="text"
-								id="from-location" placeholder="Kathmandu"> <i
-								class="fa-solid fa-arrows-left-right-to-line swap"></i>
+								id="from-location" placeholder="Kathmandu"> 
 						</div>
 					</div>
 					<div class="box">

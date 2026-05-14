@@ -7,17 +7,12 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gantavya Admin - Routes</title>
-<!-- Linking to your existing CSS files -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Sidenav.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Buses.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Buses.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -158,8 +153,7 @@
 					<div class="table-header"
 						style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
 						<h3>Available Routes</h3>
-						<form action="route" method="GET" class="search-form"
-							style="display: flex; gap: 10px;">
+						<form action="route" method="GET" class="search-form-admin">
 							<input type="text" name="search"
 								placeholder="Search Route Name..." class="search-input">
 							<button type="submit" class="btn-primary">Search</button>

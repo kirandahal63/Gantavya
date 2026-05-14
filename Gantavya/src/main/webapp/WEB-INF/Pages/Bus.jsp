@@ -7,16 +7,12 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Gantavya Admin</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Sidenav.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Buses.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gantavya Admin - Buses</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Buses.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -175,13 +171,13 @@
 					<div class="table-header"
 						style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
 						<h3>Available Buses</h3>
-						<form action="bus" method="GET" class="search-form"
-							style="display: flex; gap: 10px;">
+						<form action="bus" method="GET" class="search-form-admin">
 							<input type="text" name="search"
 								placeholder="Search Bus Number..." class="search-input">
 							<button type="submit" class="btn-primary">Search</button>
 						</form>
 					</div>
+
 
 					<table class="gantavya-table">
 						<thead>

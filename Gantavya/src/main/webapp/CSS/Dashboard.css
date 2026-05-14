@@ -28,16 +28,6 @@ body {
     line-height: 1.5;
     overflow-x: hidden;
 }
-.app-shell {
-    display: flex;
-    min-height: 100vh;
-}
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .topbar {
     padding: 20px 40px;
     background: var(--white);
@@ -410,25 +400,11 @@ body {
 .item-info span { font-size: 11px; color: var(--text-muted); }
 
 
+
 @media (max-width: 1200px) {
     .dashboard-layout { grid-template-columns: 1fr; }
     .content-area { padding: 20px; }
     .topbar { padding: 20px; }
-}
-
-@media (max-width: 992px) {
-    .app-shell {
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100% !important;
-        height: auto !important;
-        min-height: unset !important;
-        position: static !important;
-    }
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 @media (max-width: 768px) {

@@ -5,12 +5,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Bookings | Gantavya Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Sidenav.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Buses.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/ViewBookings.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="app-shell">
@@ -30,11 +31,11 @@
                         <h3>Select Trip</h3>
                         <p>Choose a trip to view its passenger list and booking details.</p>
                     </div>
-                    <form action="${pageContext.request.contextPath}/viewBookings" method="GET" class="premium-filter-form" style="margin-top: 20px;">
-                        <div class="filter-row" style="display: flex; gap: 20px; width: 100%; align-items: flex-end;">
+                    <form action="${pageContext.request.contextPath}/viewBookings" method="GET" class="premium-filter-form">
+                        <div class="filter-row">
                             <div class="input-group" style="flex: 2;">
                                 <label for="tripSelect">Select Trip</label>
-                                <select name="tripId" id="tripSelect" class="premium-select" onchange="document.getElementsByName('searchTrip')[0].value=''; this.form.submit()" style="width: 100%; height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px;">
+                                <select name="tripId" id="tripSelect" class="premium-select" onchange="document.getElementsByName('searchTrip')[0].value=''; this.form.submit()">
                                     <option value="">-- Choose a Trip --</option>
                                     <c:forEach var="trip" items="${trips}">
                                         <option value="${trip.tripId}" ${trip.tripId == selectedTripId ? 'selected' : ''}>
@@ -47,7 +48,7 @@
 
                             <div class="input-group" style="flex: 1;">
                                 <label for="sortSelect">Sort Bookings</label>
-                                <select name="sort" id="sortSelect" class="premium-select" onchange="this.form.submit()" style="width: 100%; height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px;">
+                                <select name="sort" id="sortSelect" class="premium-select" onchange="this.form.submit()">
                                     <option value="date" ${currentSort == 'date' ? 'selected' : ''}>Booking Date</option>
                                     <option value="fare" ${currentSort == 'fare' ? 'selected' : ''}>Total Fare</option>
                                 </select>
@@ -55,9 +56,8 @@
                             <div class="input-group" style="flex: 1;">
                                 <label>Quick Search</label>
                                 <div style="display: flex; gap: 8px;">
-                                    <input type="text" name="searchTrip" value="${param.searchTrip}" placeholder="Trip ID " class="premium-input" style="height: 45px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0 15px; flex: 1;">
-                                    <button type="submit" class="btn-primary" 
-								        style="height: 45px; width: 45px; min-width: 45px; display: flex; align-items: center; justify-content: center; border-radius: 10px; padding: 0;">
+                                    <input type="text" name="searchTrip" value="${param.searchTrip}" placeholder="Trip ID " class="premium-input">
+                                    <button type="submit" class="btn-primary-small">
 								    <i class="fas fa-search"></i>
 								</button>
                                 </div>

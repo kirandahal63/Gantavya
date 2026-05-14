@@ -1,6 +1,30 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
 
+/* Base Admin Shell Styles */
+:root {
+    --bg-sidebar: #1a2e4a;
+    --sidebar-w: 240px;
+    --radius-md: 12px;
+    --radius-lg: 30px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --font-main: 'Sora', sans-serif;
+}
+
+/* The App Shell Layout */
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content, .main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
 /* Sidebar specific styles */
 .sidebar {
     width: var(--sidebar-w, 240px);
@@ -12,11 +36,14 @@
     position: relative; 
     overflow: hidden; 
     height: 100vh;
-    font-family: 'Sora', sans-serif;
+    font-family: var(--font-main);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
 }
 
 .sidebar-brand {
-    padding: 20px 0; /* Improved padding */
+    padding: 20px 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,6 +77,7 @@
     padding: 10px 16px;
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 .nav-item {
@@ -59,10 +87,9 @@
     padding: 12px 16px;
     color: rgba(255,255,255,0.7);
     text-decoration: none;
-    border-radius: 12px; /* Fixed radius */
-    margin-bottom: 4px;
+    border-radius: 12px;
     transition: all 0.2s;
-    font-size: 14px; /* Explicitly set as per user preference */
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -84,26 +111,27 @@
     width: 100%;
     z-index: 1;
     line-height: 0;
-    pointer-events: none; /* Prevent interference */
+    pointer-events: none;
 }
 
 .vector-stop-img {
-    width: 145%; 
-    margin-left: -25%;     
+    width: 100%;
     height: auto;
-    display: block;
-    margin-bottom: -35px;
-    object-fit: cover; 
-    opacity: 0.8;
 }
 
+/* Responsive Admin Navigation */
 @media (max-width: 992px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
     .sidebar {
         width: 100%;
         height: auto;
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 20px;
+        position: static;
     }
     
     .sidebar-brand {
@@ -115,6 +143,7 @@
         flex-direction: row;
         padding: 0;
         gap: 5px;
+        flex: unset;
     }
     
     .nav-item {
@@ -123,7 +152,7 @@
     }
     
     .nav-item span {
-        display: none; /* Hide text on small mobile if needed, or keep it */
+        display: none; /* Icon-only on mobile */
     }
     
     .sidebarImage {
@@ -137,5 +166,8 @@
     }
     .nav-item i {
         font-size: 18px;
+    }
+    .sidebar {
+        padding: 10px;
     }
 }

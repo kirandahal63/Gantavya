@@ -38,10 +38,11 @@ html, body {
     height: calc(100vh - 65px); 
     min-height: calc(100vh - 65px);
     padding-top: 0;     
-    overflow: hidden; /* Prevents the whole page from scrolling */
-    background-size: cover; /* Better than 100% auto for full coverage */
+    overflow: hidden; 
+    background-size: cover; 
     background-position: left bottom;
     background-repeat: no-repeat;
+    background-image: url('../images/background.png'); /* Moved from JSP to CSS */
 }
 .hero-panel {
     flex: 1.5;
@@ -301,30 +302,20 @@ html, body {
 @media (max-width: 900px) {
     .login-page {
         flex-direction: column;
+        background-image: none !important; /* Remove background on mobile/tablet */
+        height: auto;
+        min-height: calc(100vh - 65px);
+        overflow: auto;
     }
 
     .hero-panel {
-        min-height: 280px;
-        flex: none;
+        display: none; /* Hide the empty hero panel on smaller screens */
     }
 
     .form-panel {
-        min-width: unset;
-        flex: none;
+        flex: 1;
+        width: 100%;
         padding: 2rem 1.5rem;
-    }
-
-    .navbar {
-        padding: 0 1rem;
-    }
-
-    .nav-links {
-        gap: 0;
-    }
-
-    .nav-links li a {
-        font-size: 0.72rem;
-        padding: 0.35rem 0.5rem;
     }
 }
 

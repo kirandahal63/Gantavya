@@ -59,8 +59,7 @@ body {
 /* Responsive Fix for all screens */
 @media (max-width: 1200px) {
     .hero {
-        /* On smaller screens, we shrink the background size so the bus stays right */
-        background-size: 50%; 
+        background-image: none; /* Hide bus background on smaller screens */
     }
 }
 

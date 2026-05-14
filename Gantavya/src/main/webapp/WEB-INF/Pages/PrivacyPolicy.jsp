@@ -5,13 +5,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Privacy Policy</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/Rules.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/About.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - Gantavya</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Rules.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/About.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/Pages/Navbar.jsp" />
