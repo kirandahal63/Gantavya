@@ -174,7 +174,7 @@
 				<div class="table-card">
 					<div class="table-header"
 						style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-						<h3>Active Fleet</h3>
+						<h3>Available Buses</h3>
 						<form action="bus" method="GET" class="search-form"
 							style="display: flex; gap: 10px;">
 							<input type="text" name="search"

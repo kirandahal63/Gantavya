@@ -136,7 +136,6 @@
                     <div class="summary-container">
                         <div class="summary-header">
                             <h3>Your Booking</h3>
-                            <div class="timer"><i class="far fa-clock"></i> 09:59</div>
                         </div>
 
                         <div class="trip-details card-inner">

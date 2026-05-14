@@ -169,7 +169,7 @@
 					<table class="gantavya-table">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<th>Route ID</th>
 								<th>Route Name</th>
 								<th>Origin</th>
 								<th>Destination</th>

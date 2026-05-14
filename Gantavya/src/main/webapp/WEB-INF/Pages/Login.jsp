@@ -135,12 +135,12 @@
 
             </form>
 
-            <!-- ── Divider ────────────────────────────────────── -->
+            <!-- Divider-->
             <div class="divider">
-                <span class="divider-text">OR EMAIL</span>
+                <span class="divider-text">OR</span>
             </div>
 
-            <!-- ── Google Sign-In Button ─────────────────────── -->
+            <!-- Google Sign-In Button-->
             <div id="g_id_onload"
                  data-client_id="115373835417-ib6jmp0av49drs6hk42nojd8fdosg8gk.apps.googleusercontent.com"
                  data-context="signin"
@@ -157,7 +157,7 @@
                  data-logo_alignment="left">
             </div>
 
-            <!-- ── Register Link ──────────────────────────────── -->
+            <!-- Register Link -->
             <p class="register-prompt">
                 Don't have an account?
                 <a href="${pageContext.request.contextPath}/Register" class="register-link">Sign Up</a>
@@ -166,13 +166,11 @@
         </div><!-- /form-container -->
     </section><!-- /form-panel -->
 
-</main><!-- /login-page -->
+</main>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     MINIMAL JS – UI enhancement only, NO business logic
-════════════════════════════════════════════════════════════════ -->
+<!-- js for login page -->
 <script>
-    /** Toggle password field visibility – pure UI, no server interaction */
+    /** Toggle password field visibility */
     function togglePassword() {
         const input   = document.getElementById('password');
         const icon    = document.getElementById('eye-icon');
