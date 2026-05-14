@@ -18,7 +18,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%;overflow: hidden; }
+html, body { height: auto; min-height: 100%; overflow: auto; }
 
 body {
     font-family: var(--font-main);
@@ -26,17 +26,16 @@ body {
     color: var(--text-primary);
     font-size: 14px;
     line-height: 1.5;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 .app-shell {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .topbar {
@@ -413,4 +412,54 @@ body {
 
 @media (max-width: 1200px) {
     .dashboard-layout { grid-template-columns: 1fr; }
+    .content-area { padding: 20px; }
+    .topbar { padding: 20px; }
+}
+
+@media (max-width: 992px) {
+    .app-shell {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        min-height: unset !important;
+        position: static !important;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-banner {
+        flex-direction: column;
+        padding: 30px 20px;
+        text-align: center;
+        min-height: auto;
+    }
+    .hero-text {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    .hero-visuals {
+        position: relative;
+        width: 100%;
+        height: 150px;
+    }
+    .parallax-bus {
+        width: 100%;
+        right: 0;
+        bottom: 0;
+        transform: none !important;
+    }
+    .hero-wave {
+        display: none;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-title {
+        font-size: 22px;
+    }
 }

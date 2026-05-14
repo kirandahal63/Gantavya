@@ -149,12 +149,34 @@ body {
     font-size: 18px;
 }
 
+
 /* Responsive */
 @media (max-width: 992px) {
+    .contact-container {
+        padding: 0 20px;
+    }
     .contact-content {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
     .input-row {
         flex-direction: column;
+        gap: 20px;
+    }
+    .info-box {
+        padding: 30px;
+    }
+    .contact-header h1 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .send-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .contact-header {
+        text-align: center;
     }
 }

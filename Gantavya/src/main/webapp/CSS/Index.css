@@ -222,15 +222,36 @@ main { margin-top: 220px; }
 }
 
 /* RESPONSIVE */
+@media (max-width: 1200px) {
+    .container { padding: 0 40px; }
+}
+
 @media (max-width: 1024px) {
-    .input-grid { grid-template-columns: 1fr 1fr; }
+    .hero { height: auto; min-height: 500px; padding: 60px 0; }
+    .search-overlay { position: relative; bottom: 0; margin-top: -60px; }
+    .input-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+    .search-btn { grid-column: span 2; width: 100%; }
     .route-grid { grid-template-columns: 1fr 1fr; }
     .promo-flex { grid-template-columns: 1fr; }
+    .promo-blue h2 { width: 100%; font-size: 32px; }
+    .promo-blue p { width: 100%; }
 }
 
 @media (max-width: 768px) {
-    .hero-content h1 { font-size: 32px; }
+    .section-head { padding-top: 60px; flex-direction: column; align-items: flex-start; gap: 10px; }
+    .section-head h2 { font-size: 24px; }
+    .input-grid { grid-template-columns: 1fr; }
+    .search-btn { grid-column: span 1; }
     .route-grid { grid-template-columns: 1fr; }
+    .hero { min-height: 400px; }
+    .search-card { padding: 20px; }
+    .promo-blue, .promo-eco { padding: 40px 20px; }
+}
+
+@media (max-width: 480px) {
+    .hero { min-height: 350px; }
+    .logo-text { font-size: 16px; }
+    .nav-logo { height: 30px; }
 }
 
 /* HORIZONTAL DATE SELECTOR */
@@ -410,4 +431,45 @@ main { margin-top: 220px; }
     transition: background 0.3s;
 }
 
-.continue-btn:hover { background: var(--primary-blue); }
+/* SEARCH RESULTS RESPONSIVENESS */
+@media (max-width: 768px) {
+    .search-result-card {
+        grid-template-columns: 1fr;
+        border-radius: 15px;
+        padding: 20px;
+    }
+
+    .trip-details-new {
+        padding-left: 0;
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .duration-connector {
+        display: none; /* Hide the line on mobile */
+    }
+
+    .price-section {
+        border-left: none;
+        border-top: 1px solid #f0f0f0;
+        padding-left: 0;
+        padding-top: 20px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .brand-badge {
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
+
+    .time-column {
+        width: 100%;
+        text-align: left;
+    }
+
+    .book-btn {
+        width: 100%;
+    }
+}

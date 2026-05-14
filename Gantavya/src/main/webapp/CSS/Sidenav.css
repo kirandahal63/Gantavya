@@ -96,3 +96,46 @@
     object-fit: cover; 
     opacity: 0.8;
 }
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .sidebar-brand {
+        width: auto;
+        padding: 0;
+    }
+    
+    .sidebar-nav {
+        flex-direction: row;
+        padding: 0;
+        gap: 5px;
+    }
+    
+    .nav-item {
+        padding: 10px;
+        margin-bottom: 0;
+    }
+    
+    .nav-item span {
+        display: none; /* Hide text on small mobile if needed, or keep it */
+    }
+    
+    .sidebarImage {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .brand-name {
+        display: none;
+    }
+    .nav-item i {
+        font-size: 18px;
+    }
+}

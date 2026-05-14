@@ -227,6 +227,10 @@
     display: none; 
 }
 
+.nav-btn {
+    display: none;
+}
+
 @media (max-width: 992px) {
     .nav-container {
         padding: 0 20px;
@@ -237,6 +241,7 @@
         flex-direction: column;
         gap: 5px;
         cursor: pointer;
+        z-index: 1002;
     }
 
     .nav-btn span {
@@ -244,30 +249,96 @@
         height: 3px;
         background: var(--white);
         border-radius: 3px;
+        transition: var(--transition);
+    }
+
+    /* Animated Hamburger to X */
+    #nav-check:checked ~ .nav-btn span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    #nav-check:checked ~ .nav-btn span:nth-child(2) {
+        opacity: 0;
+    }
+    #nav-check:checked ~ .nav-btn span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
     }
 
     .nav-links {
-        position: absolute;
-        display: block;
-        top: 80px;
-        left: 0;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        top: 65px; /* Matches navbar height */
+        left: -100%; /* Start off-screen */
         width: 100%;
         background: var(--deep-navy);
-        height: 0;
-        transition: all 0.3s ease-in;
-        overflow-y: hidden;
+        height: calc(100vh - 65px);
+        transition: left 0.3s ease-in-out;
+        overflow-y: auto;
         text-align: center;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        padding: 40px 0;
+        gap: 0;
+        z-index: 1001;
     }
 
     .nav-links li {
+        width: 100%;
         display: block;
-        padding: 20px 0;
+        padding: 0;
+    }
+
+    .nav-links li a {
+        display: block;
+        padding: 20px;
+        font-size: 18px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    .nav-links li a.active::after {
+        display: none;
+    }
+
+    .nav-links li a.active {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
     #nav-check:checked ~ .nav-links {
-        height: auto;
-        padding-bottom: 20px;
+        left: 0;
+    }
+
+    .auth-item {
+        margin-top: 20px;
+        padding: 0 40px;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 15px 0;
+    }
+
+    .user-dropdown {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.05);
+        width: 100%;
+        border-radius: 0;
+        margin-top: 10px;
+    }
+
+    .dropdown-menu li a {
+        color: var(--white) !important;
+        padding: 15px;
+    }
+    
+    .dropdown-menu li a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        padding-left: 15px;
     }
 }

@@ -16,35 +16,35 @@
     --font-main: 'Sora', sans-serif;
 }
 
-/* 3. Force the sidebar background in this specific file */
-/* Update this block in Buses.css */
-aside.sidebar {
-    background: #1a2e4a !important;
-    display: flex !important;
-    flex-direction: column !important; /* Ensure vertical stack */
-    width: var(--sidebar-w, 240px) !important;
-    height: 100vh !important;
-    position: sticky;
-    top: 0;
+/* 3. Sidebar Layout (Desktop Default) */
+@media (min-width: 993px) {
+    aside.sidebar {
+        background: #1a2e4a;
+        display: flex;
+        flex-direction: column;
+        width: var(--sidebar-w, 240px);
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 16px;
+        gap: 4px;
+    }
 }
 
-/* Ensure the nav container has its padding back */
-.sidebar-nav {
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 10px 16px !important; /* Matches your Dashboard screenshot */
-    gap: 4px !important; /* Adds the consistent gap between items */
-}
-
-/* Ensure the links inside are visible */
+/* Ensure links are always visible regardless of media query */
 .nav-item {
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .nav-item.active,
 .nav-item:hover {
-    color: white !important;
-    background: rgba(255, 255, 255, 0.1) !important;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 
@@ -58,17 +58,15 @@ body {
     font-family: var(--font-main);
     background-color: var(--bg-light);
     color: var(--text-main);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-/* THE APP SHELL - Only use this one wrapper */
+/* THE APP SHELL */
 .app-shell {
     display: flex;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
-
-
 
 /* THE MAIN PANEL */
 .main-panel {
@@ -76,9 +74,9 @@ body {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    /* This allows the content to scroll */
 }
+
+
 
 
 /* --- Navigation Header --- */
@@ -331,7 +329,42 @@ body {
 }
 
 
+/* Responsive Overrides */
+@media (max-width: 992px) {
+    .app-shell {
+        flex-direction: column;
+    }
+    .content-wrapper {
+        padding: 20px;
+    }
+    .header-nav {
+        padding: 20px;
+    }
+    .input-group {
+        flex: 1 1 45%;
+    }
+    .btn-group-row {
+        justify-content: center !important;
+        width: 100%;
+    }
+}
 
-
-
-
+@media (max-width: 600px) {
+    .input-group {
+        flex: 1 1 100%;
+    }
+    .btn-group-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .btn-primary, .btn-secondary {
+        width: 100%;
+    }
+    .gantavya-table {
+        display: block;
+        overflow-x: auto;
+    }
+    .glass-card, .table-card {
+        padding: 15px;
+    }
+}

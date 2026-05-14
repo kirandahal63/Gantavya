@@ -259,10 +259,45 @@ body {
     color: #1a2e4a;
 }
 
-/* 5. Radio Button Styling */
-.pay-item input[type="radio"] {
-    margin: 0;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
+/* Booking Responsiveness */
+@media (max-width: 1200px) {
+    .booking-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .summary-container {
+        grid-column: span 2;
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .booking-master-container {
+        padding: 0 20px;
+        margin: 20px auto;
+    }
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+    .summary-container {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .seat-grid {
+        gap: 5px;
+    }
+    .seat {
+        width: 32px;
+        height: 30px;
+        font-size: 10px;
+    }
+    .booking-card {
+        padding: 15px;
+    }
+    .payment-options {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
