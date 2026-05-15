@@ -3,24 +3,14 @@ package com.gantavya.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gantavya.config.DBConnection;
 import com.gantavya.model.BusModel;
 
 public class BusDao {
-    private String url = "jdbc:mysql://localhost:3306/gantavya";
-    private String username = "root";
-    private String password = ""; 
-
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return connection;
+	protected Connection getConnection() throws SQLException {
+        return DBConnection.getConnection();
     }
-
     
     public String generateNextBusId() {
         String query = "SELECT BusID FROM bus WHERE BusID LIKE 'BSID%' ORDER BY BusID DESC LIMIT 1";

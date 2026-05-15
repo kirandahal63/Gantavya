@@ -61,7 +61,7 @@ public class RegisterServlet extends HttpServlet {
 	        hasError = true;
 	    }
 	    if (!Validation.isValidEmail(email)) {
-	        request.setAttribute("emailError", "Please enter a valid number!");
+	        request.setAttribute("emailError", "Please enter a valid email!");
 	        hasError = true;
 	    }  
 	    // 3. Check for Validation Failures

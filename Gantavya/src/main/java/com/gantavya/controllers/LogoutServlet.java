@@ -2,6 +2,7 @@ package com.gantavya.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,16 +21,20 @@ public class LogoutServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. Get the session, if it exists
+        // 1. Invalidate the session
         HttpSession session = request.getSession(false);
-        
         if (session != null) {
-            // 2. Invalidate the session
             session.invalidate();
-            System.out.println("DEBUG: User logged out and session invalidated.");
         }
 
-        // 3. Redirect to home page
+        // 2. Clear the "savedEmail" Cookie
+        Cookie clearEmailCookie = new Cookie("savedEmail", "");
+        clearEmailCookie.setMaxAge(0);      
+        clearEmailCookie.setPath("/");      
+        clearEmailCookie.setHttpOnly(true);
+        response.addCookie(clearEmailCookie);
+
+        // 3. Redirect to home
         response.sendRedirect(request.getContextPath() + "/home");
     }
 

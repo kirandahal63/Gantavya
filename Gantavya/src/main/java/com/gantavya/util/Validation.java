@@ -36,7 +36,8 @@ public class Validation {
 
         email = email.trim();
 
-        if (!email.endsWith("@gmail.com") && !email.endsWith("@outlook.com") &&  !email.endsWith("@hotmail.com") && !email.endsWith(" @icloud.com")) {
+        if (!email.endsWith("@gmail.com") && !email.endsWith("@outlook.com") &&  !email.endsWith("@hotmail.com") && !email.endsWith(" @icloud.com") 
+        		&& !email.endsWith("@islingtoncollege.edu.np")) {
         	    return false;
         	}
         if (email.startsWith("@") || email.endsWith("@")) return false;

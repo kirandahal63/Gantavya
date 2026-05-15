@@ -30,7 +30,7 @@
                     Code expires in: <span id="timer">60</span>s
                 </div>
                 <button type="button" class="btn-login" id="verify-btn" onclick="verifyCode()">Verify</button>
-                <div id="resend-container" style="margin-top: 15px; display: none;">
+                <div id="resend-container" style="margin-top: 15px; display: none;text-align:center;">
                     Didn't receive code? <a href="javascript:void(0)" onclick="resendCode()" class="register-link">Resend Code</a>
                 </div>
             </div>
