@@ -113,14 +113,14 @@ public class ProfileServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         if (!newPassword.equals(confirmPassword)) {
-            request.setAttribute("passError", "New passwords do not match.");
+            request.setAttribute("errorMessage", "New passwords do not match.");
             doGet(request, response);
             return;
         }
 
         // Verify current password
         if (!passengerService.authenticatePassenger(email, currentPassword)) {
-            request.setAttribute("passError", "Current password is incorrect.");
+            request.setAttribute("errorMessage", "Current password is incorrect.");
             doGet(request, response);
             return;
         }

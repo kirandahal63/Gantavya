@@ -98,6 +98,10 @@ public class TripServlet extends HttpServlet {
         // Fare Validation
         try {
             fare = (fareStr != null && !fareStr.isEmpty()) ? Long.parseLong(fareStr) : 0L;
+            if (!com.gantavya.util.Validation.isPositive(fare)) {
+                hasError = true;
+                request.setAttribute("fareError", "Please enter a valid fare.");
+            }
         } catch (NumberFormatException e) {
             hasError = true;
             request.setAttribute("fareError", "Please enter a valid fare.");
@@ -155,7 +159,23 @@ public class TripServlet extends HttpServlet {
             response.sendRedirect("trip");
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("trip?error=SaveFailed");
+            request.setAttribute("saveError", "Database error: " + e.getMessage());
+            
+            request.setAttribute("errorTrip", trip);
+            request.setAttribute("tripList", tripService.getAllTrips(""));
+            request.setAttribute("busList", busService.getAllBuses(""));
+            request.setAttribute("routeList", routeService.getAllRoutes(""));
+            
+            List<com.gantavya.model.StaffModel> allStaff = staffService.getAllStaff();
+            List<com.gantavya.model.StaffModel> activeStaff = allStaff.stream()
+                .filter(s -> "ACTIVE".equalsIgnoreCase(s.getStaffStatus()))
+                .collect(java.util.stream.Collectors.toList());
+            request.setAttribute("staffList", activeStaff);
+            
+            request.setAttribute("pageName", "trips");
+            if ("update".equals(action)) request.setAttribute("editableTrip", trip);
+            
+            request.getRequestDispatcher("/WEB-INF/Pages/Trip.jsp").forward(request, response);
         }
     }
 }

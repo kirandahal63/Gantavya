@@ -17,8 +17,6 @@ body { background-color: #f8f9fa; color: var(--text-dark); line-height: 1.6; }
 .hero { 
     height: 480px; 
     background: url('../images/test.png') center/cover;
-    /*background: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop') center/cover;
-    background: url('../images/final.png') center/cover;*/
     position: relative;
     display: flex;
     align-items: center;
@@ -189,7 +187,7 @@ main { margin-top: 220px; }
     background: white;
 }
 
-.arrival-icon { color: #a67c52 !important; } /* Brownish color from your image */
+.arrival-icon { color: #a67c52 !important; }
 
 .point span { 
     display: flex; 

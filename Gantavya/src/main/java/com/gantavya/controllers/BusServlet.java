@@ -63,6 +63,10 @@ public class BusServlet extends HttpServlet {
         }
         try {
             capacity = (capacityStr != null && !capacityStr.isEmpty()) ? Integer.parseInt(capacityStr) : 0;
+            if (!com.gantavya.util.Validation.isPositive(capacity)) {
+                hasError = true;
+                request.setAttribute("capacityError", "Please enter a valid seat capacity.");
+            }
         } catch (NumberFormatException e) {
             hasError = true;
             request.setAttribute("capacityError", "Please enter a valid seat capacity.");
@@ -96,7 +100,21 @@ public class BusServlet extends HttpServlet {
             response.sendRedirect("bus");
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("bus?error=SaveFailed");
+            if (e.getErrorCode() == 1062) {
+                request.setAttribute("busNumberError", "This Bus Number is already registered.");
+            } else {
+                request.setAttribute("saveError", "Database error: " + e.getMessage());
+            }
+
+            request.setAttribute("errorBus", bus);
+            request.setAttribute("busList", busService.getAllBuses(""));
+            request.setAttribute("pageName", "buses");
+
+            if ("update".equals(action)) {
+                request.setAttribute("editableBus", bus);
+            }
+
+            request.getRequestDispatcher("/WEB-INF/Pages/Bus.jsp").forward(request, response);
         }
     }
 }

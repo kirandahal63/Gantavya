@@ -49,8 +49,24 @@
 		            }, 15000);
 		        </script>
 		    <% } %>
+		    <%-- ERROR MESSAGE --%>
+		    <c:if test="${not empty saveError}">
+		        <div id="errorToast" class="error-toast" style="background: rgba(220, 53, 69, 0.9); border-left: 5px solid #ff0000;">
+		            <i class="fa-solid fa-circle-exclamation"></i>
+		            <span>${saveError}</span>
+		        </div>
+		        <script>
+		            setTimeout(() => {
+		                const toast = document.getElementById('errorToast');
+		                if (toast) {
+		                    toast.style.opacity = '0';
+		                    setTimeout(() => toast.remove(), 500);
+		                }
+		            }, 15000);
+		        </script>
+		    </c:if>
 
-				<%-- SECTION 1: ADD NEW TRIP (Only shows if NOT editing) --%>
+				<%-- SECTION 1: ADD NEW TRIP  --%>
 				<c:if test="${editableTrip == null}">
 					<div class="glass-card form-container">
 						<div class="card-header">
@@ -127,7 +143,7 @@
 					</div>
 				</c:if>
 
-				<%-- SECTION 2: EDIT MODAL (Pop-up style - Only shows when edit is clicked) --%>
+				<%-- SECTION 2: EDIT MODAL --%>
 				<c:if test="${editableTrip != null}">
 					<div class="modal-overlay">
 						<div class="glass-card modal-content"

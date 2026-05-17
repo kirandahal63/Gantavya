@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* ── CSS Custom Properties (Design Tokens) ─────────────────── */
 :root {
     --navy:        #1a2e4a;      /* Dark navy – nav bar, login button */
     --navy-light:  #1f3a5f;
@@ -20,7 +19,6 @@
     --font-body:    'Inter', sans-serif;
 }
 
-/* ── Reset & Base ─────────────────────────────────────────── */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -61,14 +59,12 @@ html, body {
     overflow-y: auto; /* If the screen is tiny, only the form scrolls, not the page */
 }
 
-/* ── RIGHT: FORM PANEL ─────────────────────────────────────── */
 
 .form-container {
     width: 100%;
     max-width: 400px;
 }
 
-/* ── Form Header ─────────────────────────────────────────── */
 .form-title {
     font-family: var(--font-display);
     font-size: 2rem;
@@ -85,8 +81,6 @@ html, body {
 }
 
 
-
-/* ── Form Groups ──────────────────────────────────────────── */
 .form-group {
     margin-bottom: 1.1rem;
 }
@@ -152,7 +146,6 @@ html, body {
     line-height: 1;
 }
 
-/* ── Extras Row: Remember Me + Forgot Password ─────────────── */
 .form-extras {
     display: flex;
     align-items: center;
@@ -189,7 +182,7 @@ html, body {
     text-decoration: underline;
 }
 
-/* ── Login Submit Button ───────────────────────────────────── */
+/*  Login Submit Button */
 .btn-login {
     width: 100%;
     padding: 0.8rem;
@@ -215,7 +208,7 @@ html, body {
     transform: scale(0.98);
 }
 
-/* ── Divider ───────────────────────────────────────────────── */
+/*  Divider  */
 .divider {
     display: flex;
     align-items: center;
@@ -240,7 +233,7 @@ html, body {
     white-space: nowrap;
 }
 
-/* ── Google Sign-In Button ─────────────────────────────────── */
+/* Google Sign-In Button */
 .btn-google {
     display: flex;
     align-items: center;
@@ -273,7 +266,6 @@ html, body {
     flex-shrink: 0;
 }
 
-/* ── Register Prompt ───────────────────────────────────────── */
 .register-prompt {
 	margin:20px;
     text-align: center;
@@ -294,9 +286,6 @@ html, body {
     text-decoration: underline;
 }
 
-/* =============================================================
-   RESPONSIVE DESIGN (coursework: Flexbox + @media only)
-   ============================================================= */
 
 /* Tablet: stack vertically, hero on top */
 @media (max-width: 900px) {

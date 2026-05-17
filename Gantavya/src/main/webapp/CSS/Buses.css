@@ -4,7 +4,7 @@
     --sidebar-w: 240px;
     --radius-md: 12px;
 
-    /* 2. Your existing variables */
+    /* 2. existing variables */
     --primary: #1a2e4a;
     --navy-dark: #1a2e4a;
     --bg-light: #f8fafc;
@@ -264,7 +264,6 @@ body {
     gap: 15px; 
 }
 
-/* Update these in your Buses.css */
 .status-dot {
     font-weight: 700;
     padding: 6px 16px;

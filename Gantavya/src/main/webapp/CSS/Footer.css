@@ -43,7 +43,7 @@
 .branding .logo-wrapper {
     display: flex;
     flex-direction: column; /* Stacks the logo on top of the text */
-    align-items: center; /* Aligns items to the left like the Islington logo */
+    align-items: center; /* Aligns items to the lefto */
     gap: 10px;
     margin-bottom: 5px;
 }

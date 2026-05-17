@@ -18,7 +18,7 @@ public class BookingModel {
     public BookingModel() {}
 
     public BookingModel(String bookingId, Timestamp bookingDate, String seatNumber, String otherPassengers,
-                        String luggagePreferences, String ticketId, String paymentId, String tripId, String passengerId) {
+            String luggagePreferences, String ticketId, String paymentId, String tripId, String passengerId) {
         this.bookingId = bookingId;
         this.bookingDate = bookingDate;
         this.seatNumber = seatNumber;

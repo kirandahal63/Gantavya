@@ -50,6 +50,22 @@
 					            }, 15000);
 					        </script>
 					    <% } %>
+					    <%-- ERROR MESSAGE --%>
+					    <c:if test="${not empty saveError}">
+					        <div id="errorToast" class="error-toast" style="background: rgba(220, 53, 69, 0.9); border-left: 5px solid #ff0000;">
+					            <i class="fa-solid fa-circle-exclamation"></i>
+					            <span>${saveError}</span>
+					        </div>
+					        <script>
+					            setTimeout(() => {
+					                const toast = document.getElementById('errorToast');
+					                if (toast) {
+					                    toast.style.opacity = '0';
+					                    setTimeout(() => toast.remove(), 500);
+					                }
+					            }, 15000);
+					        </script>
+					    </c:if>
 
 				<%-- SECTION 1: ADD NEW BUS (Only shows if NOT editing) --%>
 				<c:if test="${editableBus == null}">

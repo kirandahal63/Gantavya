@@ -158,9 +158,8 @@
             btn.classList.add('active');
         }
 
-        // Keep section active after form submission if needed
         window.onload = function() {
-            if ("${not empty passError}" === "true" || "${action}" === "changePassword") {
+            if ("${action}" === "changePassword" || "${not empty errorMessage}" === "true") {
                 showSection('password-section', document.querySelector('button[onclick*="password-section"]'));
             }
         };

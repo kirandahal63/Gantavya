@@ -213,7 +213,7 @@
 
 					monthYearText.innerText = monthNames[month] + " " + year;
 
-					// Navigation buttons visibility (User requirement: hide prev on current month)
+					// Navigation buttons visibility 
 					if (year < realToday.getFullYear() || (year === realToday.getFullYear() && month <= realToday.getMonth())) {
 						prevBtn.style.visibility = "hidden";
 					} else {
@@ -235,7 +235,6 @@
 						cellCount++;
 					}
 
-					// 2. Days (Using concatenation to avoid JSP EL interference)
 					for (let day = 1; day <= daysInMonth; day++) {
 						const dateObj = new Date(year, month, day);
 						const dateStr = year + "-" + String(month + 1).padStart(2, '0') + "-" + String(day).padStart(2, '0');

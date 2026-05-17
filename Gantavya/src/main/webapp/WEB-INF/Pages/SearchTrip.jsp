@@ -312,7 +312,6 @@
                         return new Date(y, m - 1, d);
                     }
 
-                    // Handle "Today, May 5" or "May 21, 2026"
                     if (str.includes("Today, ")) str = str.replace("Today, ", "");
                     const d = new Date(str);
                     if (!isNaN(d.getTime())) return d;

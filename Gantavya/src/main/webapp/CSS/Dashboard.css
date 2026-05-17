@@ -107,7 +107,7 @@ body {
 .hero-wave {
     position: absolute;
     right: 0;           /* Keep it pinned to the right */
-    bottom: 0;          /* Pin it to the bottom instead of top if you want it low */
+    bottom: 0;
     height: 120%;        /* Reduced from 100% to make it smaller vertically */
     width: auto;        /* Maintains aspect ratio */
     max-width: 50%;     /* Prevents it from spreading too far across the text */
@@ -144,7 +144,7 @@ body {
     width: 100%;
 }
 
-/* Individual Card Styling based on your light theme reference */
+/* Individual Card Styling*/
 .stat-card {
     background: #ffffff;
     border-radius: 16px; /* radius-lg */
@@ -165,7 +165,7 @@ body {
     width: 48px;
     height: 48px;
     background: #f1f5f9; /* Light bluish-gray background */
-    color: #1a2e4a;     /* Your brand blue */
+    color: #1a2e4a;    
     border-radius: 12px;
     display: flex;
     align-items: center;
